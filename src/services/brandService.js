@@ -1,0 +1,34 @@
+import axiosInstance from "../config/axios.create";
+
+export const createBrandService = async (brandData) => {
+    try {
+        const role = localStorage.getItem("user") 
+        ? JSON.parse(localStorage.getItem("user")).role 
+        : null;
+
+        if (role !== "admin") {
+            return { success: false, message: "❌ Only admin can create brands" };
+        }
+
+        const response = await axiosInstance.post('/create-brand', brandData,  {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error creating brand:", error);
+        const message = error.response?.data?.message || "Failed to create brand";
+        return { status: "error", message };
+    }
+};
+
+export const getAllBrandsService =  async () => {
+    try {
+        const response = await axiosInstance.get("/brands");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching brands:", error);
+        const message = error.response?.data?.message || "Failed to fetch brands";
+        return { status: "error", message };
+    }
+}
+

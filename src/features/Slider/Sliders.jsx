@@ -1,0 +1,131 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
+import { toast } from "react-toastify";
+import Loader from "../../components/loader/Loader";
+import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
+import { getAllSlidersService } from "../../services/sliderService";
+
+const Sliders = () => {
+
+  const dispatch = useDispatch()
+  const loading = useSelector((state) => state.loader.loading);
+  const [sliders, setSliders] = useState([]);
+
+  useEffect(() => {
+    const fetchSliders = async () => {
+      try {
+        dispatch(showLoader());
+        const response = await getAllSlidersService();
+        if (response.status === "success") {
+          setSliders(response.slider);
+        } else {
+          toast.error(`❌ ${response.message}`);
+          console.error("Failed to fetch sliders:", response.message);
+        }
+      } catch (error) {
+        toast.error("❌ An error occurred while fetching sliders");
+        console.error("Error fetching sliders:", error);
+      } finally {
+        dispatch(hideLoader());
+      }
+    }
+    fetchSliders();
+  }, [dispatch]);
+
+  return (
+    <div className="main-content-inner">
+      <div className="main-content-wrap">
+        <div className="flex items-center flex-wrap justify-between gap20 mb-27">
+          <h3>All Sliders</h3>
+          <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
+            <li>
+              <Link to="/">
+                <div className="text-tiny">Dashboard</div>
+              </Link>
+            </li>
+            <li>
+              <i className="icon-chevron-right" />
+            </li>
+            <li>
+              <div className="text-tiny">Slider</div>
+            </li>
+          </ul>
+        </div>
+        <div className="wg-box">
+          <div className="flex items-center justify-between gap10 flex-wrap">
+            <div className="wg-filter flex-grow">
+              <form className="form-search">
+                <fieldset className="name">
+                  <input type="text" placeholder="Search here..." name="search" />
+                </fieldset>
+                <div className="button-submit">
+                  <button className type="submit"><i className="icon-search" /></button>
+                </div>
+              </form>
+            </div>
+            <Link className="tf-button style-1 w208" to="/slider/create"><i className="icon-plus" />Add new slider</Link>
+          </div>
+          {loading && <Loader />}
+          <div className="wg-table table-all-user">
+            <table className="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>SL. NO</th>
+                  <th>Slider Image</th>
+                  <th>Slider Title</th>
+                  <th>Slider Heading</th>
+                  <th>Slider Sub Heading</th>
+                  <th>Category</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {sliders && sliders.length > 0 ? (
+                sliders.map((slider, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td className="pname">
+                      <div className="image">
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${slider.slider_image_url}`} alt={slider.slider_title} className="image" />
+                      </div>
+                    </td>
+                    <td>{slider.slider_title}</td>
+                    <td>{slider.slider_heading}</td>
+                    <td>{slider.slider_sub_heading}</td>
+                    <td>{slider.cat_slug}</td>
+                    <td>
+                      <div className="list-icon-function">
+                        <Link to="">
+                          <div className="item edit">
+                            <i className="icon-edit-3" />
+                          </div>
+                        </Link>
+                        <form action="" method="POST">
+                          <input type="hidden" name="_method" defaultValue="DELETE" />
+                          <div className="item text-danger delete">
+                            <i className="icon-trash-2" />
+                          </div>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                )) 
+              ) : (
+                  <tr>
+                    <td colSpan="7" className="text-center">No sliders found.</td>
+                  </tr>
+              )}
+              </tbody>
+            </table>
+          </div>
+          <div className="divider" />
+          <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Sliders

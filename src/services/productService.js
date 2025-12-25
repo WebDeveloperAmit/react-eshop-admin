@@ -1,0 +1,33 @@
+import axiosInstance from "../config/axios.create";
+
+export const getAllProductsService = async () => {
+    try {
+        const response = await axiosInstance.get("/products");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        const message = error.response?.data?.message || "Failed to fetch products";
+        return { status: "error", message };
+    }
+}
+
+export const createProductService = async (data) => {
+    try {
+        const role = localStorage.getItem("user") 
+        ? JSON.parse(localStorage.getItem("user")).role 
+        : null;
+
+        if (role !== "admin") {
+            return { success: false, message: "❌ Only admin can create products" };
+        }
+        
+        const response = await axiosInstance.post("/create-product", data, {
+            headers: { "Content-Type" : "multipart/form-data" }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error creating product:", error);
+        const message = error.response?.data?.message || "Failed to create product";
+        return { status: "error", message };
+    }
+}
