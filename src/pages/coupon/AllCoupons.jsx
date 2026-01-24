@@ -17,6 +17,7 @@ const AllCoupons = () => {
             try {
                 dispatch(showLoader());
                 const response = await getAllCouponsService();
+                console.log(response);
                 if (response.status === "success") {
                     setCoupons(response.coupon);
                 } else {
@@ -59,7 +60,7 @@ const AllCoupons = () => {
                     <input type="text" placeholder="Search here..." className name="search" />
                 </fieldset>
                 <div className="button-submit">
-                    <button className type="submit"><i className="icon-search" /></button>
+                    <button type="submit"><i className="icon-search" /></button>
                 </div>
             </form>
             </div>
@@ -105,15 +106,16 @@ const AllCoupons = () => {
                             </td>
                             <td>
                             <div className="list-icon-function">
-                                <Link to="#">
-                                <div className="item edit">
-                                    <i className="icon-edit-3" />
-                                </div>
+                                <Link to={`/coupon/edit/${coupon._id}`}>
+                                    <div className="item edit">
+                                        <i className="icon-edit-3" />
+                                    </div>
                                 </Link>
+                                
                                 <form action="#" method="POST">
-                                <div className="item text-danger delete">
-                                    <i className="icon-trash-2" />
-                                </div>
+                                    <div className="item text-danger delete">
+                                        <i className="icon-trash-2" />
+                                    </div>
                                 </form>
                             </div>
                             </td>

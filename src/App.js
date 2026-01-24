@@ -16,6 +16,7 @@ import AllCategories from './pages/category/AllCategories';
 import CreateCategory from './pages/category/CreateCategory';
 import AllCoupons from './pages/coupon/AllCoupons';
 import CreateCoupon from './pages/coupon/CreateCoupon';
+import EditCoupon from './pages/coupon/EditCoupon';
 import Orders from './pages/order/Orders';
 import AllProducts from './pages/product/AllProducts';
 import CreateProduct from './pages/product/CreateProduct';
@@ -51,8 +52,12 @@ function App() {
             <Route path='orders' element={<Orders />} />
             <Route path='slider/create' element={<AddSlider />} />
             <Route path='sliders' element={<Sliders />} />
+
+            {/* Coupon */}
             <Route path='coupon/create' element={<CreateCoupon />} />
             <Route path='coupons' element={<AllCoupons />} />
+            <Route path='coupon/edit/:id' element={<EditCoupon />} />
+
             <Route path='users' element={<Users />} />
             <Route path='settings' element={<Settings />} />
 

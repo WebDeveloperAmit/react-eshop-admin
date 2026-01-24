@@ -18,28 +18,31 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (!email || !password) {
-      toast.error('All fields are required.');
-    } else {
-      try {
-        dispatch(showLoader());
-        const credential = { email, password }; 
-        const response = await loginService(credential);
-        if (response.status === "success") {
-          // console.log(response);
-          toast.success(response.message);
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));
-          navigate("/");
-        } else {
-          toast.error(response.message);
-        }
-      } catch (error) {
-        toast.error(error?.message || 'Login failed. Please try again.');
-      } finally {
-        dispatch(hideLoader());
-      }
+      toast.error("All fields are required.");
+      return;
     }
+
+    try {
+      dispatch(showLoader());
+      const credential = { email, password }; 
+      const response = await loginService(credential);
+      if (response.status === "success") {
+        // console.log(response.user);
+        toast.success(response.message);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        navigate("/");
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      toast.error(error?.message || 'Login failed. Please try again.');
+    } finally {
+      dispatch(hideLoader());
+    }
+
   };
 
   return (

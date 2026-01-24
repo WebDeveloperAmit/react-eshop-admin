@@ -30,9 +30,12 @@ const CreateCoupon = () => {
             usage_limit: usageLimit,
             expiry_date: expiryDate
         };
+        
         try {
             dispatch(showLoader());
+
             const response = await createCouponService(couponData);
+
             if (response.status === "success") {
                 toast.success("✅ Coupon created successfully");
                 formRef.current.reset();
@@ -52,74 +55,78 @@ const CreateCoupon = () => {
     <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
         <h3>Add New Coupon</h3>
-        <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
-            <li>
-            <Link to="/">
-                <div className="text-tiny">Dashboard</div>
-            </Link>
-            </li>
-            <li>
-            <i className="icon-chevron-right" />
-            </li>
-            <li>
-            <Link to="#">
-                <div className="text-tiny">Coupons</div>
-            </Link>
-            </li>
-            <li>
-            <i className="icon-chevron-right" />
-            </li>
-            <li>
-            <div className="text-tiny">New Coupon</div>
-            </li>
-        </ul>
+            <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                <li>
+                <Link to="/">
+                    <div className="text-tiny">Dashboard</div>
+                </Link>
+                </li>
+                <li>
+                <i className="icon-chevron-right" />
+                </li>
+                <li>
+                <Link to="#">
+                    <div className="text-tiny">Coupons</div>
+                </Link>
+                </li>
+                <li>
+                <i className="icon-chevron-right" />
+                </li>
+                <li>
+                <div className="text-tiny">New Coupon</div>
+                </li>
+            </ul>
         </div>
+
         { loading && <Loader /> }
+
         <div className="wg-box">
-        <form className="form-new-product form-style-1" onSubmit={handleFormSubmit} ref={formRef}>
-            <fieldset className="name">
-                <div className="body-title">Coupon Code <span className="tf-color-1">*</span></div>
-                <input className="flex-grow" type="text" placeholder="Coupon Code" name="code" />
-            </fieldset>
 
-            <fieldset className="category">
-                <div className="body-title">Coupon Type</div>
-                <div className="select flex-grow">
-                    <select name="type">
-                    <option value>Select</option>
-                    <option value="fixed">Fixed</option>
-                    <option value="percentage">Percent</option>
-                    </select>
+            <form className="form-new-product form-style-1" onSubmit={handleFormSubmit} ref={formRef}>
+                <fieldset className="name">
+                    <div className="body-title">Coupon Code <span className="tf-color-1">*</span></div>
+                    <input className="flex-grow" type="text" placeholder="Coupon Code" name="code" />
+                </fieldset>
+
+                <fieldset className="category">
+                    <div className="body-title">Coupon Type</div>
+                    <div className="select flex-grow">
+                        <select name="type">
+                        <option value>Select</option>
+                        <option value="fixed">Fixed</option>
+                        <option value="percentage">Percent</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <fieldset className="name">
+                    <div className="body-title">Discount <span className="tf-color-1">*</span></div>
+                    <input className="flex-grow" type="text" placeholder="Discount amount" name="discount" />
+                </fieldset>
+
+                <fieldset className="name">
+                    <div className="body-title">Minimum purchase <span className="tf-color-1">*</span></div>
+                    <input className="flex-grow" type="text" placeholder="Minimum purchase amount" name="min_purchase" />
+                </fieldset>
+
+                <fieldset className="name">
+                    <div className="body-title">Usage Limit <span className="tf-color-1">*</span></div>
+                    <input className="flex-grow" type="number" min="1" placeholder="Usage limit" name="usage_limit" />
+                </fieldset>
+
+                <fieldset className="name">
+                    <div className="body-title">Expiry Date <span className="tf-color-1">*</span></div>
+                    <input className="flex-grow" type="date" placeholder="Expiry Date" name="expiry_date" />
+                </fieldset>
+
+                <div className="bot">
+                <div />
+                    <button className="tf-button w208" type="submit">
+                        { loading ? 'Saving...' : 'Save Coupon' }
+                    </button>
                 </div>
-            </fieldset>
+            </form>
 
-            <fieldset className="name">
-                <div className="body-title">Discount <span className="tf-color-1">*</span></div>
-                <input className="flex-grow" type="text" placeholder="Discount amount" name="discount" />
-            </fieldset>
-
-            <fieldset className="name">
-                <div className="body-title">Minimum purchase <span className="tf-color-1">*</span></div>
-                <input className="flex-grow" type="text" placeholder="Minimum purchase amount" name="min_purchase" />
-            </fieldset>
-
-            <fieldset className="name">
-                <div className="body-title">Usage Limit <span className="tf-color-1">*</span></div>
-                <input className="flex-grow" type="number" min="1" placeholder="Usage limit" name="usage_limit" />
-            </fieldset>
-
-            <fieldset className="name">
-                <div className="body-title">Expiry Date <span className="tf-color-1">*</span></div>
-                <input className="flex-grow" type="date" placeholder="Expiry Date" name="expiry_date" />
-            </fieldset>
-
-            <div className="bot">
-            <div />
-                <button className="tf-button w208" type="submit">
-                    { loading ? 'Saving...' : 'Save Coupon' }
-                </button>
-            </div>
-        </form>
         </div>
     </div>
     </div>
