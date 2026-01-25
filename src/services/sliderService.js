@@ -42,7 +42,8 @@ export const createSliderService = async (data) => {
 
 export const editSliderService = async (sliderId) => {
     try {
-        
+        const response = await axiosInstance.get(`/slider/${sliderId}`);
+        return response.data;
     } catch (error) {
         console.error("Error fetching slider:", error);
         return { 
@@ -54,7 +55,14 @@ export const editSliderService = async (sliderId) => {
 
 export const updateSliderService = async (sliderData, sliderId) => {
     try {
-        
+        const response = await axiosInstance.put(
+            `/slider/update/${sliderId}`,
+            sliderData,
+            {
+                headers: { "Content-Type": "multipart/form-data" }
+            }
+        );
+        return response.data;
     } catch (error) {
         console.error("Error updating slider:", error);
         return { 
@@ -66,7 +74,8 @@ export const updateSliderService = async (sliderData, sliderId) => {
 
 export const deleteSliderService = async (sliderId) => {
     try {
-        
+        const response = await axiosInstance.delete(`/slider/delete/${sliderId}`);
+        return response.data;
     } catch (error) {
         console.error("Error deleting slider:", error);
         return { 
@@ -78,7 +87,10 @@ export const deleteSliderService = async (sliderId) => {
 
 export const searchSliderService = async (searchSlider) => {
     try {
-        
+        const response = await axiosInstance.get(
+            `/sliders?search=${searchSlider}`
+        );
+        return response.data;
     } catch (error) {
         console.error("Error searching slider:", error);
         return { 

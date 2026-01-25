@@ -10,9 +10,12 @@ export const createBrandService = async (brandData) => {
             return { success: false, message: "❌ Only admin can create brands" };
         }
 
-        const response = await axiosInstance.post('/create-brand', brandData,  {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        const response = await axiosInstance.post(
+            '/brand/create', 
+            brandData,  {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }
+        );
         return response.data;
     } catch (error) {
         console.error("Error creating brand:", error);
@@ -34,7 +37,8 @@ export const getAllBrandsService =  async () => {
 
 export const editBrandService = async (brandId) => {
     try {
-        
+        const response = await axiosInstance.get(`/brand/${brandId}`);
+        return response.data;
     } catch (error) {
         console.error("Error fetching brand:", error);
         return { 
@@ -46,7 +50,14 @@ export const editBrandService = async (brandId) => {
 
 export const updateBrandService = async (brandData, brandId) => {
     try {
-        
+        const response = await axiosInstance.put(
+            `/brand/update/${brandId}`,
+            brandData,
+            {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }
+        );
+        return response.data;
     } catch (error) {
         console.error("Error updating brand:", error);
         return { 
@@ -58,7 +69,8 @@ export const updateBrandService = async (brandData, brandId) => {
 
 export const deleteBrandService = async (brandId) => {
     try {
-        
+        const response = await axiosInstance.delete(`/brand/delete/${brandId}`);
+        return response.data;
     } catch (error) {
         console.error("Error deleting brand:", error);
         return { 
@@ -70,7 +82,10 @@ export const deleteBrandService = async (brandId) => {
 
 export const searchBrandService = async (searchBrand) => {
     try {
-        
+        const response = await axiosInstance.get(
+            `/brand?search=${searchBrand}`
+        );
+        return response.data;
     } catch (error) {
         console.error("Error searching brand:", error);
         return { 

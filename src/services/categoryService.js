@@ -21,9 +21,13 @@ export const createCategoryService = async (data) => {
             return { success: false, message: "❌ Only admin can create categories" };
         }
 
-        const response = await axiosInstance.post("/create-category", data, {
-            headers: { "Content-Type" : "multipart/form-data" }
-        });
+        const response = await axiosInstance.post(
+            "/category/create", 
+            data, 
+            {
+                headers: { "Content-Type" : "multipart/form-data" }
+            }
+        );
         return response.data;
     } catch (error) {
         console.error("Error creating category:", error);
@@ -34,7 +38,8 @@ export const createCategoryService = async (data) => {
 
 export const editCategoryService = async (categoryId) => {
     try {
-        
+        const response = await axiosInstance.get(`/category/${categoryId}`);
+        return response.data;
     } catch (error) {
         console.error("Error fetching category:", error);
         return { 
@@ -46,7 +51,14 @@ export const editCategoryService = async (categoryId) => {
 
 export const updateCategoryService = async (categoryData, categoryId) => {
     try {
-        
+        const response = await axiosInstance.put(
+            `/category/update/${categoryId}`
+            categoryData,
+            {
+                headers: { "Content-Type" : "multipart/form-data" }
+            }
+        );
+        return response.data;
     } catch (error) {
         console.error("Error updating category:", error);
         return { 
@@ -58,7 +70,10 @@ export const updateCategoryService = async (categoryData, categoryId) => {
 
 export const deleteCategoryService = async (categoryId) => {
     try {
-        
+        const response = await axiosInstance.delete(
+            `/category/delete/${categoryId}`
+        );
+        return response.data;
     } catch (error) {
         console.error("Error deleting category:", error);
         return { 
@@ -70,7 +85,10 @@ export const deleteCategoryService = async (categoryId) => {
 
 export const searchCategoryService = async (searchCategory) => {
     try {
-        
+        const response = await axiosInstance.get(
+            `/categories?search=${searchCategory}`
+        );
+        return response.data;
     } catch (error) {
         console.error("Error search category:", error);
         return { 

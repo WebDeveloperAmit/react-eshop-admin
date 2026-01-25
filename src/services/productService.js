@@ -21,9 +21,13 @@ export const createProductService = async (data) => {
             return { success: false, message: "❌ Only admin can create products" };
         }
         
-        const response = await axiosInstance.post("/create-product", data, {
-            headers: { "Content-Type" : "multipart/form-data" }
-        });
+        const response = await axiosInstance.post(
+            "/product/create", 
+            data, 
+            {
+                headers: { "Content-Type" : "multipart/form-data" }
+            }
+        );
         return response.data;
     } catch (error) {
         console.error("Error creating product:", error);
