@@ -32,3 +32,50 @@ export const getAllBrandsService =  async () => {
     }
 }
 
+export const editBrandService = async (brandId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error fetching brand:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to fetch brand"
+        };
+    }
+}
+
+export const updateBrandService = async (brandData, brandId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error updating brand:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to update brand"
+        };
+    }
+}
+
+export const deleteBrandService = async (brandId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error deleting brand:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to delete brand"
+        };
+    }
+}
+
+export const searchBrandService = async (searchBrand) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error searching brand:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to search brand"
+        };
+    }
+}

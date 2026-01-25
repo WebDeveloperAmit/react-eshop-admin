@@ -18,16 +18,72 @@ export const createSliderService = async (data) => {
         : null;
         
         if (role !== "admin") {
-            return { success: false, message: "❌ Only admin can create sliders" };
+            return { 
+                success: false, 
+                message: "❌ Only admin can create sliders" 
+            };
         } 
 
-        const response = await axiosInstance.post("/create-slider", data, {
-            headers: { "Content-Type": "multipart/form-data" }
-        });
+        const response = await axiosInstance.post(
+            "/create-slider", 
+            data, 
+            {
+                headers: { "Content-Type": "multipart/form-data" }
+            }
+        );
         return response.data;
+
     } catch (error) {
         console.error("Error creating slider:", error);
         const message = error.response?.data?.message || "Failed to create slider";
         return { status: "error", message };
+    }
+}
+
+export const editSliderService = async (sliderId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error fetching slider:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to fetch slider"
+        };
+    }
+}
+
+export const updateSliderService = async (sliderData, sliderId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error updating slider:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to update slider"
+        };
+    }
+}
+
+export const deleteSliderService = async (sliderId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error deleting slider:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to delete slider"
+        };
+    }
+}
+
+export const searchSliderService = async (searchSlider) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error searching slider:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to search slider"
+        };
     }
 }

@@ -31,4 +31,51 @@ export const createCategoryService = async (data) => {
         return { status: "error", message };
     }
 }
-// Operator Mono, 'Consolas'
+
+export const editCategoryService = async (categoryId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error fetching category:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to fetch category"
+        };
+    }
+}
+
+export const updateCategoryService = async (categoryData, categoryId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error updating category:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to update category"
+        };
+    }
+}
+
+export const deleteCategoryService = async (categoryId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error deleting category:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to delete category"
+        };
+    }
+}
+
+export const searchCategoryService = async (searchCategory) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error search category:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to search category"
+        };
+    }
+}

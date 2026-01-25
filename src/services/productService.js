@@ -31,3 +31,51 @@ export const createProductService = async (data) => {
         return { status: "error", message };
     }
 }
+
+export const editProductService = async (productId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error fetching product:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to fetch product"
+        };
+    }
+}
+
+export const updateProductService = async (productData, productId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error updating product:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to update product"
+        };
+    }
+}
+
+export const deleteProductService = async (productId) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to delete product"
+        };
+    }
+}
+
+export const searchProductService = async (searchProduct) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error search product:", error);
+        return { 
+            status: "error", 
+            message: error.response?.data?.message || "Failed to search product"
+        };
+    }
+}
