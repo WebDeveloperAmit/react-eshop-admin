@@ -69,3 +69,33 @@ export const updateCoupon = async (couponData, couponId) => {
         }
     }
 }
+
+// Delete Coupon
+export const deleteCoupon = async (couponId) => {
+    try {
+        const response = await axiosInstance.delete(`coupon-delete/${couponId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error delete coupon:", error);
+        const message = error.response?.data?.message || "Failed to delete coupon";
+        return {
+            status: "error",
+            message
+        }
+    }
+}
+
+// Search Coupon
+export const searchCouponsService = async (search) => {
+    try {
+        const response = await axiosInstance.get(
+            `/coupons?search=${search}`
+        );
+        return response.data;
+    } catch (error) {
+        return {
+            status: "error",
+            message: error.response?.data?.message || "Search failed"
+        }
+    }
+};

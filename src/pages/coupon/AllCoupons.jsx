@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
-import { getAllCouponsService } from "../../services/couponService";
+import { deleteCoupon, getAllCouponsService, searchCouponsService } from "../../services/couponService";
 
 const AllCoupons = () => {
 
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
     const [coupons, setCoupons] = useState([]);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         const fetchCoupons = async () => {
@@ -33,39 +35,104 @@ const AllCoupons = () => {
         fetchCoupons();
     }, [dispatch]);
 
+    const handleDeleteCoupon = async (couponId) => {
+        // console.log("Coupon ID: ", couponId);
+        if (!couponId) {
+            toast.error("❌ Invalid coupon ID");
+            return;
+        }
+
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "This coupon will be permanently deleted!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel"
+        });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            const response = await deleteCoupon(couponId);
+            if (response.status === "success") {
+                toast.success("Coupon deleted successfully");
+                // Update UI after delete record
+                setCoupons((prev) => {
+                    return prev.filter(coupon => coupon._id !== couponId)
+                });
+            } else {
+                toast.error("❌ Coupon not deleted.");
+            }
+        } catch (error) {
+            console.error("Error deleting coupon:", error);
+            toast.error("❌ Something went wrong.");
+        }
+    }
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        // console.log(search);
+        try {
+            dispatch(showLoader());
+             const response = await searchCouponsService(search);
+            if (response.status === "success") {
+                setCoupons(response.data);
+            } else {
+                toast.error(response.message);
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Search failed");
+        } finally {
+            dispatch(hideLoader());
+        }
+    }
+
   return (
     <div className="main-content-inner">
     <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-        <h3>All Coupons List</h3>
-        <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
-            <li>
-            <Link to="/">
-                <div className="text-tiny">Dashboard</div>
-            </Link>
-            </li>
-            <li>
-            <i className="icon-chevron-right" />
-            </li>
-            <li>
-            <div className="text-tiny">Coupons</div>
-            </li>
-        </ul>
+            <h3>All Coupons List</h3>
+            <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                <li>
+                <Link to="/">
+                    <div className="text-tiny">Dashboard</div>
+                </Link>
+                </li>
+                <li>
+                <i className="icon-chevron-right" />
+                </li>
+                <li>
+                <div className="text-tiny">Coupons</div>
+                </li>
+            </ul>
         </div>
         <div className="wg-box">
-        <div className="flex items-center justify-between gap10 flex-wrap">
-            <div className="wg-filter flex-grow">
-            <form className="form-search">
-                <fieldset className="name">
-                    <input type="text" placeholder="Search here..." className name="search" />
-                </fieldset>
-                <div className="button-submit">
-                    <button type="submit"><i className="icon-search" /></button>
+            <div className="flex items-center justify-between gap10 flex-wrap">
+                <div className="wg-filter flex-grow">
+                    <form className="form-search" onSubmit={handleSearch}>
+                        <fieldset className="name">
+                            <input 
+                            type="text" 
+                            placeholder="Search here..." 
+                            value={search}
+                            name="search" 
+                            onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </fieldset>
+                        <div className="button-submit">
+                            <button 
+                            type="submit">
+                                <i className="icon-search" />
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+                <Link className="tf-button style-1 w208" to="/coupon/create"><i className="icon-plus" />Add new coupon</Link>
             </div>
-            <Link className="tf-button style-1 w208" to="/coupon/create"><i className="icon-plus" />Add new coupon</Link>
-        </div>
         { loading && <Loader /> }
         <div className="wg-table table-all-user">
             <div className="table-responsive">
@@ -112,11 +179,13 @@ const AllCoupons = () => {
                                     </div>
                                 </Link>
                                 
-                                <form action="#" method="POST">
-                                    <div className="item text-danger delete">
-                                        <i className="icon-trash-2" />
-                                    </div>
-                                </form>
+                                <div 
+                                className="item text-danger delete"
+                                onClick={() => handleDeleteCoupon(coupon._id)}
+                                style={{ cursor: "pointer" }}
+                                >
+                                    <i className="icon-trash-2" />
+                                </div>
                             </div>
                             </td>
                         </tr>
