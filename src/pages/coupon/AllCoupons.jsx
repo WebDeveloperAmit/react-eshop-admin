@@ -79,7 +79,7 @@ const AllCoupons = () => {
             dispatch(showLoader());
              const response = await searchCouponsService(search);
             if (response.status === "success") {
-                setCoupons(response.data);
+                setCoupons(response.coupon);
             } else {
                 toast.error(response.message);
             }
