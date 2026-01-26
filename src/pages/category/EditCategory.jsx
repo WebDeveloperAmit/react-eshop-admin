@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
-import { editCategoryService } from "../../services/categoryService";
+import { editCategoryService, updateCategoryService } from "../../services/categoryService";
 
 const EditCategory = () => {
 
   const { id: catId } = useParams();
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
   const [preview, setPreview] = useState(false);
@@ -47,7 +48,38 @@ const EditCategory = () => {
     }));
   });
 
-  const handleFormDataUpdate = async () => {
+  const handleFormDataUpdate = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    const category_name = e.target.category_name.value;
+    const category_image = e.target.category_image.files[0];
+
+    if (category_image) {
+      formData.append("category_image", category_image);
+    }
+
+    formData.append('category_name', category_name);
+
+    try {
+      dispatch(showLoader());
+      const response = await updateCategoryService(formData, catId);
+      if (response.status === "success") {
+        toast.success(response.message);
+        navigate('/categories');
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error("Update category failed:", error);
+      toast.error(
+        error.response?.data?.message ||
+        "Failed to update category. Please try again."
+      );
+    } finally {
+      dispatch(hideLoader());
+    }
 
   }
 
