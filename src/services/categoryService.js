@@ -52,7 +52,7 @@ export const editCategoryService = async (categoryId) => {
 export const updateCategoryService = async (categoryData, categoryId) => {
     try {
         const response = await axiosInstance.put(
-            `/category/update/${categoryId}`
+            `/category/update/${categoryId}`,
             categoryData,
             {
                 headers: { "Content-Type" : "multipart/form-data" }

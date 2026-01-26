@@ -15,16 +15,14 @@ const CreateCategory = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    
     const formData = new FormData();
+
     const category_name = event.target.category_name.value;
     const category_image = event.target.category_image.files[0];
+
     formData.append('category_name', category_name);
     formData.append('category_image', category_image);
-
-    // if (!category_name || !category_image) {
-    //   toast.error("⚠️ All fields are required.");
-    //   return;
-    // }
 
     try {
       dispatch(showLoader());

@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -14,6 +14,7 @@ import AllBrands from './pages/brand/AllBrands';
 import CreateBrand from './pages/brand/CreateBrand';
 import AllCategories from './pages/category/AllCategories';
 import CreateCategory from './pages/category/CreateCategory';
+import EditCategory from './pages/category/EditCategory';
 import AllCoupons from './pages/coupon/AllCoupons';
 import CreateCoupon from './pages/coupon/CreateCoupon';
 import EditCoupon from './pages/coupon/EditCoupon';
@@ -43,12 +44,20 @@ function App() {
             }>
 
             <Route index element={<Dashboard />} />
+
+             {/* catch all unmatched routes */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
+            
             <Route path='brand/create' element={<CreateBrand />} />
             <Route path='brands' element={<AllBrands />} />
             <Route path='product/create' element={<CreateProduct />} />
             <Route path='products' element={<AllProducts />} />
+
+            {/* Category */}
             <Route path='category/create' element={<CreateCategory />} />
             <Route path='categories' element={<AllCategories />} />
+            <Route path='category/edit/:id' element={<EditCategory />} />
+
             <Route path='orders' element={<Orders />} />
             <Route path='slider/create' element={<AddSlider />} />
             <Route path='sliders' element={<Sliders />} />
