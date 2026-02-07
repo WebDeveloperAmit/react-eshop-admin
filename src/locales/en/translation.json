@@ -22,5 +22,9 @@
   "brand_will_be_deleted": "This brand will be permanently deleted!",
   "yes_delete": "Yes, delete it!",
   "cancel": "Cancel",
-  "brand_deleted_success": "Brand deleted successfully"
+  "brand_deleted_success": "Brand deleted successfully",
+  "edit_brand": "Edit Brand",
+  "old_uploaded_image": "Old uploaded image",
+  "upload_new_image": "Upload new image",
+  "updating": "Updating..."
 }

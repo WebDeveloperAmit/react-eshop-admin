@@ -24,17 +24,20 @@ const AllBrands = () => {
         dispatch(showLoader());
         const response =  await getAllBrandsService();
         if (response?.status === "success") {
-          setBrands(response?.brand); // to store the brands to display
-          setAllBrands(response?.brand); // Store all brands for resetting search
+            setTimeout(() => {
+              setBrands(response.brand); // to store the brands to display
+              setAllBrands(response.brand); // Store all brands for resetting search
+              dispatch(hideLoader());
+            }, 300); // loader duration
         } else {
           toast.error(response?.message);
+          dispatch(hideLoader());
         }
       } catch (error) {
         console.error("Error fetching brands:", error);
         toast.error("Failed to fetch brands");
-      } finally {
         dispatch(hideLoader());
-      }
+      } 
     }
     fetchBrands();
   }, [dispatch]);

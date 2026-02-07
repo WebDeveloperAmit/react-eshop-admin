@@ -1,17 +1,50 @@
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../components/loader/Loader';
 import { hideLoader, showLoader } from '../../redux/slices/loaderSlice';
-import { createBrandService } from '../../services/brandService';
+import { createBrandService, editBrandService } from '../../services/brandService';
 
 const EditBrand = () => {
 
+    const { id: brandId } = useParams(); // Get the brand ID from the URL parameters    
+    const { t } = useTranslation(); // Initialize the translation function
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
-    const formRef = useRef(null);
     const [preview, setPreview] = useState(false);
+    const [brand, setBrand] = useState({
+        brand_name: "", // Initialize brand_name to an empty string
+        brand_image: ""
+    });
+
+    useEffect(() => {
+        const fetchBrandData = async () => {
+            try {
+                dispatch(showLoader());
+                const response = await editBrandService(brandId);
+                console.log('response', response);
+                if (response?.status === "success") {
+                    setTimeout(() => {
+                        setBrand(response?.data);
+                        dispatch(hideLoader());
+                    }, 300); // loader duration
+
+                } else {
+                    toast.error(response?.message || "❌ Failed to fetch brand data.");
+                    dispatch(hideLoader());
+                }
+            } catch (error) {
+                console.error("Error fetching brand data:", error);
+                toast.error("❌ An error occurred while fetching brand data.");
+                dispatch(hideLoader());
+            }
+        }
+        fetchBrandData();
+    }, [dispatch, brandId]);
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -25,14 +58,13 @@ const EditBrand = () => {
             dispatch(showLoader());
             const response = await createBrandService(formData);
             if (response.status === "success") {
-                toast.success("✅ Brand created successfully!");
-                formRef.current.reset();
+                toast.success("");
                 setPreview(false);
             } else {
-                toast.error(response.message || "❌ Failed to create brand.");
+                toast.error(response.message || "❌ Failed to update brand.");
             }
         } catch (error) {
-            toast.error("❌ An error occurred while creating the brand.");
+            toast.error("❌ An error occurred while updating the brand.");
         } finally {
             dispatch(hideLoader());
         }
@@ -44,11 +76,11 @@ const EditBrand = () => {
       <div className="main-content-inner">
           <div className="main-content-wrap">
               <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-                  <h3>Edit Brand</h3>
+                  <h3>{t('edit_brand')}</h3>
                   <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
                       <li>
                           <Link to="/">
-                              <div className="text-tiny">Dashboard</div>
+                              <div className="text-tiny">{t('dashboard')}</div>
                           </Link>
                       </li>
                       <li>
@@ -56,14 +88,14 @@ const EditBrand = () => {
                       </li>
                       <li>
                           <Link to="/brands">
-                              <div className="text-tiny">Brands</div>
+                              <div className="text-tiny">{t('brands')}</div>
                           </Link>
                       </li>
                       <li>
                           <i className="icon-chevron-right"></i>
                       </li>
                       <li>
-                          <div className="text-tiny">Edit Brand</div>
+                          <div className="text-tiny">{t('edit_brand')}</div>
                       </li>
                   </ul>
               </div>
@@ -73,55 +105,35 @@ const EditBrand = () => {
                 {loading && <Loader />}
                     <form 
                         className="form-new-product form-style-1" 
-                        ref={formRef} 
                         onSubmit={handleFormSubmit}
                     >
                       <fieldset className="name">
-                          <div className="body-title">Brand Name <span className="tf-color-1">*</span></div>
+                          <div className="body-title">{t('brand_name')} <span className="tf-color-1">*</span></div>
                           <input 
                           className="flex-grow" 
                           type="text" 
-                          placeholder="Brand name" 
+                          placeholder={t('brand_name')} 
                           tabIndex="0" 
                           aria-required="true" 
                           name="brand_name"
+                          value={brand?.brand_name}
                           />
                       </fieldset>
 
                       <fieldset>
-                          <div className="body-title">Old uploaded image
+                          <div className="body-title">{t('old_uploaded_image')}
                           </div>
                           <div className="upload-image flex-grow">
-                            { preview && (
+                            {brand?.brand_image_url && (
                                 <div className="item" id="imgpreview">
-                                  <img src={preview} className="effect8"  alt="preview" />
+                                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${brand.brand_image_url}`} className="effect8"  alt="preview" />
                               </div>
                             )}
-
-                              <div id="upload-file" className="item up-load">
-                                  <label className="uploadfile" htmlFor="myFile">
-                                      <span className="icon">
-                                          <i className="icon-upload-cloud"></i>
-                                      </span>
-                                      <span className="body-text">Drop your images here or select <span className="tf-color">click to browse</span></span>
-                                      <input 
-                                      type="file" 
-                                      id="myFile" 
-                                      name="brand_image" 
-                                      accept="image/*"
-                                      onChange={(e) => {
-                                        if (e.target.files[0]) {
-                                            setPreview(URL.createObjectURL(e.target.files[0]));
-                                        }
-                                    }}
-                                      />
-                                  </label>
-                              </div>
                           </div>
                       </fieldset>
                         
                       <fieldset>
-                          <div className="body-title">Upload new image
+                          <div className="body-title">{t('upload_new_image')}
                           </div>
                           <div className="upload-image flex-grow">
                             { preview && (
@@ -135,7 +147,7 @@ const EditBrand = () => {
                                       <span className="icon">
                                           <i className="icon-upload-cloud"></i>
                                       </span>
-                                      <span className="body-text">Drop your images here or select <span className="tf-color">click to browse</span></span>
+                                      <span className="body-text">{t('drop_images')} <span className="tf-color">{t('click_to_browse')}</span></span>
                                       <input 
                                       type="file" 
                                       id="myFile" 
@@ -159,7 +171,7 @@ const EditBrand = () => {
                           type="submit"
                           disabled={loading}
                           >
-                            {loading ? 'Saving...' : 'Save'}
+                            {loading ? t('updating') : t('save')}
                           </button>
                       </div>
                   </form>

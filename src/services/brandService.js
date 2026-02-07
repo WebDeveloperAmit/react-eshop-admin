@@ -37,6 +37,7 @@ export const getAllBrandsService =  async () => {
 
 export const editBrandService = async (brandId) => {
     try {
+        // console.log('brandId in service', brandId);
         const response = await axiosInstance.get(
             `/brand/${brandId}`
         );
