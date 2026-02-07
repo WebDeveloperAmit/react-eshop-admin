@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +11,7 @@ import { deleteBrandService, getAllBrandsService, searchBrandService } from "../
 
 const AllBrands = () => {
 
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
   const [brands, setBrands] = useState([]);
@@ -104,7 +106,7 @@ const AllBrands = () => {
     <div className="main-content-inner">
       <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>All Brands List</h3>
+          <h3>{ t('brand_list') }</h3>
           <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
               <Link to="/">
@@ -187,7 +189,7 @@ const AllBrands = () => {
                       <td>{new Date(brand.createdAt).toLocaleString()}</td>
                       <td>
                         <div className="list-icon-function">
-                          <Link to="#">
+                          <Link to={`/brand/${brand._id}/edit`}>
                             <div className="item edit">
                               <i className="icon-edit-3" />
                             </div>

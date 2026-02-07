@@ -12,6 +12,7 @@ import Unauthorized from './pages/Unauthorized';
 import Login from './pages/auth/Login';
 import AllBrands from './pages/brand/AllBrands';
 import CreateBrand from './pages/brand/CreateBrand';
+import EditBrand from './pages/brand/EditBrand';
 import AllCategories from './pages/category/AllCategories';
 import CreateCategory from './pages/category/CreateCategory';
 import EditCategory from './pages/category/EditCategory';
@@ -27,7 +28,7 @@ import Users from './pages/user/Users';
 function App() {
   return (
     <>
-
+  {/* <LanguageSwitcher /> */}
     <ToastContainer position="top-right" autoClose={3000} />
 
       <Router>
@@ -48,8 +49,11 @@ function App() {
              {/* catch all unmatched routes */}
             <Route path="*" element={<Navigate to="/login" replace />} />
             
+            {/* Brand */}
             <Route path='brand/create' element={<CreateBrand />} />
             <Route path='brands' element={<AllBrands />} />
+            <Route path='brand/:id/edit' element={<EditBrand />} />
+
             <Route path='product/create' element={<CreateProduct />} />
             <Route path='products' element={<AllProducts />} />
 

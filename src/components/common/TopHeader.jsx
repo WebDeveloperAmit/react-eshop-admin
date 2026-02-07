@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import LanguageDropdown from '../LanguageDropdown';
 
 const TopHeader = () => {
 
@@ -205,6 +206,9 @@ const TopHeader = () => {
             </form>
           </div>
           <div className="header-grid">
+            
+            <LanguageDropdown />
+
             <div className="popup-wrap message type-header">
               <div className="dropdown">
                 <button
