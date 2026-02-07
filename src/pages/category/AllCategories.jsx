@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -13,6 +14,7 @@ const AllCategories = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
   const [categories, setCategories] = useState([]);
+  const [originalCategories, setOriginalCategories] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -21,8 +23,9 @@ const AllCategories = () => {
         dispatch(showLoader());
         const fetchCategories = await getAllCategoriesService();
         // console.log("Fetched categories:", fetchCategories);
-        if (fetchCategories.status === "success") {
-          setCategories(fetchCategories.data);
+        if (fetchCategories?.status === "success") {
+          setCategories(fetchCategories?.data);
+          setOriginalCategories(fetchCategories?.data);
         } else {
           toast.error(fetchCategories.message || "❌ Failed to fetch categories.");
         }
@@ -62,6 +65,9 @@ const AllCategories = () => {
         setCategories((prev) => {
           return prev.filter((category) => category._id !== catId);
         });
+        setOriginalCategories((prev) => {
+          return prev.filter((category) => category._id !== catId);
+        });
       } else {
         toast.error(response.message);
       }
@@ -74,12 +80,17 @@ const AllCategories = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     // console.log(search);
+    if (!search.trim()) {
+      toast.warning("Please enter a search term");
+      return;
+    }
+
     try {
       const response = await searchCategoryService(search);
-      if (response.status === "success") {
-        setCategories(response.data);
+      if (response?.status === "success") {
+        setCategories(response?.data);
       } else {
-        toast.error(response.message);
+        toast.error(response?.message || "Search failed");
       }
     } catch (error) {
       console.error("An error while searching category:", error);
@@ -123,13 +134,21 @@ const AllCategories = () => {
                   />
                 </fieldset>
                 <div className="button-submit">
-                  <button 
-                  className type="submit"
-                  >
+                  <button type="submit">
                     <i className="icon-search" />
                   </button>
                 </div>
               </form>
+              {
+                  search && (
+                      <span className="delIcon" onClick={() => {
+                      setSearch(""); 
+                      setCategories(originalCategories); // Reset to all categories when search is cleared
+                      }}>
+                      <RiDeleteBack2Fill size={26} />
+                      </span>
+                  )
+              }
             </div>
             <Link className="tf-button style-1 w208" to="/category/create"><i className="icon-plus" />Add new category</Link>
           </div>

@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
+import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
-import { getAllBrandsService } from "../../services/brandService";
+import { deleteBrandService, getAllBrandsService, searchBrandService } from "../../services/brandService";
 
 const AllBrands = () => {
 
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
   const [brands, setBrands] = useState([]);
+  const [allBrands, setAllBrands] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -18,7 +22,8 @@ const AllBrands = () => {
         dispatch(showLoader());
         const response =  await getAllBrandsService();
         if (response?.status === "success") {
-          setBrands(response?.brand);
+          setBrands(response?.brand); // to store the brands to display
+          setAllBrands(response?.brand); // Store all brands for resetting search
         } else {
           toast.error(response?.message);
         }
@@ -31,6 +36,69 @@ const AllBrands = () => {
     }
     fetchBrands();
   }, [dispatch]);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    // console.log("Search term:", search);
+    if (!search.trim()) {
+      toast.warning("Please enter a search term");
+      return;
+    }
+    
+    try {
+      dispatch(showLoader());
+      const response = await searchBrandService(search);
+      if (response?.status === "success") {
+        setBrands(response?.brand);
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      console.error("Error searching brands:", error);
+      toast.error("Failed to search brands");
+    } finally {
+      dispatch(hideLoader());
+    }
+  }
+
+  const handleDelete = async (brandId) => {
+    if (!brandId) {
+      toast.error("Invalid brand ID");
+      return;
+    }
+
+      const result = await Swal.fire({
+          title: "Are you sure?",
+          text: "This brand will be permanently deleted!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "Cancel"
+      });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    try {
+      dispatch(showLoader());
+      const response = await deleteBrandService(brandId);
+      if (response?.status === "success") {
+        toast.success("Brand deleted successfully");
+        setBrands(brands.filter(brand => brand._id !== brandId));
+        setAllBrands(allBrands.filter(brand => brand._id !== brandId)); // Update allBrands as well
+      } else {
+        toast.error(response?.message || "Failed to delete brand");
+      }
+    } catch (error) {
+      console.error("Error deleting brand:", error);
+      toast.error("Failed to delete brand");
+    } finally {
+      dispatch(hideLoader());
+    }
+  }
 
   return (
     <div className="main-content-inner">
@@ -54,21 +122,38 @@ const AllBrands = () => {
         <div className="wg-box">
           <div className="flex items-center justify-between gap10 flex-wrap">
             <div className="wg-filter flex-grow">
-              <form className="form-search">
+              <form 
+              className="form-search" 
+              onSubmit={handleSearch}>
                 <fieldset className="name">
                   <input 
                   type="text" 
                   placeholder="Search here..." 
                   name="search" 
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   />
                 </fieldset>
                 <div className="button-submit">
                   <button 
-                  className="" 
-                  type="submit"><i className="icon-search" /></button>
+                  type="submit">
+                    <i className="icon-search" />
+                  </button>
                 </div>
               </form>
+              {
+                search && (
+                  <span className="delIcon" onClick={() => {
+                    setSearch(""); 
+                    setBrands(allBrands); // Reset to all brands when search is cleared
+                  }}>
+                    <RiDeleteBack2Fill size={26} />
+                  </span>
+                )
+              }
+              
             </div>
+
             <Link 
             className="tf-button style-1 w208" 
             to="/brand/create"><i className="icon-plus" />Add new brand</Link>
@@ -107,11 +192,12 @@ const AllBrands = () => {
                               <i className="icon-edit-3" />
                             </div>
                           </Link>
-                          <form action="#" method="POST">
-                            <div className="item text-danger delete">
+                            <div 
+                            className="item text-danger delete"
+                            onClick={() => handleDelete(brand._id)}
+                            >
                               <i className="icon-trash-2" />
                             </div>
-                          </form>
                         </div>
                       </td>
                     </tr>

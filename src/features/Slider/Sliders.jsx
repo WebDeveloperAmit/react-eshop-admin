@@ -17,11 +17,11 @@ const Sliders = () => {
       try {
         dispatch(showLoader());
         const response = await getAllSlidersService();
-        if (response.status === "success") {
-          setSliders(response.slider);
+        if (response?.status === "success") {
+          setSliders(response?.slider);
         } else {
-          toast.error(`❌ ${response.message}`);
-          console.error("Failed to fetch sliders:", response.message);
+          toast.error(`❌ ${response?.message || "Failed to fetch sliders"}`);
+          console.error("Failed to fetch sliders:", response?.message);
         }
       } catch (error) {
         toast.error("❌ An error occurred while fetching sliders");

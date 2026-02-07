@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
@@ -12,6 +13,7 @@ const AllCoupons = () => {
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
     const [coupons, setCoupons] = useState([]);
+    const [originalCoupons, setOriginalCoupons] = useState([]);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
@@ -19,9 +21,10 @@ const AllCoupons = () => {
             try {
                 dispatch(showLoader());
                 const response = await getAllCouponsService();
-                console.log(response);
-                if (response.status === "success") {
-                    setCoupons(response.coupon);
+                // console.log(response);
+                if (response?.status === "success") {
+                    setCoupons(response?.coupon);
+                    setOriginalCoupons(response?.coupon);
                 } else {
                     toast.error(`❌ ${response.message}`);
                 }
@@ -63,6 +66,9 @@ const AllCoupons = () => {
                 setCoupons((prev) => {
                     return prev.filter(coupon => coupon._id !== couponId)
                 });
+                setOriginalCoupons((prev) => {
+                    return prev.filter(coupon => coupon._id !== couponId)
+                });
             } else {
                 toast.error("❌ Coupon not deleted.");
             }
@@ -75,6 +81,11 @@ const AllCoupons = () => {
     const handleSearch = async (e) => {
         e.preventDefault();
         // console.log(search);
+        if (!search.trim()) {
+            toast.warning("Please enter a search term");
+            return;
+        }
+
         try {
             dispatch(showLoader());
              const response = await searchCouponsService(search);
@@ -130,6 +141,16 @@ const AllCoupons = () => {
                             </button>
                         </div>
                     </form>
+                    {
+                        search && (
+                            <span className="delIcon" onClick={() => {
+                            setSearch(""); 
+                            setCoupons(originalCoupons); // Reset to all coupons when search is cleared
+                            }}>
+                            <RiDeleteBack2Fill size={26} />
+                            </span>
+                        )
+                    }
                 </div>
                 <Link className="tf-button style-1 w208" to="/coupon/create"><i className="icon-plus" />Add new coupon</Link>
             </div>

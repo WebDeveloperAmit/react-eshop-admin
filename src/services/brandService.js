@@ -69,7 +69,9 @@ export const updateBrandService = async (brandData, brandId) => {
 
 export const deleteBrandService = async (brandId) => {
     try {
-        const response = await axiosInstance.delete(`/brand/delete/${brandId}`);
+        const response = await axiosInstance.delete(
+            `/brand/delete/${brandId}`
+        );
         return response.data;
     } catch (error) {
         console.error("Error deleting brand:", error);
@@ -83,7 +85,7 @@ export const deleteBrandService = async (brandId) => {
 export const searchBrandService = async (searchBrand) => {
     try {
         const response = await axiosInstance.get(
-            `/brand?search=${searchBrand}`
+            `/brands?search=${searchBrand}`
         );
         return response.data;
     } catch (error) {
