@@ -1,5 +1,26 @@
 {
+  "dashboard": "Dashboard",
   "welcome": "Welcome",
   "search_placeholder": "Search here...",
-  "brand_list": "All Brands List"
+  "brand_list": "All Brands List",
+  "search_here": "Search here...",
+  "add_new_brand": "Add new brand",
+  "brands": "Brands",
+  "brand_name": "Brand Name",
+  "brand_slug": "Brand Slug",
+  "brand_image": "Brand Image",
+  "sl_no": "SL No.",
+  "created_at": "Created At",
+  "actions": "Actions",
+  "upload_images": "Upload images",
+  "save": "Save",
+  "saving": "Saving...",
+  "drop_images": "Drop your images here or select",
+  "click_to_browse": "click to browse",
+  "invalid_brand_id": "Invalid brand ID",
+  "are_you_sure": "Are you sure?",
+  "brand_will_be_deleted": "This brand will be permanently deleted!",
+  "yes_delete": "Yes, delete it!",
+  "cancel": "Cancel",
+  "brand_deleted_success": "Brand deleted successfully"
 }

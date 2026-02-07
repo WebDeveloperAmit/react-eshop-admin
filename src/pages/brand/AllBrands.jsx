@@ -65,19 +65,19 @@ const AllBrands = () => {
 
   const handleDelete = async (brandId) => {
     if (!brandId) {
-      toast.error("Invalid brand ID");
+      toast.error(t('invalid_brand_id'));
       return;
     }
 
       const result = await Swal.fire({
-          title: "Are you sure?",
-          text: "This brand will be permanently deleted!",
+          title: t('are_you_sure'),
+          text: t('brand_will_be_deleted'),
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#d33",
           cancelButtonColor: "#3085d6",
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "Cancel"
+          confirmButtonText: t('yes_delete'),
+          cancelButtonText: t('cancel')
       });
 
     if (!result.isConfirmed) {
@@ -110,14 +110,14 @@ const AllBrands = () => {
           <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
               <Link to="/">
-                <div className="text-tiny">Dashboard</div>
+                <div className="text-tiny">{ t('dashboard') }</div>
               </Link>
             </li>
             <li>
               <i className="icon-chevron-right" />
             </li>
             <li>
-              <div className="text-tiny">Brands</div>
+              <div className="text-tiny">{ t('brands') }</div>
             </li>
           </ul>
         </div>
@@ -130,7 +130,7 @@ const AllBrands = () => {
                 <fieldset className="name">
                   <input 
                   type="text" 
-                  placeholder="Search here..." 
+                  placeholder={ t('search_here') } 
                   name="search" 
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -158,7 +158,7 @@ const AllBrands = () => {
 
             <Link 
             className="tf-button style-1 w208" 
-            to="/brand/create"><i className="icon-plus" />Add new brand</Link>
+            to="/brand/create"><i className="icon-plus" />{ t('add_new_brand') }</Link>
           </div>
           { loading && <Loader /> }
           <div className="wg-table table-all-user">
@@ -166,12 +166,12 @@ const AllBrands = () => {
               <table className="table table-striped table-bordered">
                 <thead>
                   <tr>
-                    <th>SL. NO</th>
-                    <th>Name</th>
-                    <th>Slug</th>
-                    <th>Image</th>
-                    <th>Created At</th>
-                    <th>Action</th>
+                    <th>{ t('sl_no') }</th>
+                    <th>{ t('brand_name') }</th>
+                    <th>{ t('brand_slug') }</th>
+                    <th>{ t('brand_image') }</th>
+                    <th>{ t('created_at') }</th>
+                    <th>{ t('actions') }</th>
                   </tr>
                 </thead>
                 <tbody>

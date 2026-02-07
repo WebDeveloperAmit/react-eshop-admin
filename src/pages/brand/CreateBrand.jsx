@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,6 +10,7 @@ import { createBrandService } from '../../services/brandService';
 
 const CreateBrand = () => {
 
+    const { t } = useTranslation()
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
     const formRef = useRef(null);
@@ -51,11 +53,11 @@ const CreateBrand = () => {
       <div className="main-content-inner">
           <div className="main-content-wrap">
               <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-                  <h3>Add New Brand</h3>
+                  <h3>{t("add_new_brand")}</h3>
                   <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
                       <li>
                           <Link to="/">
-                              <div className="text-tiny">Dashboard</div>
+                              <div className="text-tiny">{t("dashboard")}</div>
                           </Link>
                       </li>
                       <li>
@@ -63,14 +65,14 @@ const CreateBrand = () => {
                       </li>
                       <li>
                           <Link to="/brands">
-                              <div className="text-tiny">Brands</div>
+                              <div className="text-tiny">{t("brands")}</div>
                           </Link>
                       </li>
                       <li>
                           <i className="icon-chevron-right"></i>
                       </li>
                       <li>
-                          <div className="text-tiny">New Brand</div>
+                          <div className="text-tiny">{t("add_new_brand")}</div>
                       </li>
                   </ul>
               </div>
@@ -84,11 +86,11 @@ const CreateBrand = () => {
                         onSubmit={handleFormSubmit}
                     >
                       <fieldset className="name">
-                          <div className="body-title">Brand Name <span className="tf-color-1">*</span></div>
+                          <div className="body-title">{t("brand_name")} <span className="tf-color-1">*</span></div>
                           <input 
                           className="flex-grow" 
                           type="text" 
-                          placeholder="Brand name" 
+                          placeholder={t("brand_name")} 
                           tabIndex="0" 
                           aria-required="true" 
                           name="brand_name"
@@ -96,7 +98,7 @@ const CreateBrand = () => {
                       </fieldset>
                         
                       <fieldset>
-                          <div className="body-title">Upload images <span className="tf-color-1">*</span>
+                          <div className="body-title">{t("upload_images")} <span className="tf-color-1">*</span>
                           </div>
                           <div className="upload-image flex-grow">
                             { preview && (
@@ -110,7 +112,7 @@ const CreateBrand = () => {
                                       <span className="icon">
                                           <i className="icon-upload-cloud"></i>
                                       </span>
-                                      <span className="body-text">Drop your images here or select <span className="tf-color">click to browse</span></span>
+                                      <span className="body-text">{t('drop_images')} <span className="tf-color">{t('click_to_browse')}</span></span>
                                       <input 
                                       type="file" 
                                       id="myFile" 
@@ -134,7 +136,7 @@ const CreateBrand = () => {
                           type="submit"
                           disabled={loading}
                           >
-                            {loading ? 'Saving...' : 'Save'}
+                            {loading ? t("saving") : t("save")}
                           </button>
                       </div>
                   </form>

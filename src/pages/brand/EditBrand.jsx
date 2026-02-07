@@ -6,13 +6,11 @@ import Loader from '../../components/loader/Loader';
 import { hideLoader, showLoader } from '../../redux/slices/loaderSlice';
 import { createBrandService } from '../../services/brandService';
 
-
 const EditBrand = () => {
 
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
     const formRef = useRef(null);
-    // console.log("loading", loading);
     const [preview, setPreview] = useState(false);
 
     const handleFormSubmit = async (event) => {
@@ -22,11 +20,6 @@ const EditBrand = () => {
         const brandImage = event.target.brand_image.files[0];
         formData.append('brand_name', brandName);
         formData.append('brand_image', brandImage);
-
-        // if (!brandName || !brandImage) {
-        //     toast.error("⚠️ All fields are required.");
-        //     return;
-        // }
 
         try {
             dispatch(showLoader());

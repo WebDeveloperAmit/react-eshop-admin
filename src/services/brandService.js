@@ -37,7 +37,9 @@ export const getAllBrandsService =  async () => {
 
 export const editBrandService = async (brandId) => {
     try {
-        const response = await axiosInstance.get(`/brand/${brandId}`);
+        const response = await axiosInstance.get(
+            `/brand/${brandId}`
+        );
         return response.data;
     } catch (error) {
         console.error("Error fetching brand:", error);
