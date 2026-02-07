@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../components/loader/Loader';
 import { hideLoader, showLoader } from '../../redux/slices/loaderSlice';
-import { createBrandService, editBrandService } from '../../services/brandService';
+import { editBrandService, updateBrandService } from '../../services/brandService';
 
 const EditBrand = () => {
 
@@ -25,15 +25,14 @@ const EditBrand = () => {
             try {
                 dispatch(showLoader());
                 const response = await editBrandService(brandId);
-                console.log('response', response);
                 if (response?.status === "success") {
                     setTimeout(() => {
                         setBrand(response?.data);
                         dispatch(hideLoader());
-                    }, 300); // loader duration
+                    }, 300);
 
                 } else {
-                    toast.error(response?.message || "❌ Failed to fetch brand data.");
+                    toast.error(response?.message);
                     dispatch(hideLoader());
                 }
             } catch (error) {
@@ -46,26 +45,45 @@ const EditBrand = () => {
     }, [dispatch, brandId]);
 
 
-    const handleFormSubmit = async (event) => {
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setBrand((preBrand) => {
+            return {
+                ...preBrand,
+                [name]: value
+            }
+        });
+    }
+
+    const handleUpdateForm = async (event) => {
         event.preventDefault();
-        const formData = new FormData();
+
+        const formData = new FormData(); // Create a FormData object to hold the form data
+
         const brandName = event.target.brand_name.value;
         const brandImage = event.target.brand_image.files[0];
-        formData.append('brand_name', brandName);
-        formData.append('brand_image', brandImage);
 
+        formData.append('brand_name', brandName);
+
+        if (brandImage) {
+            formData.append('brand_image', brandImage);
+        }
+        
         try {
             dispatch(showLoader());
-            const response = await createBrandService(formData);
-            if (response.status === "success") {
-                toast.success("");
-                setPreview(false);
+            const response = await updateBrandService(formData, brandId);
+            if (response?.status === "success") {
+                setTimeout(() => {
+                    navigate("/brands");
+                    toast.success(response?.message);
+                }, 300);
             } else {
-                toast.error(response.message || "❌ Failed to update brand.");
+                toast.error(response?.message);
+                dispatch(hideLoader());
             }
         } catch (error) {
+            console.error("Error updating brand:", error);
             toast.error("❌ An error occurred while updating the brand.");
-        } finally {
             dispatch(hideLoader());
         }
 
@@ -105,7 +123,7 @@ const EditBrand = () => {
                 {loading && <Loader />}
                     <form 
                         className="form-new-product form-style-1" 
-                        onSubmit={handleFormSubmit}
+                        onSubmit={handleUpdateForm}
                     >
                       <fieldset className="name">
                           <div className="body-title">{t('brand_name')} <span className="tf-color-1">*</span></div>
@@ -117,6 +135,7 @@ const EditBrand = () => {
                           aria-required="true" 
                           name="brand_name"
                           value={brand?.brand_name}
+                          onChange={handleChange}
                           />
                       </fieldset>
 

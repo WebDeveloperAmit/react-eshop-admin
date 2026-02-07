@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
@@ -10,7 +11,7 @@ import { deleteCategoryService, getAllCategoriesService, searchCategoryService }
 
 const AllCategories = () => {
 
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
   const [categories, setCategories] = useState([]);
@@ -22,39 +23,39 @@ const AllCategories = () => {
       try {
         dispatch(showLoader());
         const fetchCategories = await getAllCategoriesService();
-        // console.log("Fetched categories:", fetchCategories);
         if (fetchCategories?.status === "success") {
-          setCategories(fetchCategories?.data);
-          setOriginalCategories(fetchCategories?.data);
+          setTimeout(() => {
+            setCategories(fetchCategories?.data);
+            setOriginalCategories(fetchCategories?.data);
+            dispatch(hideLoader());
+          }, 300);
         } else {
-          toast.error(fetchCategories.message || "❌ Failed to fetch categories.");
+          toast.error(fetchCategories?.message);
+          dispatch(hideLoader());
         }
       } catch (error) {
         toast.error("❌ An error occurred while fetching categories.");
-      } finally {
-        dispatch(hideLoader());
       }
     }
     fetchCategories();
   }, [dispatch]);
 
   const handleDeleteCategory = async (catId) => {
-    // console.log('catId', catId);
     try {
       if (!catId) {
-        toast.error("Invalid category ID");
+        toast.error(t("invalid_category_id"));
         return;
       }
 
       const result = await Swal.fire({
-          title: "Are you sure?",
-          text: "This category will be permanently deleted!",
+          title: t("are_you_sure"),
+          text: t("category_will_be_deleted"),
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#d33",
           cancelButtonColor: "#3085d6",
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "Cancel"
+          confirmButtonText: t("yes_delete"),
+          cancelButtonText: t("cancel")
       });
 
       if (!result.isConfirmed) return;
@@ -103,18 +104,18 @@ const AllCategories = () => {
       <div className="main-content-wrap">
 
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>All Categories List</h3>
+          <h3>{t("all_categories_list")}</h3>
             <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
               <li>
                 <Link to="/">
-                  <div className="text-tiny">Dashboard</div>
+                  <div className="text-tiny">{t("dashboard")}</div>
                 </Link>
               </li>
               <li>
                 <i className="icon-chevron-right" />
               </li>
               <li>
-                <div className="text-tiny">Categories</div>
+                <div className="text-tiny">{t("categories")}</div>
               </li>
             </ul>
         </div>
@@ -127,7 +128,7 @@ const AllCategories = () => {
                 <fieldset className="name">
                   <input 
                   type="text" 
-                  placeholder="Search here..." 
+                  placeholder={t("search_here")} 
                   name="search" 
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -150,7 +151,7 @@ const AllCategories = () => {
                   )
               }
             </div>
-            <Link className="tf-button style-1 w208" to="/category/create"><i className="icon-plus" />Add new category</Link>
+            <Link className="tf-button style-1 w208" to="/category/create"><i className="icon-plus" />{t("add_new_category")}</Link>
           </div>
           { loading && <Loader /> }
 
@@ -158,12 +159,12 @@ const AllCategories = () => {
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th>SL. NO</th>
-                  <th>Name</th>
-                  <th>Slug</th>
-                  <th>Image</th>
-                  <th>Created At</th>
-                  <th>Action</th>
+                  <th>{t("sl_no")}</th>
+                  <th>{t("category_name")}</th>
+                  <th>{t("category_slug")}</th>
+                  <th>{t("category_image")}</th>
+                  <th>{t("created_at")}</th>
+                  <th>{t("actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -203,7 +204,7 @@ const AllCategories = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center">No categories found.</td>
+                  <td colSpan="6" className="text-center">{t("no_categories_found")}</td>
                 </tr>
               )}
 

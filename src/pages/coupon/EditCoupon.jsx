@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -9,7 +10,8 @@ import { getSingleCoupon, updateCoupon } from "../../services/couponService";
 const EditCoupon = () => {
 
     const { id: couponId } = useParams();
-    // console.log(couponId);
+    
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const formRef = useRef(null);
     const dispatch = useDispatch();
@@ -82,11 +84,11 @@ const EditCoupon = () => {
         try {
             dispatch(showLoader());
             const response = await updateCoupon(couponData, couponId);
-            if (response.status === "success") {
-                toast.success("✅ Coupon updated successfully");
+            if (response?.status === "success") {
+                toast.success(response?.message);
                 navigate("/coupons");
             } else {
-                toast.error(response.message);
+                toast.error(response?.message);
             }
         } catch (error) {
             toast.error("Something went wrong. Coupon not updated");
@@ -101,11 +103,11 @@ const EditCoupon = () => {
     <div className="main-content-inner">
         <div className="main-content-wrap">
             <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>Edit Coupon</h3>
+            <h3>{t("edit_coupon")}</h3>
                 <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
                     <Link to="/">
-                        <div className="text-tiny">Dashboard</div>
+                        <div className="text-tiny">{t("dashboard")}</div>
                     </Link>
                     </li>
                     <li>
@@ -113,14 +115,14 @@ const EditCoupon = () => {
                     </li>
                     <li>
                     <Link to="/coupons">
-                        <div className="text-tiny">Coupons</div>
+                        <div className="text-tiny">{t("coupons")}</div>
                     </Link>
                     </li>
                     <li>
                     <i className="icon-chevron-right" />
                     </li>
                     <li>
-                    <div className="text-tiny">Edit Coupon</div>
+                    <div className="text-tiny">{t("edit_coupon")}</div>
                     </li>
                 </ul>
             </div>
@@ -132,11 +134,11 @@ const EditCoupon = () => {
                 <form className="form-new-product form-style-1" onSubmit={handleFormSubmit} ref={formRef}>
 
                     <fieldset className="name">
-                        <div className="body-title">Coupon Code <span className="tf-color-1">*</span></div>
+                        <div className="body-title">{t("coupon_code")} <span className="tf-color-1">*</span></div>
                         <input 
                         className="flex-grow" 
                         type="text" 
-                        placeholder="Coupon Code" 
+                        placeholder={t("coupon_code")} 
                         name="code" 
                         value={coupon.code}
                         onChange={handleChange}
@@ -144,22 +146,22 @@ const EditCoupon = () => {
                     </fieldset>
 
                     <fieldset className="category">
-                        <div className="body-title">Coupon Type</div>
+                        <div className="body-title">{t("coupon_type")}</div>
                         <div className="select flex-grow">
                             <select name="type" value={coupon.type || ""} onChange={handleChange}>
-                            <option value>Select</option>
-                            <option value="fixed">Fixed</option>
-                            <option value="percentage">Percent</option>
+                            <option value>{t('select')}</option>
+                            <option value="fixed">{t("fixed")}</option>
+                            <option value="percentage">{t("percentage")}</option>
                             </select>
                         </div>
                     </fieldset>
 
                     <fieldset className="name">
-                        <div className="body-title">Discount <span className="tf-color-1">*</span></div>
+                        <div className="body-title">{t("discount_amount")} <span className="tf-color-1">*</span></div>
                         <input 
                         className="flex-grow" 
                         type="text" 
-                        placeholder="Discount amount" 
+                        placeholder={t("discount_amount")} 
                         name="discount" 
                         value={coupon.discount}
                         onChange={handleChange}
@@ -167,11 +169,11 @@ const EditCoupon = () => {
                     </fieldset>
 
                     <fieldset className="name">
-                        <div className="body-title">Minimum purchase <span className="tf-color-1">*</span></div>
+                        <div className="body-title">{t("minimum_purchase")} <span className="tf-color-1">*</span></div>
                         <input 
                         className="flex-grow" 
                         type="text" 
-                        placeholder="Minimum purchase amount" 
+                        placeholder={t("minimum_purchase")} 
                         name="min_purchase" 
                         value={coupon.min_purchase}
                         onChange={handleChange}
@@ -179,12 +181,12 @@ const EditCoupon = () => {
                     </fieldset>
 
                     <fieldset className="name">
-                        <div className="body-title">Usage Limit <span className="tf-color-1">*</span></div>
+                        <div className="body-title">{t("usage_limit")} <span className="tf-color-1">*</span></div>
                         <input 
                         className="flex-grow" 
                         type="number" 
                         min="1" 
-                        placeholder="Usage limit" 
+                        placeholder={t("usage_limit")} 
                         name="usage_limit" 
                         value={coupon.usage_limit}
                         onChange={handleChange}
@@ -192,11 +194,11 @@ const EditCoupon = () => {
                     </fieldset>
 
                     <fieldset className="name">
-                        <div className="body-title">Expiry Date <span className="tf-color-1">*</span></div>
+                        <div className="body-title">{t("expiry_date")} <span className="tf-color-1">*</span></div>
                         <input 
                         className="flex-grow" 
                         type="date" 
-                        placeholder="Expiry Date" 
+                        placeholder={t("expiry_date")} 
                         name="expiry_date" 
                         value={coupon.expiry_date ? coupon.expiry_date.split("T")[0] : ""}
                         onChange={handleChange}
@@ -206,7 +208,7 @@ const EditCoupon = () => {
                     <div className="bot">
                     <div />
                         <button className="tf-button w208" type="submit">
-                            { loading ? 'Updating...' : 'Update Coupon' }
+                            { loading ? t("updating") : t("save") }
                         </button>
                     </div>
                 </form>

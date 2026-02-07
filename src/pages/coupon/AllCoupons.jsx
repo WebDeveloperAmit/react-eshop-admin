@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
@@ -10,6 +11,7 @@ import { deleteCoupon, getAllCouponsService, searchCouponsService } from "../../
 
 const AllCoupons = () => {
 
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
     const [coupons, setCoupons] = useState([]);
@@ -21,17 +23,19 @@ const AllCoupons = () => {
             try {
                 dispatch(showLoader());
                 const response = await getAllCouponsService();
-                // console.log(response);
                 if (response?.status === "success") {
-                    setCoupons(response?.coupon);
-                    setOriginalCoupons(response?.coupon);
+                    setTimeout(() => {
+                        setCoupons(response?.coupon);
+                        setOriginalCoupons(response?.coupon);
+                        dispatch(hideLoader());
+                    }, 500);
                 } else {
                     toast.error(`❌ ${response.message}`);
+                    dispatch(hideLoader());
                 }
             } catch (error) {
                 toast.error("❌ An error occurred while fetching coupons");
                 console.error("Error fetching coupons:", error);
-            } finally {
                 dispatch(hideLoader());
             }
         }
@@ -39,30 +43,29 @@ const AllCoupons = () => {
     }, [dispatch]);
 
     const handleDeleteCoupon = async (couponId) => {
-        // console.log("Coupon ID: ", couponId);
+
         if (!couponId) {
-            toast.error("❌ Invalid coupon ID");
+            toast.error(t("invalid_coupon_id"));
             return;
         }
 
         const result = await Swal.fire({
-            title: "Are you sure?",
-            text: "This coupon will be permanently deleted!",
+            title: t("are_you_sure"),
+            text: t("coupon_will_be_deleted"),
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
             cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "Cancel"
+            confirmButtonText: t("yes_delete"),
+            cancelButtonText: t("cancel")
         });
 
         if (!result.isConfirmed) return;
 
         try {
             const response = await deleteCoupon(couponId);
-            if (response.status === "success") {
-                toast.success("Coupon deleted successfully");
-                // Update UI after delete record
+            if (response?.status === "success") {
+                toast.success(response?.message);
                 setCoupons((prev) => {
                     return prev.filter(coupon => coupon._id !== couponId)
                 });
@@ -70,7 +73,7 @@ const AllCoupons = () => {
                     return prev.filter(coupon => coupon._id !== couponId)
                 });
             } else {
-                toast.error("❌ Coupon not deleted.");
+                toast.error(response?.message);
             }
         } catch (error) {
             console.error("Error deleting coupon:", error);
@@ -80,9 +83,9 @@ const AllCoupons = () => {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        // console.log(search);
+
         if (!search.trim()) {
-            toast.warning("Please enter a search term");
+            toast.warning(t("please_enter_search_term"));
             return;
         }
 
@@ -90,14 +93,17 @@ const AllCoupons = () => {
             dispatch(showLoader());
              const response = await searchCouponsService(search);
             if (response.status === "success") {
-                setCoupons(response.coupon);
+                setTimeout(() => {
+                    setCoupons(response?.coupon);
+                    dispatch(hideLoader());
+                }, 500);
             } else {
-                toast.error(response.message);
+                toast.error(response?.message);
+                dispatch(hideLoader());
             }
         } catch (error) {
-            console.error(error);
-            toast.error("Search failed");
-        } finally {
+            console.error("Error searching coupons:", error);
+            toast.error("❌ An error occurred while searching coupons.");
             dispatch(hideLoader());
         }
     }
@@ -106,18 +112,18 @@ const AllCoupons = () => {
     <div className="main-content-inner">
     <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>All Coupons List</h3>
+            <h3>{t("all_coupons_list")}</h3>
             <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                 <Link to="/">
-                    <div className="text-tiny">Dashboard</div>
+                    <div className="text-tiny">{t("dashboard")}</div>
                 </Link>
                 </li>
                 <li>
                 <i className="icon-chevron-right" />
                 </li>
                 <li>
-                <div className="text-tiny">Coupons</div>
+                <div className="text-tiny">{t("coupons")}</div>
                 </li>
             </ul>
         </div>
@@ -128,7 +134,7 @@ const AllCoupons = () => {
                         <fieldset className="name">
                             <input 
                             type="text" 
-                            placeholder="Search here..." 
+                            placeholder={t("search_here")} 
                             value={search}
                             name="search" 
                             onChange={(e) => setSearch(e.target.value)}
@@ -152,7 +158,7 @@ const AllCoupons = () => {
                         )
                     }
                 </div>
-                <Link className="tf-button style-1 w208" to="/coupon/create"><i className="icon-plus" />Add new coupon</Link>
+                <Link className="tf-button style-1 w208" to="/coupon/create"><i className="icon-plus" />{t("add_new_coupon")}</Link>
             </div>
         { loading && <Loader /> }
         <div className="wg-table table-all-user">
@@ -160,14 +166,14 @@ const AllCoupons = () => {
             <table className="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>SL. NO</th>
-                    <th>Coupon Code</th>
-                    <th>Coupon Type</th>
-                    <th>Discount Amount</th>
-                    <th>Min Purchase</th>
-                    <th>Usage Limit</th>
-                    <th>Expiry Date</th>
-                    <th>Action</th>
+                    <th>{t("sl_no")}</th>
+                    <th>{t("coupon_code")}</th>
+                    <th>{t("coupon_type")}</th>
+                    <th>{t("discount_amount")}</th>
+                    <th>{t("minimum_purchase")}</th>
+                    <th>{t("usage_limit")}</th>
+                    <th>{t("expiry_date")}</th>
+                    <th>{t("actions")}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -212,7 +218,7 @@ const AllCoupons = () => {
                         </tr>
                     ))) : (
                         <tr>
-                            <td colSpan="8" className="text-center">No coupons found.</td>
+                            <td colSpan="8" className="text-center">{t("no_coupons_found")}</td>
                         </tr>
                     )}
 

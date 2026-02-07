@@ -7,43 +7,48 @@ import Loader from '../../components/loader/Loader';
 import { hideLoader, showLoader } from '../../redux/slices/loaderSlice';
 import { createBrandService } from '../../services/brandService';
 
-
 const CreateBrand = () => {
 
-    const { t } = useTranslation()
+    const { t } = useTranslation() // Initialize the translation function
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
-    const formRef = useRef(null);
-    // console.log("loading", loading);
+    const formRef = useRef(null); // Ref for the form element
     const [preview, setPreview] = useState(false);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+
         const formData = new FormData();
+
         const brandName = event.target.brand_name.value;
         const brandImage = event.target.brand_image.files[0];
+
         formData.append('brand_name', brandName);
-        formData.append('brand_image', brandImage);
 
-        // if (!brandName || !brandImage) {
-        //     toast.error("⚠️ All fields are required.");
-        //     return;
-        // }
-
+        if (brandImage) {
+            formData.append('brand_image', brandImage);
+        }
+        
         try {
             dispatch(showLoader());
             const response = await createBrandService(formData);
-            if (response.status === "success") {
-                toast.success("✅ Brand created successfully!");
-                formRef.current.reset();
-                setPreview(false);
-            } else {
-                toast.error(response.message || "❌ Failed to create brand.");
-            }
+            setTimeout(() => {
+                if (response?.status === "success") {
+                    toast.success(response?.message);
+                    formRef.current.reset();
+                    setPreview(false);
+                } else {
+                    toast.error(response?.message);
+                }
+                dispatch(hideLoader());
+            }, 500);
+
         } catch (error) {
-            toast.error("❌ An error occurred while creating the brand.");
-        } finally {
-            dispatch(hideLoader());
+            console.error("Error creating brand:", error);
+            setTimeout(() => {
+                toast.error("❌ An error occurred while creating the brand.");
+                dispatch(hideLoader());
+            }, 500);
         }
 
     }

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
@@ -8,6 +9,7 @@ import { createCategoryService } from "../../services/categoryService";
 
 const CreateCategory = () => {
 
+  const { t } = useTranslation();
   const formRef = useRef(null);
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
@@ -22,22 +24,32 @@ const CreateCategory = () => {
     const category_image = event.target.category_image.files[0];
 
     formData.append('category_name', category_name);
-    formData.append('category_image', category_image);
+
+    if (category_image) {
+      formData.append('category_image', category_image);
+    }
 
     try {
       dispatch(showLoader());
       const response = await createCategoryService(formData);
-      if (response.status === "success") {
-        toast.success("✅ Category created successfully!");
-        formRef.current.reset();
-      }
-      else {
-        toast.error(response.message || "❌ Failed to create category.");
-      }
+      setTimeout(() => {
+        if (response?.status === "success") {
+          toast.success(response?.message);
+          formRef.current.reset();
+        }
+        else {
+          toast.error(response?.message);
+        }
+        dispatch(hideLoader());
+      }, 500);
+
     } catch (error) {
-      toast.error("❌ An error occurred while creating the category.");
-    } finally {
-      dispatch(hideLoader());
+      console.error("Error creating category:", error);
+
+      setTimeout(() => {
+        toast.error("❌ An error occurred while creating the category.");
+        dispatch(hideLoader());
+      }, 500);
     }
   }
 
@@ -46,12 +58,12 @@ const CreateCategory = () => {
       {/* main-content-wrap */}
       <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>Add New Category</h3>
+          <h3>{ t('add_new_category') }</h3>
           { loading && <Loader /> }
           <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
               <Link to="/">
-                <div className="text-tiny">Dashboard</div>
+                <div className="text-tiny">{ t('dashboard') }</div>
               </Link>
             </li>
             <li>
@@ -59,14 +71,14 @@ const CreateCategory = () => {
             </li>
             <li>
               <Link to="/categories">
-                <div className="text-tiny">Categories</div>
+                <div className="text-tiny">{ t('categories') }</div>
               </Link>
             </li>
             <li>
               <i className="icon-chevron-right" />
             </li>
             <li>
-              <div className="text-tiny">New Category</div>
+              <div className="text-tiny">{ t('add_new_category') }</div>
             </li>
           </ul>
         </div>
@@ -79,18 +91,18 @@ const CreateCategory = () => {
           ref={formRef}
           >
             <fieldset className="name">
-              <div className="body-title">Category Name <span className="tf-color-1">*</span>
+              <div className="body-title">{ t('category_name') } <span className="tf-color-1">*</span>
               </div>
               <input 
               className="flex-grow" 
               type="text" 
-              placeholder="Category name" 
+              placeholder={ t('category_name') } 
               name="category_name" 
               />
             </fieldset>
 
             <fieldset>
-              <div className="body-title">Upload images <span className="tf-color-1">*</span>
+              <div className="body-title">{ t('category_image') } <span className="tf-color-1">*</span>
               </div>
               <div className="upload-image flex-grow">
                 {preview && (
@@ -103,8 +115,7 @@ const CreateCategory = () => {
                     <span className="icon">
                       <i className="icon-upload-cloud" />
                     </span>
-                    <span className="body-text">Drop your images here or select <span className="tf-color">click
-                        to browse</span></span>
+                    <span className="body-text">{ t('drop_images') } <span className="tf-color">{ t('click_to_browse') }</span></span>
                     <input 
                     type="file" 
                     id="myFile"
@@ -118,10 +129,13 @@ const CreateCategory = () => {
                 </div>
               </div>
             </fieldset>
-            <div className="bot">
-              <div />
-              <button className="tf-button w208" type="submit">
-                Save
+            <div className="bot"><div />
+              <button 
+              className="tf-button w208" 
+              type="submit"
+              disabled={loading}
+              >
+                {loading ? t("saving") : t("save")}
               </button>
             </div>
           </form>

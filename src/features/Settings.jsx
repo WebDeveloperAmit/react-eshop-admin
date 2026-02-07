@@ -31,10 +31,10 @@ const Settings = () => {
                         <input className="flex-grow" type="text" placeholder="Full Name" name="name" />
                     </fieldset>
 
-                    <fieldset className="name">
+                    {/* <fieldset className="name">
                         <div className="body-title">Mobile Number <span className="tf-color-1">*</span></div>
                         <input className="flex-grow" type="text" placeholder="Mobile Number" name="mobile" />
-                    </fieldset>
+                    </fieldset> */}
 
                     <fieldset className="name">
                         <div className="body-title">Email Address <span className="tf-color-1">*</span></div>

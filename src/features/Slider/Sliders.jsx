@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
@@ -8,6 +9,7 @@ import { getAllSlidersService } from "../../services/sliderService";
 
 const Sliders = () => {
 
+  const { t } = useTranslation();
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.loader.loading);
   const [sliders, setSliders] = useState([]);
@@ -37,18 +39,18 @@ const Sliders = () => {
     <div className="main-content-inner">
       <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>All Sliders</h3>
+          <h3>{t("all_sliders_list")}</h3>
           <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
               <Link to="/">
-                <div className="text-tiny">Dashboard</div>
+                <div className="text-tiny">{t("dashboard")}</div>
               </Link>
             </li>
             <li>
               <i className="icon-chevron-right" />
             </li>
             <li>
-              <div className="text-tiny">Slider</div>
+              <div className="text-tiny">{t("sliders")}</div>
             </li>
           </ul>
         </div>
@@ -57,27 +59,27 @@ const Sliders = () => {
             <div className="wg-filter flex-grow">
               <form className="form-search">
                 <fieldset className="name">
-                  <input type="text" placeholder="Search here..." name="search" />
+                  <input type="text" placeholder={t("search_here")} name="search" />
                 </fieldset>
                 <div className="button-submit">
                   <button className type="submit"><i className="icon-search" /></button>
                 </div>
               </form>
             </div>
-            <Link className="tf-button style-1 w208" to="/slider/create"><i className="icon-plus" />Add new slider</Link>
+            <Link className="tf-button style-1 w208" to="/slider/create"><i className="icon-plus" />{t("add_new_slider")}</Link>
           </div>
           {loading && <Loader />}
           <div className="wg-table table-all-user">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th>SL. NO</th>
-                  <th>Slider Image</th>
-                  <th>Slider Title</th>
-                  <th>Slider Heading</th>
-                  <th>Slider Sub Heading</th>
-                  <th>Category</th>
-                  <th>Action</th>
+                  <th>{t("sl_no")}</th>
+                  <th>{t("slider_image")}</th>
+                  <th>{t("slider_title")}</th>
+                  <th>{t("slider_heading")}</th>
+                  <th>{t("slider_sub_heading")}</th>
+                  <th>{t("category")}</th>
+                  <th>{t("actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -113,7 +115,7 @@ const Sliders = () => {
                 )) 
               ) : (
                   <tr>
-                    <td colSpan="7" className="text-center">No sliders found.</td>
+                    <td colSpan="7" className="text-center">{t("no_sliders_found")}</td>
                   </tr>
               )}
               </tbody>

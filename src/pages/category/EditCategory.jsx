@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -10,6 +11,7 @@ const EditCategory = () => {
 
   const { id: catId } = useParams();
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
@@ -24,21 +26,24 @@ const EditCategory = () => {
       try {
         dispatch(showLoader());
         const response = await editCategoryService(catId);
-        // console.log('response', response)
-        if (response.status === "success") {
-          setCategory(response.data);
+        if (response?.status === "success") {
+          setTimeout(() => {
+            setCategory(response?.data);
+            dispatch(hideLoader());
+          }, 300);
         } else {
-          toast.error(response.message);
+          toast.error(response?.message);
+          dispatch(hideLoader());
         }
       } catch (error) {
         console.error("Error fetching category:", error);
         toast.error(error.message);
-      } finally {
         dispatch(hideLoader());
       }
     }
     fetchCategoryData();
   }, [dispatch, catId]);
+
 
   const handleChange = ((e) => {
     const { name, value } = e.target;
@@ -47,6 +52,7 @@ const EditCategory = () => {
       [name]: value,
     }));
   });
+
 
   const handleFormDataUpdate = async (e) => {
     e.preventDefault();
@@ -65,11 +71,14 @@ const EditCategory = () => {
     try {
       dispatch(showLoader());
       const response = await updateCategoryService(formData, catId);
-      if (response.status === "success") {
-        toast.success(response.message);
-        navigate('/categories');
+      if (response?.status === "success") {
+        setTimeout(() => {
+          navigate('/categories');
+          toast.success(response?.message);
+        }, 300);
       } else {
-        toast.error(response.message);
+        toast.error(response?.message);
+        dispatch(hideLoader());
       }
     } catch (error) {
       console.error("Update category failed:", error);
@@ -77,7 +86,6 @@ const EditCategory = () => {
         error.response?.data?.message ||
         "Failed to update category. Please try again."
       );
-    } finally {
       dispatch(hideLoader());
     }
 
@@ -88,14 +96,14 @@ const EditCategory = () => {
       {/* main-content-wrap */}
       <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>Edit Category</h3>
+          <h3>{t("edit_category")}</h3>
 
           { loading && <Loader /> }
 
             <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
               <li>
                 <Link to="/">
-                  <div className="text-tiny">Dashboard</div>
+                  <div className="text-tiny">{t("dashboard")}</div>
                 </Link>
               </li>
               <li>
@@ -103,14 +111,14 @@ const EditCategory = () => {
               </li>
               <li>
                 <Link to="/categories">
-                  <div className="text-tiny">Categories</div>
+                  <div className="text-tiny">{t("categories")}</div>
                 </Link>
               </li>
               <li>
                 <i className="icon-chevron-right" />
               </li>
               <li>
-                <div className="text-tiny">Edit Category</div>
+                <div className="text-tiny">{t("edit_category")}</div>
               </li>
             </ul>
         </div>
@@ -122,12 +130,12 @@ const EditCategory = () => {
           onSubmit={handleFormDataUpdate}
           >
             <fieldset className="name">
-              <div className="body-title">Category Name <span className="tf-color-1">*</span>
+              <div className="body-title">{t("category_name")} <span className="tf-color-1">*</span>
               </div>
               <input 
               className="flex-grow" 
               type="text" 
-              placeholder="Category name" 
+              placeholder={t("category_name")} 
               name="category_name" 
               value={category.category_name}
               onChange={handleChange}
@@ -135,15 +143,21 @@ const EditCategory = () => {
             </fieldset>
 
             <fieldset>
-              <div className="body-title">Upload images <span className="tf-color-1">*</span>
+                <div className="body-title">{t('old_uploaded_image')}
+                </div>
+                <div className="upload-image flex-grow">
+                  {category?.category_image_url && (
+                    <div className="item" id="imgpreview">
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${category.category_image_url}`} className="effect8" alt="Preview" />
+                    </div>
+                  )}
+                </div>
+            </fieldset>
+
+            <fieldset>
+              <div className="body-title">{t("upload_images")} <span className="tf-color-1">*</span>
               </div>
               <div className="upload-image flex-grow">
-                {category?.category_image_url && (
-                  <div className="item" id="imgpreview">
-                    <span style={{ fontSize: "15px", fontWeight: "800" }}>Old Image:</span>
-                    <img src={`${process.env.REACT_APP_BACKEND_URL}/${category.category_image_url}`} className="effect8" alt="Preview" />
-                  </div>
-                )}
 
                 {preview && (
                   <div className="item" id="imgpreview">
@@ -155,8 +169,7 @@ const EditCategory = () => {
                     <span className="icon">
                       <i className="icon-upload-cloud" />
                     </span>
-                    <span className="body-text">Drop your images here or select <span className="tf-color">click
-                        to browse</span></span>
+                    <span className="body-text">{t("drop_images")} <span className="tf-color">{t("click_to_browse")}</span></span>
                     <input 
                     type="file" 
                     id="myFile"
@@ -170,10 +183,13 @@ const EditCategory = () => {
                 </div>
               </div>
             </fieldset>
-            <div className="bot">
-              <div />
-              <button className="tf-button w208" type="submit">
-                Update
+            <div className="bot"><div />
+              <button 
+              className="tf-button w208" 
+              type="submit"
+              disabled={loading}
+              >
+                {loading ? t('updating') : t('save')}
               </button>
             </div>
           </form>
