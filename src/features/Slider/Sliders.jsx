@@ -20,15 +20,18 @@ const Sliders = () => {
         dispatch(showLoader());
         const response = await getAllSlidersService();
         if (response?.status === "success") {
-          setSliders(response?.slider);
+          setTimeout(() => {
+            setSliders(response?.slider);
+            dispatch(hideLoader());
+          }, 500);
         } else {
           toast.error(`❌ ${response?.message || "Failed to fetch sliders"}`);
           console.error("Failed to fetch sliders:", response?.message);
+          dispatch(hideLoader());
         }
       } catch (error) {
         toast.error("❌ An error occurred while fetching sliders");
         console.error("Error fetching sliders:", error);
-      } finally {
         dispatch(hideLoader());
       }
     }

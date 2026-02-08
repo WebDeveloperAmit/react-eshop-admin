@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
@@ -10,6 +11,7 @@ import { createProductService } from "../../services/productService";
 
 const CreateProduct = () => {
 
+    const {t} = useTranslation();
     const formRef = useRef(null);
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
@@ -22,6 +24,7 @@ const CreateProduct = () => {
         event.preventDefault();
 
         const formData = new FormData();
+
         formData.append("product_name", event.target.product_name.value);
         formData.append("cat_id", event.target.cat_id.value);
         formData.append("brand_id", event.target.brand_id.value);
@@ -58,13 +61,13 @@ const CreateProduct = () => {
         try {
             dispatch(showLoader());
             const response = await createProductService(formData);
-            if (response.status === "success") {
-                toast.success("✅ Product created successfully");
+            if (response?.status === "success") {
+                toast.success(`✅ ${response?.message}`);
                 formRef.current.reset();
                 setThumbnailPreview(null);
                 setGalleryPreviews([]);
             } else {
-                toast.error(`❌ ${response.message}`);
+                toast.error(`❌ ${response?.message}`);
             }
         } catch (error) {
             console.error("Error creating the product:", error);
@@ -79,10 +82,10 @@ const CreateProduct = () => {
         try {
         const response = await getAllCategoriesService('/categories');
         if (response.status === 'success') {
-            setCategories(response.data);
+            setCategories(response?.data);
         } else {
-            toast.error(`❌ ${response.message}`);
-            console.error('Failed to fetch categories:', response.message);
+            toast.error(`❌ ${response?.message}`);
+            console.error('Failed to fetch categories:', response?.message);
         }
         } catch (error) {
         toast.error("❌ An error occurred while fetching categories");
@@ -96,7 +99,7 @@ const CreateProduct = () => {
             if (response?.status === "success") {
                 setBrands(response?.brand);
             } else {
-                toast.error(`❌ ${response.message}`);
+                toast.error(`❌ ${response?.message}`);
             }
         } catch (error) {
             console.error("Error fetching brands:", error);
@@ -112,11 +115,11 @@ const CreateProduct = () => {
       <div className="main-content-inner">
           <div className="main-content-wrap">
               <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-                  <h3>Add Product</h3>
+                  <h3>{t("add_new_product")}</h3>
                   <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
                       <li>
                           <Link to="/">
-                              <div className="text-tiny">Dashboard</div>
+                              <div className="text-tiny">{t("dashboard")}</div>
                           </Link>
                       </li>
                       <li>
@@ -124,14 +127,14 @@ const CreateProduct = () => {
                       </li>
                       <li>
                           <Link to="/products">
-                              <div className="text-tiny">Products</div>
+                              <div className="text-tiny">{t("all_products")}</div>
                           </Link>
                       </li>
                       <li>
                           <i className="icon-chevron-right"></i>
                       </li>
                       <li>
-                          <div className="text-tiny">Add product</div>
+                          <div className="text-tiny">{t("add_new_product")}</div>
                       </li>
                   </ul>
               </div>
@@ -143,16 +146,15 @@ const CreateProduct = () => {
                 >
                     <div className="wg-box">
                         <fieldset className="name">
-                            <div className="body-title mb-10">Product name <span className="tf-color-1">*</span>
+                            <div className="body-title mb-10">{t("product_name")} <span className="tf-color-1">*</span>
                             </div>
                             <input 
                             className="mb-10" 
                             type="text" 
-                            placeholder="Enter product name"
+                            placeholder={t("enter_product_name")}
                             name="product_name" 
                             />
-                            <div className="text-tiny">Do not exceed 100 characters when entering the
-                                product name.</div>
+                            <div className="text-tiny">{t("product_name_limit")}</div>
                         </fieldset>
 
                         {/* <fieldset className="name">
@@ -173,7 +175,7 @@ const CreateProduct = () => {
                                 </div>
                                 <div className="select">
                                     <select name="cat_id">
-                                        <option>Choose category</option>
+                                        <option>{t("select_a_category")}</option>
                                         {categories && categories.length > 0 && categories.map((category) => (
                                             <option key={category._id} value={category._id}>
                                                 {category.category_name}
@@ -187,7 +189,7 @@ const CreateProduct = () => {
                                 </div>
                                 <div className="select">
                                     <select name="brand_id">
-                                        <option>Choose Brand</option>
+                                        <option>{t("select_a_brand")}</option>
                                         {brands && brands.length > 0 && brands.map((brand) => (
                                             <option key={brand._id} value={brand._id}>
                                                 {brand.brand_name}
@@ -199,40 +201,42 @@ const CreateProduct = () => {
                         </div>
 
                         <fieldset className="shortdescription">
-                            <div className="body-title mb-10">Short Description <span className="tf-color-1">*</span></div>
+                            <div className="body-title mb-10">{t("short_description")} <span className="tf-color-1">*</span></div>
                             <textarea 
                             className="mb-10 ht-150" 
                             name="short_desc"
-                            placeholder="Short Description"></textarea>
+                            placeholder={t("short_description")}></textarea>
                         </fieldset>
 
                         <fieldset className="description">
-                            <div className="body-title mb-10">Description <span className="tf-color-1">*</span>
+                            <div className="body-title mb-10">{t("description")} <span className="tf-color-1">*</span>
                             </div>
                             <textarea 
                             className="mb-10" 
                             name="long_desc" 
-                            placeholder="Description"></textarea>
+                            placeholder={t("description")}></textarea>
                         </fieldset>
 
                     </div>
 
                     <div className="wg-box">
                         <fieldset>
-                            <div className="body-title">Upload images <span className="tf-color-1">*</span>
+                            <div className="body-title mb-10">{t("upload_thumbnail_image")} <span className="tf-color-1">*</span>
                             </div>
                             <div className="upload-image flex-grow">
+
                                 {thumbnailPreview && (
                                     <div className="item" id="imgpreview">
                                         <img src={thumbnailPreview} className="effect8" alt="ThumbnailPreview" />
                                     </div>
                                 )}
+
                                 <div id="upload-file" className="item up-load">
                                     <label className="uploadfile" for="myFile">
                                         <span className="icon">
                                             <i className="icon-upload-cloud"></i>
                                         </span>
-                                        <span className="body-text">Drop your images here or select <span className="tf-color">click to browse</span></span>
+                                        <span className="body-text">{t("drop_images")} <span className="tf-color">{t("click_to_browse")}</span></span>
                                         <input 
                                         type="file" 
                                         id="myFile" 
@@ -248,8 +252,9 @@ const CreateProduct = () => {
                         </fieldset>
 
                         <fieldset>
-                            <div className="body-title mb-10">Upload Gallery Images</div>
+                            <div className="body-title mb-10">{t("upload_product_images")}</div>
                             <div className="upload-image mb-16">
+
                                 {galleryPreviews && galleryPreviews.length > 0 && (
                                     galleryPreviews.map((preview, index) => (
                                         <div className="item" id="imgpreview" key={index}>
@@ -257,13 +262,14 @@ const CreateProduct = () => {
                                         </div>
                                     ))
                                 )}
+
                                 <div id="galUpload" className="item up-load">
                                     <label className="uploadfile" for="gFile">
                                         <span className="icon">
                                             <i className="icon-upload-cloud"></i>
                                         </span>
-                                        <span className="text-tiny">Drop your images here or select <span
-                                                className="tf-color">click to browse</span></span>
+                                        <span className="text-tiny">{t("drop_images")} <span
+                                                className="tf-color">{t("click_to_browse")}</span></span>
                                         <input 
                                         type="file" 
                                         id="gFile" 
@@ -284,21 +290,21 @@ const CreateProduct = () => {
 
                         <div className="cols gap22">
                             <fieldset className="name">
-                                <div className="body-title mb-10">Regular Price <span className="tf-color-1">*</span></div>
+                                <div className="body-title mb-10">{t("regular_price")} <span className="tf-color-1">*</span></div>
                                 <input 
                                 className="mb-10" 
                                 type="text" 
-                                placeholder="Enter regular price"
+                                placeholder={t("enter_regular_price")}
                                 name="regular_price" 
                                 />
                             </fieldset>
                             <fieldset className="name">
-                                <div className="body-title mb-10">Sale Price <span
+                                <div className="body-title mb-10">{t("sale_price")} <span
                                         className="tf-color-1">*</span></div>
                                 <input 
                                 className="mb-10" 
                                 type="text" 
-                                placeholder="Enter sale price"
+                                placeholder={t("enter_sale_price")}
                                 name="sale_price" 
                                 />
                             </fieldset>
@@ -307,22 +313,22 @@ const CreateProduct = () => {
 
                         <div className="cols gap22">
                             <fieldset className="name">
-                                <div className="body-title mb-10">SKU <span className="tf-color-1">*</span>
+                                <div className="body-title mb-10">{t("sku")} <span className="tf-color-1">*</span>
                                 </div>
                                 <input 
                                 className="mb-10" 
                                 type="text" 
-                                placeholder="Enter SKU" 
+                                placeholder={t("enter_sku")} 
                                 name="sku"
                                 />
                             </fieldset>
                             <fieldset className="name">
-                                <div className="body-title mb-10">Quantity <span className="tf-color-1">*</span>
+                                <div className="body-title mb-10">{t("quantity")} <span className="tf-color-1">*</span>
                                 </div>
                                 <input 
                                 className="mb-10" 
                                 type="text" 
-                                placeholder="Enter quantity"
+                                placeholder={t("enter_quantity")}
                                 name="qty" 
                                 />
                             </fieldset>
@@ -330,26 +336,26 @@ const CreateProduct = () => {
 
                         <div className="cols gap22">
                             <fieldset className="name">
-                                <div className="body-title mb-10">Stock</div>
+                                <div className="body-title mb-10">{t("stock_status")}</div>
                                 <div className="select mb-10">
                                     <select name="stock_status">
-                                        <option value="in-stock">In Stock</option>
-                                        <option value="out-of-stock">Out of Stock</option>
+                                        <option value="in-stock">{t("in_stock")}</option>
+                                        <option value="out-of-stock">{t("out_of_stock")}</option>
                                     </select>
                                 </div>
                             </fieldset>
                             <fieldset className="name">
-                                <div className="body-title mb-10">Featured</div>
+                                <div className="body-title mb-10">{t("featured")}</div>
                                 <div className="select mb-10">
                                     <select name="is_featured">
-                                        <option value="false">No</option>
-                                        <option value="true">Yes</option>
+                                        <option value="false">{t("no")}</option>
+                                        <option value="true">{t("yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
                         </div>
                         <div className="cols gap10">
-                            <button className="tf-button w-full" type="submit">Add product</button>
+                            <button className="tf-button w-full" type="submit">{t("add_product")}</button>
                         </div>
                     </div>
 

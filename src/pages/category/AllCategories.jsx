@@ -28,7 +28,7 @@ const AllCategories = () => {
             setCategories(fetchCategories?.data);
             setOriginalCategories(fetchCategories?.data);
             dispatch(hideLoader());
-          }, 300);
+          }, 500);
         } else {
           toast.error(fetchCategories?.message);
           dispatch(hideLoader());

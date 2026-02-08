@@ -28,7 +28,7 @@ const AllBrands = () => {
               setBrands(response.brand); // to store the brands to display
               setAllBrands(response.brand); // Store all brands for resetting search
               dispatch(hideLoader());
-            }, 300); // loader duration
+            }, 500);
         } else {
           toast.error(response?.message);
           dispatch(hideLoader());

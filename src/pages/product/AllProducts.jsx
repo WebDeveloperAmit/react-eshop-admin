@@ -1,22 +1,26 @@
-import { Link } from "react-router"
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 const AllProducts = () => {
+
+  const {t} = useTranslation();
+
   return (
     <div className="main-content-inner">
       <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>All Products List</h3>
+          <h3>{t("all_products_list")}</h3>
           <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
               <Link to="/">
-                <div className="text-tiny">Dashboard</div>
+                <div className="text-tiny">{t("dashboard")}</div>
               </Link>
             </li>
             <li>
               <i className="icon-chevron-right" />
             </li>
             <li>
-              <div className="text-tiny">All Products</div>
+              <div className="text-tiny">{t("all_products")}</div>
             </li>
           </ul>
         </div>
@@ -27,7 +31,7 @@ const AllProducts = () => {
                 <fieldset className="name">
                   <input 
                   type="text" 
-                  placeholder="Search here..." 
+                  placeholder={t("search_here")}
                   className="" 
                   name="search" 
                   />
@@ -39,23 +43,20 @@ const AllProducts = () => {
             </div>
             <Link 
             className="tf-button style-1 w208" 
-            to="/product/create"><i className="icon-plus" />Add new product</Link>
+            to="/product/create"><i className="icon-plus" />{t("add_new_product")}</Link>
           </div>
           <div className="table-responsive">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th>SL. NO</th>
-                  <th>Name</th>
-                  <th>Slug</th>
-                  <th>Regular Price</th>
-                  <th>Sale Price</th>
-                  <th>SKU</th>
-                  <th>Is Featured</th>
-                  <th>Stock</th>
-                  <th>Qty</th>
-                  <th>Thumbnail Image</th>
-                  <th>Action</th>
+                  <th>{t("sl_no")}</th>
+                  <th>{t("name")}</th>
+                  <th>{t("regular_price")}</th>
+                  <th>{t("sale_price")}</th>
+                  <th>{t("sku")}</th>
+                  <th>{t("quantity")}</th>
+                  <th>{t("thumbnail_image")}</th>
+                  <th>{t("actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -66,9 +67,6 @@ const AllProducts = () => {
                       <img src="" alt="" className="image" />
                     </div>
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>

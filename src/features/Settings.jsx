@@ -9,7 +9,7 @@ const Settings = () => {
     <div className="main-content-inner">
     <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-        <h3>{t("settings")}</h3>
+        <h3>{t("account_setting")}</h3>
         <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
             <Link to="/">
@@ -20,7 +20,7 @@ const Settings = () => {
             <i className="icon-chevron-right" />
             </li>
             <li>
-            <div className="text-tiny">{t("settings")}</div>
+            <div className="text-tiny">{t("account_setting")}</div>
             </li>
         </ul>
         </div>
