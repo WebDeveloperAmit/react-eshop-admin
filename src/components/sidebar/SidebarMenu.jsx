@@ -148,8 +148,8 @@ const SidebarMenu = () => {
                 </Link>
               </li>
 
-              <li className="menu-item">
-                <Link to='/settings' className="">
+              <li className={`menu-item ${path === '/site-setting' ? 'active' : ''}`}>
+                <Link to='/site-setting' className="">
                   <div className="icon"><i className="icon-settings"></i></div>
                   <div className="text">{t("site_setting")}</div>
                 </Link>

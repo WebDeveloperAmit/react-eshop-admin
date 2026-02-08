@@ -5,6 +5,7 @@ import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './components/layouts/AdminLayout';
 import Settings from './features/Settings';
+import SiteSetting from './features/SiteSetting';
 import AddSlider from './features/Slider/AddSlider';
 import Sliders from './features/Slider/Sliders';
 import Dashboard from './pages/Dashboard';
@@ -77,6 +78,7 @@ function App() {
             <Route path='contact-customers' element={<ContactCustomers />} />
 
             <Route path='settings' element={<Settings />} />
+            <Route path='site-setting' element={<SiteSetting />} />
 
           </Route>
 

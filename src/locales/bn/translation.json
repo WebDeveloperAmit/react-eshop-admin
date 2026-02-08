@@ -135,5 +135,20 @@
   "view_all": "সব দেখুন",
   "new_order": "নতুন অর্ডার",
   "phone": "ফোন",
-  "message": "বার্তা"
+  "message": "বার্তা",
+  "site_name": "সাইট নাম",
+  "site_logo": "সাইট লোগো",
+  "site_info": "সাইট তথ্য",
+  "site_mobile_no": "সাইট মোবাইল নম্বর",
+  "site_email": "সাইট ইমেল",
+  "facebook_url": "ফেসবুক URL",
+  "twitter_url": "টুইটার URL",
+  "instagram_url": "ইনস্টাগ্রাম URL",
+  "linkedin_url": "লিঙ্কডইন URL",
+  "youtube_url": "ইউটিউব URL",
+  "site_address": "সাইট ঠিকানা",
+  "site_social_links": "সাইট সামাজিক লিঙ্ক",
+  "other_settings": "অন্যান্য সেটিংস",
+  "contact_page_heading": "যোগাযোগ পৃষ্ঠা শিরোনাম",
+  "get_in_touch_content": "যোগাযোগে থাকার বিষয়বস্তু"
 }
