@@ -1,3 +1,4 @@
+import { Editor } from "primereact/editor";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ const CreateProduct = () => {
     const [brands, setBrands] = useState([]);
     const[thumbnailPreview, setThumbnailPreview] = useState(null);
     const[galleryPreviews, setGalleryPreviews] = useState([]);
+    const [text, setText] = useState("");
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -202,19 +204,37 @@ const CreateProduct = () => {
 
                         <fieldset className="shortdescription">
                             <div className="body-title mb-10">{t("short_description")} <span className="tf-color-1">*</span></div>
-                            <textarea 
+
+                            <Editor 
+                            name="short_desc"
+                            value={text} 
+                            onTextChange={(e) => setText(e.htmlValue)} 
+                            style={{ height: '200px' }} 
+                            />
+
+                            {/* <textarea 
                             className="mb-10 ht-150" 
                             name="short_desc"
-                            placeholder={t("short_description")}></textarea>
+                            placeholder={t("short_description")}></textarea> */}
+
                         </fieldset>
 
                         <fieldset className="description">
-                            <div className="body-title mb-10">{t("description")} <span className="tf-color-1">*</span>
+                            <div className="body-title mb-10">{t("long_description")} <span className="tf-color-1">*</span>
                             </div>
-                            <textarea 
+
+                            <Editor 
+                            name="long_desc"
+                            value={text} 
+                            onTextChange={(e) => setText(e.htmlValue)} 
+                            style={{ height: '200px' }} 
+                            />
+
+                            {/* <textarea 
                             className="mb-10" 
                             name="long_desc" 
-                            placeholder={t("description")}></textarea>
+                            placeholder={t("description")}></textarea> */}
+
                         </fieldset>
 
                     </div>

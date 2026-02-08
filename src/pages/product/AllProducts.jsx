@@ -62,7 +62,7 @@ const AllProducts = () => {
               <tbody>
                 <tr>
                   <td>6</td>
-                  <td className="pname">
+                  <td>
                     <div className="image">
                       <img src="" alt="" className="image" />
                     </div>

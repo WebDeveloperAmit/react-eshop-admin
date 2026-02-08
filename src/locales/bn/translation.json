@@ -106,7 +106,7 @@
   "add_new_product": "নতুন পণ্য যোগ করুন",
   "product_name": "পণ্যের নাম",
   "short_description": "সংক্ষিপ্ত বিবরণ",
-  "description": "বিবরণ",
+  "long_description": "বিস্তারিত বিবরণ",
   "upload_thumbnail_image": "থাম্বনেইল ছবি আপলোড করুন",
   "upload_product_images": "পণ্যের ছবি আপলোড করুন",
   "regular_price": "নিয়মিত মূল্য",
@@ -163,5 +163,6 @@
   "sub_category_name": "সাবক্যাটেগরির নাম",
   "parent_category": "প্রধান বিভাগের নাম",
   "sub_category_slug": "সাবক্যাটেগরির স্লাগ",
-  "sub_category_image": "সাবক্যাটেগরির ছবি"
+  "sub_category_image": "সাবক্যাটেগরির ছবি",
+  "edit_subcategory": "সাবক্যাটেগরি সম্পাদনা করুন"
 }

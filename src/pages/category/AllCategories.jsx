@@ -155,7 +155,8 @@ const AllCategories = () => {
           </div>
           { loading && <Loader /> }
 
-          <div className="wg-table table-all-user">
+          {/* <div className="wg-table table-all-user"> */}
+          <div className="table-responsive">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>

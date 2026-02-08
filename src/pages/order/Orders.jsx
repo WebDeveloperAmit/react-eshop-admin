@@ -33,50 +33,50 @@ const Orders = () => {
             </form>
             </div>
         </div>
-        <div className="wg-table table-all-user">
+        {/* <div className="wg-table table-all-user"> */}
             <div className="table-responsive">
-            <table className="table table-striped table-bordered">
-                <thead>
-                <tr>
-                    <th style={{width: 70}}>OrderNo</th>
-                    <th className="text-center">Name</th>
-                    <th className="text-center">Phone</th>
-                    <th className="text-center">Subtotal</th>
-                    <th className="text-center">Tax</th>
-                    <th className="text-center">Total</th>
-                    <th className="text-center">Status</th>
-                    <th className="text-center">Order Date</th>
-                    <th className="text-center">Total Items</th>
-                    <th className="text-center">Delivered On</th>
-                    <th />
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td className="text-center">1</td>
-                    <td className="text-center">Divyansh Kumar</td>
-                    <td className="text-center">1234567891</td>
-                    <td className="text-center">$172.00</td>
-                    <td className="text-center">$36.12</td>
-                    <td className="text-center">$208.12</td>
-                    <td className="text-center">ordered</td>
-                    <td className="text-center">2024-07-11 00:54:14</td>
-                    <td className="text-center">2</td>
-                    <td />
-                    <td className="text-center">
-                    <a href="order-details.html">
-                        <div className="list-icon-function view-icon">
-                        <div className="item eye">
-                            <i className="icon-eye" />
-                        </div>
-                        </div>
-                    </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table className="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th style={{width: 70}}>OrderNo</th>
+                        <th className="text-center">Name</th>
+                        <th className="text-center">Phone</th>
+                        <th className="text-center">Subtotal</th>
+                        <th className="text-center">Tax</th>
+                        <th className="text-center">Total</th>
+                        <th className="text-center">Status</th>
+                        <th className="text-center">Order Date</th>
+                        <th className="text-center">Total Items</th>
+                        <th className="text-center">Delivered On</th>
+                        <th />
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td className="text-center">1</td>
+                        <td className="text-center">Divyansh Kumar</td>
+                        <td className="text-center">1234567891</td>
+                        <td className="text-center">$172.00</td>
+                        <td className="text-center">$36.12</td>
+                        <td className="text-center">$208.12</td>
+                        <td className="text-center">ordered</td>
+                        <td className="text-center">2024-07-11 00:54:14</td>
+                        <td className="text-center">2</td>
+                        <td />
+                        <td className="text-center">
+                        <a href="order-details.html">
+                            <div className="list-icon-function view-icon">
+                            <div className="item eye">
+                                <i className="icon-eye" />
+                            </div>
+                            </div>
+                        </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
+        {/* </div> */}
         <div className="divider" />
         <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination">
         </div>

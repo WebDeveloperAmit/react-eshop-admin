@@ -161,8 +161,8 @@ const AllCoupons = () => {
                 <Link className="tf-button style-1 w208" to="/coupon/create"><i className="icon-plus" />{t("add_new_coupon")}</Link>
             </div>
         { loading && <Loader /> }
-        <div className="wg-table table-all-user">
-            <div className="table-responsive">
+        {/* <div className="wg-table table-all-user"> */}
+        <div className="table-responsive">
             <table className="table table-striped table-bordered">
                 <thead>
                 <tr>
@@ -224,8 +224,8 @@ const AllCoupons = () => {
 
                 </tbody>
             </table>
-            </div>
         </div>
+        {/* </div> */}
         <div className="divider" />
         <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination">
         </div>

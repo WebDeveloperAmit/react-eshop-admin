@@ -164,7 +164,7 @@ const AllBrands = () => {
             to="/brand/create"><i className="icon-plus" />{ t('add_new_brand') }</Link>
           </div>
           { loading && <Loader /> }
-          <div className="wg-table table-all-user">
+          {/* <div className="wg-table table-all-user"> */}
             <div className="table-responsive">
               <table className="table table-striped table-bordered">
                 <thead>
@@ -218,7 +218,7 @@ const AllBrands = () => {
             <div className="divider" />
             <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination">
             </div>
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>

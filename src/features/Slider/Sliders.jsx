@@ -72,7 +72,7 @@ const Sliders = () => {
             <Link className="tf-button style-1 w208" to="/slider/create"><i className="icon-plus" />{t("add_new_slider")}</Link>
           </div>
           {loading && <Loader />}
-          <div className="wg-table table-all-user">
+          <div className="table-responsive">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>

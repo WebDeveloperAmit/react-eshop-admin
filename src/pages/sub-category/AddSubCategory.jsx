@@ -55,6 +55,15 @@ const [preview, setPreview] = useState(null);
               />
             </fieldset>
 
+            <fieldset className="category">
+                <div className="body-title">{t("parent_category")} <span className="tf-color-1">*</span></div>
+                <div className="select flex-grow">
+                    <select name="parent_category" id="parent_category">
+                        <option value>{t("select")}</option>
+                    </select>
+                </div>
+            </fieldset>
+
             <fieldset>
               <div className="body-title">{ t('sub_category_image') } <span className="tf-color-1">*</span>
               </div>
@@ -100,6 +109,7 @@ const [preview, setPreview] = useState(null);
     </div>
 
   )
+  
 }
 
 export default AddSubCategory

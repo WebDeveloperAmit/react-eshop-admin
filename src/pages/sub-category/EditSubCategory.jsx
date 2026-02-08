@@ -12,34 +12,31 @@ const [preview, setPreview] = useState(null);
 
   return (
     <div className="main-content-inner">
-      {/* main-content-wrap */}
       <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-          <h3>{t("edit_category")}</h3>
-
+          <h3>{ t('edit_subcategory') }</h3>
           { loading && <Loader /> }
-
-            <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
-              <li>
-                <Link to="/">
-                  <div className="text-tiny">{t("dashboard")}</div>
-                </Link>
-              </li>
-              <li>
-                <i className="icon-chevron-right" />
-              </li>
-              <li>
-                <Link to="/categories">
-                  <div className="text-tiny">{t("categories")}</div>
-                </Link>
-              </li>
-              <li>
-                <i className="icon-chevron-right" />
-              </li>
-              <li>
-                <div className="text-tiny">{t("edit_category")}</div>
-              </li>
-            </ul>
+          <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
+            <li>
+              <Link to="/">
+                <div className="text-tiny">{ t('dashboard') }</div>
+              </Link>
+            </li>
+            <li>
+              <i className="icon-chevron-right" />
+            </li>
+            <li>
+              <Link to="/categories">
+                <div className="text-tiny">{ t('categories') }</div>
+              </Link>
+            </li>
+            <li>
+              <i className="icon-chevron-right" />
+            </li>
+            <li>
+              <div className="text-tiny">{ t('edit_subcategory') }</div>
+            </li>
+          </ul>
         </div>
 
         {/* new-category */}
@@ -48,30 +45,27 @@ const [preview, setPreview] = useState(null);
           className="form-new-product form-style-1" 
           >
             <fieldset className="name">
-              <div className="body-title">{t("category_name")} <span className="tf-color-1">*</span>
+              <div className="body-title">{ t('sub_category_name') } <span className="tf-color-1">*</span>
               </div>
               <input 
               className="flex-grow" 
               type="text" 
-              placeholder={t("category_name")} 
-              name="category_name" 
+              placeholder={ t('sub_category_name') } 
+              name="sub_category_name" 
               />
             </fieldset>
 
-            <fieldset>
-                <div className="body-title">{t('old_uploaded_image')}
-                </div>
-                <div className="upload-image flex-grow">
-                  {/* {category?.category_image_url && (
-                    <div className="item" id="imgpreview">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${category.category_image_url}`} className="effect8" alt="Preview" />
-                    </div>
-                  )} */}
+            <fieldset className="category">
+                <div className="body-title">{t("parent_category")} <span className="tf-color-1">*</span></div>
+                <div className="select flex-grow">
+                    <select name="parent_category" id="parent_category">
+                        <option value>{t("select")}</option>
+                    </select>
                 </div>
             </fieldset>
 
             <fieldset>
-              <div className="body-title">{t("upload_images")} <span className="tf-color-1">*</span>
+              <div className="body-title">{ t('sub_category_image') } <span className="tf-color-1">*</span>
               </div>
               <div className="upload-image flex-grow">
 
@@ -86,14 +80,14 @@ const [preview, setPreview] = useState(null);
                     <span className="icon">
                       <i className="icon-upload-cloud" />
                     </span>
-                    <span className="body-text">{t("drop_images")} <span className="tf-color">{t("click_to_browse")}</span></span>
+                    <span className="body-text">{ t('drop_images') } <span className="tf-color">{ t('click_to_browse') }</span></span>
                     <input 
                     type="file" 
                     id="myFile"
-                    name="category_image" 
+                    name="sub_category_image" 
                     accept="image/*" 
                     onChange={(e) => {
-                      setPreview(URL.createObjectURL(e.target.files[0]))
+                      setPreview(URL.createObjectURL(e.target.files[0]));
                     }}
                     />
                   </label>
@@ -106,14 +100,16 @@ const [preview, setPreview] = useState(null);
               type="submit"
               disabled={loading}
               >
-                {loading ? t('updating') : t('save')}
+                {loading ? t("updating") : t("save")}
               </button>
             </div>
           </form>
         </div>
       </div>
     </div>
+
   )
+
 }
 
 export default EditSubCategory

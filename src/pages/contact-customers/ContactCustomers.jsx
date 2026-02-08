@@ -48,8 +48,8 @@ const { t } = useTranslation();
                     </div>
                 </div>
 
-                <div className="wg-table table-all-user">
-                    <div className="table-responsive">
+                {/* <div className="wg-table table-all-user"> */}
+                <div className="table-responsive">
                     <table className="table table-striped table-bordered">
                         <thead>
                         <tr>
@@ -80,8 +80,8 @@ const { t } = useTranslation();
                         </tr>
                         </tbody>
                     </table>
-                    </div>
                 </div>
+                {/* </div> */}
 
                 <div className="divider" />
                 <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination">

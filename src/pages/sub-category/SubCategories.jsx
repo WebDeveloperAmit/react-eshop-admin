@@ -53,7 +53,7 @@ const loading = useSelector((state) => state.loader.loading);
 
           { loading && <Loader /> }
 
-          <div className="wg-table table-all-user">
+          <div className="table-responsive">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -72,13 +72,26 @@ const loading = useSelector((state) => state.loader.loading);
                     <td>Sub Category Name</td>
                     <td>Parent Category Name</td>
                     <td>sub-category-slug</td>
-                    <td><img src="https://via.placeholder.com/50" alt="Sub Category" /></td>
+                    <td>
+                        <img src="https://via.placeholder.com/50" alt="Sub Category" />
+                    </td>
                     <td>2024-01-01</td>
                     <td>
-                      <div className="flex items-center gap10">
-                        <Link to="/subcategory/1/edit" className="tf-button style-2 w80"><i className="icon-edit" /></Link>
-                        <button className="tf-button style-3 w80"><i className="icon-trash" /></button>
-                      </div>
+                        <div className="list-icon-function">
+                            
+                            <Link to={`/subcategory/edit/1`}>
+                                <div className="item edit">
+                                    <i className="icon-edit-3" />
+                                </div>
+                            </Link>
+                            
+                            <div 
+                            className="item text-danger delete"
+                            style={{ cursor: "pointer" }}
+                            >
+                                <i className="icon-trash-2" />
+                            </div>
+                        </div>
                     </td>
                 </tr>
 

@@ -103,7 +103,7 @@
   "add_new_product": "Add New Product",
   "product_name": "Product Name",
   "short_description": "Short Description",
-  "Description": "Description",
+  "long_description": "Long Description",
   "upload_thumbnail_image": "Upload thumbnail image",
   "upload_product_images": "Upload product images",
   "regular_price": "Regular Price",
@@ -160,5 +160,6 @@
   "sub_category_name": "Sub Category Name",
   "parent_category": "Parent Category",
   "sub_category_slug": "Sub Category Slug",
-  "sub_category_image": "Sub Category Image"
+  "sub_category_image": "Sub Category Image",
+  "edit_subcategory": "Edit Sub Category"
 }
