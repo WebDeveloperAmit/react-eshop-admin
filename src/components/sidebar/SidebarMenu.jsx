@@ -100,6 +100,26 @@ const SidebarMenu = () => {
 
               <hr />
 
+              {/* Sub Category Sections */}
+
+              <li className={`menu-item ${path === '/subcategory/create' ? 'active' : ''}`}>
+                <Link to="/subcategory/create" className="">
+                  <div className="icon"><i className="icon-layers"></i></div>
+                  <div className="text">{t("new_subcategory")}</div>
+                </Link>
+              </li>
+
+              <li className={`menu-item ${path === '/subcategories' ? 'active' : ''}`}>
+                <Link to="/subcategories" className="">
+                  <div className="icon"><i className="icon-layers"></i></div>
+                  <div className="text">{t("all_subcategories")}</div>
+                </Link>
+              </li>
+
+              {/* END  Sub Category Section */}
+
+              <hr />
+
               {/* Order Sections */}
 
               <li className={`menu-item ${path === '/orders' ? 'active' : ''}`}>
@@ -145,6 +165,13 @@ const SidebarMenu = () => {
                 <Link to='/settings' className="">
                   <div className="icon"><i className="icon-settings"></i></div>
                   <div className="text">{t("account_setting")}</div>
+                </Link>
+              </li>
+
+              <li className={`menu-item ${path === '/newsletters' ? 'active' : ''}`}>
+                <Link to='/newsletters' className="">
+                  <div className="icon"><i className="icon-grid"></i></div>
+                  <div className="text">{t("newsletters")}</div>
                 </Link>
               </li>
 

@@ -5,14 +5,13 @@ import { BsTwitterX } from "react-icons/bs";
 import { FaFacebookSquare, FaYoutube } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
 import { GrLinkedin } from "react-icons/gr";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router";
 
 
 const SiteSetting = () => {
 
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader.loading);
   const [text, setText] = useState("");
 
@@ -158,6 +157,24 @@ const SiteSetting = () => {
                               style={{ height: '200px' }} 
                               />
                           </fieldset>
+
+                            <div className="my-3">
+                              <h5 className="text-uppercase mb-0">{t("home_page_sections")}</h5>
+                            </div>
+                        
+                            <fieldset className="name">
+                                <div className="body-title">{t("home_page_section_name")} <span className="tf-color-1">*</span></div>
+                                <input className="flex-grow" type="text" placeholder={t("home_page_section_name")} name="home_page_section_name" />
+                            </fieldset>
+
+                            <fieldset className="name">
+                                <div className="body-title">{t("home_page_section_content")} <span className="tf-color-1">*</span></div>
+                                <Editor 
+                                value={text} 
+                                onTextChange={(e) => setText(e.htmlValue)} 
+                                style={{ height: '200px' }} 
+                                />
+                            </fieldset>
 
                           <div className="col-md-12">
                               <div className="my-3">

@@ -147,5 +147,18 @@
   "site_social_links": "Site Social Links",
   "other_settings": "Other Settings",
   "contact_page_heading": "Contact Page Heading",
-  "get_in_touch_content": "Get In Touch Content"
+  "get_in_touch_content": "Get In Touch Content",
+  "newsletters": "Newsletters",
+  "all_newsletters": "All Newsletters",
+  "home_page_sections": "Home Page Sections",
+  "home_page_section_name": "Home Page Section Name",
+  "home_page_section_content": "Home Page Section Content",
+  "new_subcategory": "New Sub Category",
+  "all_subcategories": "All Sub Categories",
+  "all_sub_categories_list": "All Sub Categories List",
+  "add_new_subcategory": "Add New Sub Category",
+  "sub_category_name": "Sub Category Name",
+  "parent_category": "Parent Category",
+  "sub_category_slug": "Sub Category Slug",
+  "sub_category_image": "Sub Category Image"
 }

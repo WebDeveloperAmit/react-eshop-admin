@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './components/layouts/AdminLayout';
+import Newslatters from './features/Newsletter/Newslatters';
 import Settings from './features/Settings';
 import SiteSetting from './features/SiteSetting';
 import AddSlider from './features/Slider/AddSlider';
@@ -24,6 +25,9 @@ import EditCoupon from './pages/coupon/EditCoupon';
 import Orders from './pages/order/Orders';
 import AllProducts from './pages/product/AllProducts';
 import CreateProduct from './pages/product/CreateProduct';
+import AddSubCategory from './pages/sub-category/AddSubCategory';
+import EditSubCategory from './pages/sub-category/EditSubCategory';
+import SubCategories from './pages/sub-category/SubCategories';
 import Users from './pages/user/Users';
 
 
@@ -64,6 +68,11 @@ function App() {
             <Route path='categories' element={<AllCategories />} />
             <Route path='category/edit/:id' element={<EditCategory />} />
 
+            {/* Sub Category */}
+            <Route path='subcategory/create' element={<AddSubCategory />} />
+            <Route path='subcategories' element={<SubCategories />} />
+            <Route path='subcategory/:id/edit' element={<EditSubCategory />} />
+
             <Route path='orders' element={<Orders />} />
             <Route path='slider/create' element={<AddSlider />} />
             <Route path='sliders' element={<Sliders />} />
@@ -79,6 +88,8 @@ function App() {
 
             <Route path='settings' element={<Settings />} />
             <Route path='site-setting' element={<SiteSetting />} />
+
+            <Route path='newsletters' element={<Newslatters />} />
 
           </Route>
 

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
-const ContactCustomers = () => {
+const Newslatters = () => {
 
 const { t } = useTranslation();
 
@@ -10,7 +10,7 @@ const { t } = useTranslation();
         <div className="main-content-wrap">
 
             <div className="flex items-center flex-wrap justify-between gap20 mb-27">
-                <h3>{t("all_contact_customers")}</h3>
+                <h3>{t("all_newsletters")}</h3>
                 <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
                     <Link to="/">
@@ -21,7 +21,7 @@ const { t } = useTranslation();
                     <i className="icon-chevron-right" />
                     </li>
                     <li>
-                    <div className="text-tiny">{t("all_contact_customers")}</div>
+                    <div className="text-tiny">{t("all_newsletters")}</div>
                     </li>
                 </ul>
             </div>
@@ -50,46 +50,41 @@ const { t } = useTranslation();
 
                 <div className="wg-table table-all-user">
                     <div className="table-responsive">
-                    <table className="table table-striped table-bordered">
-                        <thead>
-                        <tr>
-                            <th>{t("sl_no")}</th>
-                            <th>{t("full_name")}</th>
-                            <th>{t("phone")}</th>
-                            <th>{t("email")}</th>
-                            <th className="text-center">{t("message")}</th>
-                            <th>{t("actions")}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>1234567890</td>
-                            <td>admin@surfsidemedia.in</td>
-                            <td className="text-center"><Link to="#" target="_blank">0</Link></td>
-                            <td>
-                            <div className="list-icon-function">
-                                <Link to="#">
-                                <div className="item text-danger delete" style={{ cursor: "pointer" }}>
-                                    <i className="icon-trash-2" />
-                                </div>
-                                </Link>
-                            </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                        <table className="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>{t("sl_no")}</th>
+                                <th>{t("full_name")}</th>
+                                <th>{t("email")}</th>
+                                <th>{t("actions")}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Amit Das</td>
+                                <td>admin@surfsidemedia.in</td>
+                                <td>
+                                    <div className="list-icon-function">
+                                        <Link to="#">
+                                        <div className="item text-danger delete" style={{ cursor: "pointer" }}>
+                                            <i className="icon-trash-2" />
+                                        </div>
+                                        </Link>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
                 <div className="divider" />
-                <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                </div>
+                <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination"></div>
             </div>
         </div>
     </div>
   )
 }
 
-export default ContactCustomers
+export default Newslatters

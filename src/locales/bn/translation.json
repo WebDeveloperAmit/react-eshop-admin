@@ -150,5 +150,18 @@
   "site_social_links": "সাইট সামাজিক লিঙ্ক",
   "other_settings": "অন্যান্য সেটিংস",
   "contact_page_heading": "যোগাযোগ পৃষ্ঠা শিরোনাম",
-  "get_in_touch_content": "যোগাযোগে থাকার বিষয়বস্তু"
+  "get_in_touch_content": "যোগাযোগে থাকার বিষয়বস্তু",
+  "newsletters": "নিউজলেটার",
+  "all_newsletters": "সমস্ত নিউজলেটার",
+  "home_page_sections": "হোম পেজ অংশগুলি",
+  "home_page_section_name": "হোম পেজ অংশের নাম",
+  "home_page_section_content": "হোম পেজ অংশের বিবরণ",
+  "new_subcategory": "নতুন সাবক্যাটেগরি",
+  "all_subcategories": "সমস্ত সাবক্যাটেগরি",
+  "all_sub_categories_list": "সমস্ত সাবক্যাটেগরি তালিকা",
+  "add_new_subcategory": "নতুন সাবক্যাটেগরি যোগ করুন",
+  "sub_category_name": "সাবক্যাটেগরির নাম",
+  "parent_category": "প্রধান বিভাগের নাম",
+  "sub_category_slug": "সাবক্যাটেগরির স্লাগ",
+  "sub_category_image": "সাবক্যাটেগরির ছবি"
 }
