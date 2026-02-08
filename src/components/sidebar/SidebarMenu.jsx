@@ -134,8 +134,8 @@ const SidebarMenu = () => {
                 </Link>
               </li>
 
-              <li className="menu-item">
-                <Link to="/users" className="">
+              <li className={`menu-item ${path === '/contact-customers' ? 'active' : ''}`}>
+                <Link to="/contact-customers" className="">
                   <div className="icon"><i className="icon-user"></i></div>
                   <div className="text">{t("all_contact_customers")}</div>
                 </Link>

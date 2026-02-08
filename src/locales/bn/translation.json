@@ -131,5 +131,9 @@
   "enter_sku": "SKU লিখুন",
   "select_a_brand": "একটি ব্র্যান্ড নির্বাচন করুন",
   "all_products_list": "সমস্ত পণ্যের তালিকা",
-  "thumbnail_image": "থাম্বনেইল ছবি"
+  "thumbnail_image": "থাম্বনেইল ছবি",
+  "view_all": "সব দেখুন",
+  "new_order": "নতুন অর্ডার",
+  "phone": "ফোন",
+  "message": "বার্তা"
 }

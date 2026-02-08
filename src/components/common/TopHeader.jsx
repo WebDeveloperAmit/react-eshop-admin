@@ -236,20 +236,20 @@ const TopHeader = () => {
                   <li>
                     <div className="message-item item-4">
                       <div className="image">
-                        <i className="icon-noti-4"></i>
+                        <i className="icon-shopping-bag"></i>
                       </div>
                       <div>
-                        <div className="body-title-2">
-                          Order pending: <span>ID 305830</span>
-                        </div>
-                        <div className="text-tiny">
-                          Ultricies at rhoncus at ullamcorper
-                        </div>
+                        <Link to={`/`} className="body-title-2">
+                          <small>
+                            <em>{t("new_order")}:</em>
+                          </small>{" "}
+                          <span>ID 305830</span>
+                        </Link>
                       </div>
                     </div>
                   </li>
                   <li>
-                    <Link to='' className="tf-button w-full">View all</Link>
+                    <Link to={`/orders`} className="tf-button w-full">{t("view_all")}</Link>
                   </li>
                 </ul>
               </div>

@@ -128,5 +128,9 @@
   "enter_sku": "Enter SKU",
   "select_a_brand": "Select a brand",
   "all_products_list": "All Products List",
-  "thumbnail_image": "Thumbnail Image"
+  "thumbnail_image": "Thumbnail Image",
+  "view_all": "View all",
+  "new_order": "New order",
+  "phone": "Phone",
+  "message": "Message"
 }

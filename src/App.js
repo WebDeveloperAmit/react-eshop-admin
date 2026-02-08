@@ -16,6 +16,7 @@ import EditBrand from './pages/brand/EditBrand';
 import AllCategories from './pages/category/AllCategories';
 import CreateCategory from './pages/category/CreateCategory';
 import EditCategory from './pages/category/EditCategory';
+import ContactCustomers from './pages/contact-customers/ContactCustomers';
 import AllCoupons from './pages/coupon/AllCoupons';
 import CreateCoupon from './pages/coupon/CreateCoupon';
 import EditCoupon from './pages/coupon/EditCoupon';
@@ -72,6 +73,9 @@ function App() {
             <Route path='coupon/edit/:id' element={<EditCoupon />} />
 
             <Route path='users' element={<Users />} />
+
+            <Route path='contact-customers' element={<ContactCustomers />} />
+
             <Route path='settings' element={<Settings />} />
 
           </Route>
