@@ -1,11 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 
 const SidebarMenu = () => {
 
+  const {t} = useTranslation();
   const location  = useLocation();
-  // console.log(location);
   const path = location.pathname;
-  // console.log('path', path);
 
   return (
     <>
@@ -27,12 +27,12 @@ const SidebarMenu = () => {
         </div>
         <div className="center">
           <div className="center-item">
-            <div className="center-heading">Main Home</div>
+            <div className="center-heading">{t("main_homepage")}</div>
             <ul className="menu-list">
               <li className={`menu-item ${path === '/' ? 'active' : ''}`}>
                 <Link to='/' className="">
                   <div className="icon"><i className="icon-grid"></i></div>
-                  <div className="text">Dashboard</div>
+                  <div className="text">{t("dashboard")}</div>
                 </Link>
               </li>
             </ul>
@@ -45,14 +45,14 @@ const SidebarMenu = () => {
               <li className={`menu-item ${path === '/product/create' ? 'active' : ''}`}>
                 <Link to="/product/create" className="">
                   <div className="icon"><i className="icon-shopping-cart"></i></div>
-                  <div className="text">New Product</div>
+                  <div className="text">{t("new_products")}</div>
                 </Link>
               </li>
 
               <li className={`menu-item ${path === '/products' ? 'active' : ''}`}>
                 <Link to="/products" className="">
                   <div className="icon"><i className="icon-shopping-cart"></i></div>
-                  <div className="text">All Products</div>
+                  <div className="text">{t("all_products")}</div>
                 </Link>
               </li>
 
@@ -65,14 +65,14 @@ const SidebarMenu = () => {
               <li className={`menu-item ${path === '/brand/create' ? 'active' : ''}`}>
                 <Link to="/brand/create" className="">
                   <div className="icon"><i className="icon-layers"></i></div>
-                  <div className="text">New Brand</div>
+                  <div className="text">{t("new_brand")}</div>
                 </Link>
               </li>
 
               <li className={`menu-item ${path === '/brands' ? 'active' : ''}`}>
                 <Link to="/brands" className="">
                   <div className="icon"><i className="icon-layers"></i></div>
-                  <div className="text">All Brands</div>
+                  <div className="text">{t("all_brands")}</div>
                 </Link>
               </li>
 
@@ -85,14 +85,14 @@ const SidebarMenu = () => {
               <li className={`menu-item ${path === '/category/create' ? 'active' : ''}`}>
                 <Link to="/category/create" className="">
                   <div className="icon"><i className="icon-layers"></i></div>
-                  <div className="text">New Category</div>
+                  <div className="text">{t("new_category")}</div>
                 </Link>
               </li>
 
               <li className={`menu-item ${path === '/categories' ? 'active' : ''}`}>
                 <Link to="/categories" className="">
                   <div className="icon"><i className="icon-layers"></i></div>
-                  <div className="text">All Categories</div>
+                  <div className="text">{t("all_categories")}</div>
                 </Link>
               </li>
 
@@ -105,7 +105,7 @@ const SidebarMenu = () => {
               <li className={`menu-item ${path === '/orders' ? 'active' : ''}`}>
                 <Link to="/orders" className="">
                   <div className="icon"><i className="icon-layers"></i></div>
-                  <div className="text">All Orders</div>
+                  <div className="text">{t("all_orders")}</div>
                 </Link>
               </li>
 
@@ -116,28 +116,35 @@ const SidebarMenu = () => {
               <li className={`menu-item ${path === '/slider/create' || path === '/sliders' ? 'active' : ''}`}>
                 <Link to='/sliders' className="">
                   <div className="icon"><i className="icon-image"></i></div>
-                  <div className="text">Slider</div>
+                  <div className="text">{t("banner_slider")}</div>
                 </Link>
               </li>
 
               <li className={`menu-item ${path === '/coupon/create' || path === '/coupons' ? 'active' : ''}`}>
                 <Link to="/coupons" className="">
                   <div className="icon"><i className="icon-grid"></i></div>
-                  <div className="text">Coupons</div>
+                  <div className="text">{t("coupons")}</div>
                 </Link>
               </li>
 
               <li className={`menu-item ${path === '/users' ? 'active' : ''}`}>
                 <Link to="/users" className="">
                   <div className="icon"><i className="icon-user"></i></div>
-                  <div className="text">User</div>
+                  <div className="text">{t("all_users")}</div>
+                </Link>
+              </li>
+
+              <li className="menu-item">
+                <Link to="/users" className="">
+                  <div className="icon"><i className="icon-user"></i></div>
+                  <div className="text">{t("all_contact_customers")}</div>
                 </Link>
               </li>
 
               <li className={`menu-item ${path === '/settings' ? 'active' : ''}`}>
                 <Link to='/settings' className="">
                   <div className="icon"><i className="icon-settings"></i></div>
-                  <div className="text">Settings</div>
+                  <div className="text">{t("settings")}</div>
                 </Link>
               </li>
             </ul>

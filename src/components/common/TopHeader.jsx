@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import LanguageDropdown from '../LanguageDropdown';
 
 const TopHeader = () => {
 
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
@@ -60,7 +62,7 @@ const TopHeader = () => {
               <fieldset className="name">
                 <input
                   type="text"
-                  placeholder="Search here..."
+                  placeholder={t("search_here")}
                   className="show-search"
                   name="name"
                   tabIndex="2"
@@ -228,7 +230,7 @@ const TopHeader = () => {
                   aria-labelledby="dropdownMenuButton2"
                 >
                   <li>
-                    <h6>Notifications</h6>
+                    <h6>{t("notifications")}</h6>
                   </li>
 
                   <li>
@@ -281,7 +283,7 @@ const TopHeader = () => {
                       <div className="icon">
                         <i className="icon-user"></i>
                       </div>
-                      <div className="body-title-2">Account</div>
+                      <div className="body-title-2">{t("account")}</div>
                     </Link>
                   </li>
 
@@ -294,7 +296,7 @@ const TopHeader = () => {
                       <div className="icon">
                         <i className="icon-log-out"></i>
                       </div>
-                      <div className="body-title-2">Log out</div>
+                      <div className="body-title-2">{t("log_out")}</div>
                     </Link>
                   </li>
                 </ul>

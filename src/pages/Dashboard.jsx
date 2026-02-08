@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
+
+  const { t } = useTranslation();
+
   return (
     <>
         <div className="main-content-inner">
           <div className="main-content-wrap">
-            <div className="tf-section-2 mb-30">
+            <div className="mb-30">
               <div className="flex gap20 flex-wrap-mobile">
                 <div className="w-half">
                   <div className="wg-chart-default mb-20">
@@ -15,7 +18,7 @@ const Dashboard = () => {
                           <i className="icon-shopping-bag"></i>
                         </div>
                         <div>
-                          <div className="body-text mb-2">Total Orders</div>
+                          <div className="body-text mb-2">{t("total_orders")}</div>
                           <h4>3</h4>
                         </div>
                       </div>
@@ -26,10 +29,10 @@ const Dashboard = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap14">
                         <div className="image ic-bg">
-                          <i className="icon-dollar-sign"></i>
+                          <i className="icon-shopping-bag"></i>
                         </div>
                         <div>
-                          <div className="body-text mb-2">Total Amount</div>
+                          <div className="body-text mb-2">{t("total_brands")}</div>
                           <h4>481.34</h4>
                         </div>
                       </div>
@@ -43,7 +46,7 @@ const Dashboard = () => {
                           <i className="icon-shopping-bag"></i>
                         </div>
                         <div>
-                          <div className="body-text mb-2">Pending Orders</div>
+                          <div className="body-text mb-2">{t("total_categories")}</div>
                           <h4>3</h4>
                         </div>
                       </div>
@@ -54,11 +57,12 @@ const Dashboard = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap14">
                         <div className="image ic-bg">
-                          <i className="icon-dollar-sign"></i>
+                          {/* <i className="icon-dollar-sign"></i> */}
+                          <i className="icon-shopping-bag"></i>
                         </div>
                         <div>
                           <div className="body-text mb-2">
-                            Pending Orders Amount
+                            {t("total_pending_orders")}
                           </div>
                           <h4>481.34</h4>
                         </div>
@@ -75,9 +79,7 @@ const Dashboard = () => {
                           <i className="icon-shopping-bag"></i>
                         </div>
                         <div>
-                          <div className="body-text mb-2">
-                            Delivered Orders
-                          </div>
+                          <div className="body-text mb-2">{t("total_products")}</div>
                           <h4>0</h4>
                         </div>
                       </div>
@@ -88,11 +90,11 @@ const Dashboard = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap14">
                         <div className="image ic-bg">
-                          <i className="icon-dollar-sign"></i>
+                          <i className="icon-shopping-bag"></i>
                         </div>
                         <div>
                           <div className="body-text mb-2">
-                            Delivered Orders Amount
+                            {t("total_slider_banners")}
                           </div>
                           <h4>0.00</h4>
                         </div>
@@ -108,7 +110,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                           <div className="body-text mb-2">
-                            Canceled Orders
+                            {t("total_customers")}
                           </div>
                           <h4>0</h4>
                         </div>
@@ -120,11 +122,12 @@ const Dashboard = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap14">
                         <div className="image ic-bg">
-                          <i className="icon-dollar-sign"></i>
+                          {/* <i className="icon-dollar-sign"></i> */}
+                          <i className="icon-shopping-bag"></i>
                         </div>
                         <div>
                           <div className="body-text mb-2">
-                            Canceled Orders Amount
+                            {t("total_canceled_orders")}
                           </div>
                           <h4>0.00</h4>
                         </div>
@@ -134,7 +137,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="wg-box">
+              {/* <div className="wg-box">
                 <div className="flex items-center justify-between">
                   <h5>Earnings revenue</h5>
                   <div className="dropdown default">
@@ -184,9 +187,12 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div id="line-chart-8"></div>
-              </div>
+              </div> */}
+
+
             </div>
-            <div className="tf-section mb-30">
+
+            {/* <div className="tf-section mb-30">
               <div className="wg-box">
                 <div className="flex items-center justify-between">
                   <h5>Recent orders</h5>
@@ -243,7 +249,8 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+
           </div>
 
           {/* <LineChart /> */}
