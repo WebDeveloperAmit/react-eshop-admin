@@ -10,7 +10,7 @@ import { Link } from "react-router";
 import { toast } from "react-toastify";
 import Loader from "../components/loader/Loader";
 import { hideLoader, showLoader } from "../redux/slices/loaderSlice";
-import { getSettings } from "../services/settingService";
+import { getSettings, updateSettings } from "../services/settingService";
 
 
 const SiteSetting = () => {
@@ -18,7 +18,7 @@ const SiteSetting = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
-    const [text, setText] = useState("");
+    const [preview, setPreview] = useState(null);
     const [siteSettings, setSiteSettings] = useState({
         site_name: "",
         site_logo: "",
@@ -61,6 +61,52 @@ const SiteSetting = () => {
         fetchSiteSettings();
     },[dispatch]);
 
+    const handleChangeValue = (event) => {
+        const {name, value} = event.target;
+        setSiteSettings((prev) => {
+            return {
+                ...prev,
+                [name]: value
+            }
+        })
+    }
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+
+        let formData = new FormData();
+
+        for (const key in siteSettings) {
+            formData.append(key, siteSettings[key]);
+        }
+
+        // Log formData entries for debugging
+        // for (let pair of formData.entries()) {
+        //     console.log(pair[0]+ ': ' + pair[1]);
+        // }
+
+        try {
+            dispatch(showLoader());
+            const response = await updateSettings(formData);
+            if (response?.status === "success") {
+                setPreview(null);
+                setTimeout(() => {
+                    toast.success(response?.message);
+                    setSiteSettings(response?.data);
+                    dispatch(hideLoader());
+                }, 500)
+            } else {
+                toast.error(response?.message);
+                dispatch(hideLoader());
+            }
+        } catch (error) {
+            console.error('Error updating settings:', error);
+            toast.error("An error occurred while updating site settings");
+            dispatch(hideLoader());
+        }
+
+    }
+
   return (
     <div className="main-content-inner">
       <div className="main-content-wrap">
@@ -84,10 +130,12 @@ const SiteSetting = () => {
             <div className="col-lg-12">
                 <div className="page-content my-account__edit">
                   <div className="my-account__edit-form">
+
                     {
                         loading && <Loader />
                     }
-                      <form className="form-new-product form-style-1">
+
+                      <form className="form-new-product form-style-1" onSubmit={handleFormSubmit}>
 
                           <fieldset className="name">
                               <div className="body-title">{t('site_name')} <span className="tf-color-1">*</span>
@@ -98,13 +146,33 @@ const SiteSetting = () => {
                               placeholder={t("site_name")} 
                               name="site_name" 
                               value={siteSettings.site_name}
+                              onChange={handleChangeValue}
                               />
                           </fieldset>
+
+                            <fieldset>
+                                <div className="body-title">{t('old_site_logo')}
+                                </div>
+                                <div className="upload-image flex-grow">
+                                    { siteSettings?.site_logo_url && (
+                                        <div className="item" id="imgpreview">
+                                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${siteSettings.site_logo_url}`} className="effect8" alt="Preview" />
+                                        </div>
+                                    )}
+                                </div>
+                            </fieldset>
 
                           <fieldset>
                             <div className="body-title">{t("site_logo")} <span className="tf-color-1">*</span>
                             </div>
                             <div className="upload-image flex-grow">
+
+                                { preview && (
+                                    <div className="item" id="imgpreview">
+                                        <img src={preview} className="effect8" alt="Preview" />
+                                    </div>
+                                )}
+
                                 <div id="upload-file" className="item up-load">
                                     <label className="uploadfile" htmlFor="myFile">
                                         <span className="icon">
@@ -116,6 +184,16 @@ const SiteSetting = () => {
                                         id="myFile" 
                                         name="site_logo" 
                                         accept="image/*"
+                                        onChange={(e) => {
+                                            const file = e.target.files[0];
+
+                                            setSiteSettings(prev => ({
+                                                ...prev,
+                                                site_logo: file
+                                            }));
+
+                                            setPreview(URL.createObjectURL(file));
+                                        }}
                                         />
                                     </label>
                                 </div>
@@ -142,8 +220,9 @@ const SiteSetting = () => {
                               className="flex-grow" 
                               type="text" 
                               placeholder={t("site_mobile_no")} 
-                              name="mobile" 
+                              name="site_mobile_no" 
                               value={siteSettings.site_mobile_no}
+                              onChange={handleChangeValue}
                               />
                           </fieldset>
 
@@ -153,8 +232,9 @@ const SiteSetting = () => {
                               className="flex-grow" 
                               type="text" 
                               placeholder={t("site_email")} 
-                              name="email" 
+                              name="site_email" 
                               value={siteSettings.site_email}
+                              onChange={handleChangeValue}
                               />
                           </fieldset>
 
@@ -164,8 +244,9 @@ const SiteSetting = () => {
                               className="flex-grow" 
                               type="text" 
                               placeholder={t("site_address")} 
-                              name="address" 
+                              name="site_address" 
                               value={siteSettings.site_address}
+                              onChange={handleChangeValue}
                               />
                           </fieldset>
 
@@ -189,6 +270,7 @@ const SiteSetting = () => {
                                       id="facebook_url" 
                                       name="facebook_url" 
                                       value={siteSettings.facebook_url}
+                                      onChange={handleChangeValue}
                                       />
                                   </fieldset>
                               </div>  
@@ -204,6 +286,7 @@ const SiteSetting = () => {
                                       id="twitter_url" 
                                       name="twitter_url" 
                                       value={siteSettings.twitter_url}
+                                      onChange={handleChangeValue}
                                       />
                                   </fieldset>
                               </div>
@@ -218,6 +301,7 @@ const SiteSetting = () => {
                                       id="linkedin_url" 
                                       name="linkedin_url" 
                                       value={siteSettings.linkedin_url}
+                                      onChange={handleChangeValue}
                                       />
                                   </fieldset>
                               </div>
@@ -232,6 +316,7 @@ const SiteSetting = () => {
                                       id="instagram_url" 
                                       name="instagram_url" 
                                       value={siteSettings.instagram_url}
+                                      onChange={handleChangeValue}
                                       />
                                   </fieldset>
                               </div>
@@ -246,6 +331,7 @@ const SiteSetting = () => {
                                       id="youtube_url" 
                                       name="youtube_url" 
                                       value={siteSettings.youtube_url}
+                                      onChange={handleChangeValue}
                                       />
                                   </fieldset>
                               </div>
@@ -261,8 +347,10 @@ const SiteSetting = () => {
                               <input 
                               className="flex-grow" 
                               type="text" 
-                              placeholder={t("contact_page_heading")} name="contact_page_heading" 
+                              placeholder={t("contact_page_heading")} 
+                              name="contact_page_heading" 
                               value={siteSettings.contact_page_heading} 
+                              onChange={handleChangeValue}
                               />
                           </fieldset>
 
@@ -291,6 +379,7 @@ const SiteSetting = () => {
                                 type="text" 
                                 placeholder={t("home_page_section_name")} name="home_page_section_name" 
                                 value={siteSettings.home_page_section_name}
+                                onChange={handleChangeValue}
                                 />
                             </fieldset>
 

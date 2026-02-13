@@ -161,5 +161,6 @@
   "parent_category": "Parent Category",
   "sub_category_slug": "Sub Category Slug",
   "sub_category_image": "Sub Category Image",
-  "edit_subcategory": "Edit Sub Category"
+  "edit_subcategory": "Edit Sub Category",
+  "old_site_logo": "Old site logo"
 }

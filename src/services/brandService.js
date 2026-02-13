@@ -12,7 +12,8 @@ export const createBrandService = async (brandData) => {
 
         const response = await axiosInstance.post(
             '/brand/create', 
-            brandData,  {
+            brandData,  
+            {
                 headers: { 'Content-Type': 'multipart/form-data' }
             }
         );
