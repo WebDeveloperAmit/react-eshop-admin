@@ -1,3 +1,4 @@
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App';

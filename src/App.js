@@ -87,9 +87,10 @@ function App() {
             <Route path='contact-customers' element={<ContactCustomers />} />
 
             <Route path='settings' element={<Settings />} />
-            <Route path='site-setting' element={<SiteSetting />} />
-
+          
             <Route path='newsletters' element={<Newslatters />} />
+            
+            <Route path='site-settings' element={<SiteSetting />} />
 
           </Route>
 

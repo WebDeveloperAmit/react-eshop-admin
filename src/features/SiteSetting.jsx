@@ -1,4 +1,4 @@
-import { Editor } from "primereact/editor";
+import { Editor } from 'primereact/editor';
 import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import { BsTwitterX } from "react-icons/bs";
@@ -19,10 +19,13 @@ const SiteSetting = () => {
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
     const [preview, setPreview] = useState(null);
+    const [siteInfoContent, setSiteInfoContent] = useState("");
+    const [getInTouchContent, setGetInTouchContent] = useState("");
+    const [homeSectionContent, setHomeSectionContent] = useState("");
+    
     const [siteSettings, setSiteSettings] = useState({
         site_name: "",
         site_logo: "",
-        site_info: "",
         site_mobile_no: "",
         site_email: "",
         site_address: "",
@@ -32,22 +35,22 @@ const SiteSetting = () => {
         instagram_url: "",
         youtube_url: "",
         contact_page_heading: "",
-        get_in_touch_content: "",
         home_page_section_name: "",
-        home_page_section_content: ""
     });
 
     useEffect(() => {
+
         const fetchSiteSettings = async () => {
             try {
                 dispatch(showLoader());
                 const response = await getSettings();
-                console.log('Settings response:', response?.data[0]);
                 if (response?.status === "success") {
-                    setTimeout(() => {
-                        setSiteSettings(response?.data[0]);
-                        dispatch(hideLoader());
-                    }, 500)
+                    const data = response?.data[0];
+                    setSiteSettings(data);
+                    setSiteInfoContent(data.site_info || "");
+                    setGetInTouchContent(data.get_in_touch_content || "");
+                    setHomeSectionContent(data.home_page_section_content || "");
+                    dispatch(hideLoader());
                 } else {
                     console.error('Error fetching settings:', response?.message);
                     toast.error(response?.message);
@@ -59,6 +62,7 @@ const SiteSetting = () => {
             }
         }
         fetchSiteSettings();
+
     },[dispatch]);
 
     const handleChangeValue = (event) => {
@@ -80,6 +84,10 @@ const SiteSetting = () => {
             formData.append(key, siteSettings[key]);
         }
 
+        formData.set("site_info", siteInfoContent);
+        formData.set("get_in_touch_content", getInTouchContent);
+        formData.set("home_page_section_content", homeSectionContent);
+
         // Log formData entries for debugging
         // for (let pair of formData.entries()) {
         //     console.log(pair[0]+ ': ' + pair[1]);
@@ -89,8 +97,8 @@ const SiteSetting = () => {
             dispatch(showLoader());
             const response = await updateSettings(formData);
             if (response?.status === "success") {
-                setPreview(null);
                 setTimeout(() => {
+                    setPreview(null);
                     toast.success(response?.message);
                     setSiteSettings(response?.data);
                     dispatch(hideLoader());
@@ -205,10 +213,7 @@ const SiteSetting = () => {
                                 <Editor
                                 value={siteSettings?.site_info || ""}
                                 onTextChange={(e) =>
-                                    setSiteSettings(prev => ({
-                                    ...prev,
-                                    site_info: e.htmlValue
-                                    }))
+                                    setSiteInfoContent(e.htmlValue)
                                 }
                                 style={{ height: "200px" }}
                                 />
@@ -359,10 +364,7 @@ const SiteSetting = () => {
                               <Editor 
                                 value={siteSettings.get_in_touch_content || ""} 
                                 onTextChange={(e) => 
-                                    setSiteSettings(prev => ({
-                                    ...prev,
-                                    get_in_touch_content: e.htmlValue
-                                    })) 
+                                    setGetInTouchContent(e.htmlValue)
                                 } 
                                 style={{ height: '200px' }} 
                               />
@@ -388,10 +390,7 @@ const SiteSetting = () => {
                                 <Editor 
                                 value={siteSettings.home_page_section_content || ""} 
                                 onTextChange={(e) => 
-                                        setSiteSettings(prev => ({
-                                        ...prev,
-                                        home_page_section_content: e.htmlValue
-                                    })) 
+                                    setHomeSectionContent(e.htmlValue)
                                 } 
                                 style={{ height: '200px' }} 
                                 />
