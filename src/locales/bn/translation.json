@@ -168,5 +168,7 @@
   "old_site_logo": "পুরানো সাইট লোগো",
   "no_products_found": "কোনো পণ্য পাওয়া যায়নি",
   "invalid_product_id": "অবৈধ পণ্য আইডি",
-  "brand": "ব্র্যান্ড"
+  "brand": "ব্র্যান্ড",
+  "edit_product": "পণ্য সম্পাদনা",
+  "update": "আপডেট"
 }

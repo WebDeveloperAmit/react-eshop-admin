@@ -25,6 +25,7 @@ import EditCoupon from './pages/coupon/EditCoupon';
 import Orders from './pages/order/Orders';
 import AllProducts from './pages/product/AllProducts';
 import CreateProduct from './pages/product/CreateProduct';
+import EditProduct from './pages/product/EditProduct';
 import AddSubCategory from './pages/sub-category/AddSubCategory';
 import EditSubCategory from './pages/sub-category/EditSubCategory';
 import SubCategories from './pages/sub-category/SubCategories';
@@ -62,6 +63,7 @@ function App() {
 
             <Route path='product/create' element={<CreateProduct />} />
             <Route path='products' element={<AllProducts />} />
+            <Route path='product/edit/:id' element={<EditProduct />} />
 
             {/* Category */}
             <Route path='category/create' element={<CreateCategory />} />

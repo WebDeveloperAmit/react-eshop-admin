@@ -13,14 +13,14 @@ export const getAllProductsService = async () => {
 
 export const createProductService = async (data) => {
     try {
-        const role = localStorage.getItem("user") 
-        ? JSON.parse(localStorage.getItem("user")).role 
-        : null;
+        // const role = localStorage.getItem("user") 
+        // ? JSON.parse(localStorage.getItem("user")).role 
+        // : null;
 
-        if (role !== "admin") {
-            return { success: false, message: "❌ Only admin can create products" };
-        }
-        
+        // if (role !== "admin") {
+        //     return { success: false, message: "❌ Only admin can create products" };
+        // }
+
         const response = await axiosInstance.post(
             "/product/create", 
             data, 
@@ -38,7 +38,10 @@ export const createProductService = async (data) => {
 
 export const editProductService = async (productId) => {
     try {
-        
+        const response = await axiosInstance.get(
+            `/product/edit/${productId}`
+        );
+        return response?.data;
     } catch (error) {
         console.error("Error fetching product:", error);
         return { 

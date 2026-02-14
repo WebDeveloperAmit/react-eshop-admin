@@ -226,7 +226,7 @@ const AllProducts = () => {
                             </div>
                           </Link> */}
 
-                          <Link to="#">
+                          <Link to={`/product/edit/${product._id}`}>
                             <div className="item edit">
                               <i className="icon-edit-3" />
                             </div>
