@@ -164,5 +164,6 @@
   "edit_subcategory": "Edit Sub Category",
   "old_site_logo": "Old site logo",
   "no_products_found": "No products found",
-  "invalid_product_id": "Invalid product ID"
+  "invalid_product_id": "Invalid product ID",
+  "brand": "Brand"
 }

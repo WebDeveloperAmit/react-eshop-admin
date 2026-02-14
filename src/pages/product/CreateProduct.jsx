@@ -20,18 +20,17 @@ const CreateProduct = () => {
     const [brands, setBrands] = useState([]);
     const[thumbnailPreview, setThumbnailPreview] = useState(null);
     const[galleryPreviews, setGalleryPreviews] = useState([]);
-    const [text, setText] = useState("");
+    const [shortDesc, setShortDesc] = useState("");
+    const [longDesc, setLongDesc] = useState("");
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-
         const formData = new FormData();
-
         formData.append("product_name", event.target.product_name.value);
         formData.append("cat_id", event.target.cat_id.value);
         formData.append("brand_id", event.target.brand_id.value);
-        formData.append("short_desc", event.target.short_desc.value);
-        formData.append("long_desc", event.target.long_desc.value);
+        formData.append("short_desc", shortDesc);
+        formData.append("long_desc", longDesc);
         formData.append("regular_price", event.target.regular_price.value);
         formData.append("sale_price", event.target.sale_price.value);
         formData.append("sku", event.target.sku.value);
@@ -64,17 +63,23 @@ const CreateProduct = () => {
             dispatch(showLoader());
             const response = await createProductService(formData);
             if (response?.status === "success") {
-                toast.success(`✅ ${response?.message}`);
-                formRef.current.reset();
-                setThumbnailPreview(null);
-                setGalleryPreviews([]);
+                setTimeout(() => {
+                    toast.success(`${response?.message}`);
+                    formRef.current.reset();
+                    setThumbnailPreview(null);
+                    setGalleryPreviews([]);
+                    dispatch(hideLoader());
+                }, 300);
+
             } else {
-                toast.error(`❌ ${response?.message}`);
+                setTimeout(() => {
+                    toast.error(`${response?.message}`);
+                    dispatch(hideLoader());
+                }, 300)
             }
         } catch (error) {
             console.error("Error creating the product:", error);
-            toast.error("❌ An error occurred while creating the product");
-        } finally {
+            toast.error("An error occurred while creating the product");
             dispatch(hideLoader());
         }
     }
@@ -118,30 +123,30 @@ const CreateProduct = () => {
           <div className="main-content-wrap">
               <div className="flex items-center flex-wrap justify-between gap20 mb-27">
                   <h3>{t("add_new_product")}</h3>
-                  <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
-                      <li>
-                          <Link to="/">
-                              <div className="text-tiny">{t("dashboard")}</div>
-                          </Link>
-                      </li>
-                      <li>
-                          <i className="icon-chevron-right"></i>
-                      </li>
-                      <li>
-                          <Link to="/products">
-                              <div className="text-tiny">{t("all_products")}</div>
-                          </Link>
-                      </li>
-                      <li>
-                          <i className="icon-chevron-right"></i>
-                      </li>
-                      <li>
-                          <div className="text-tiny">{t("add_new_product")}</div>
-                      </li>
-                  </ul>
+                    <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                        <li>
+                            <Link to="/">
+                                <div className="text-tiny">{t("dashboard")}</div>
+                            </Link>
+                        </li>
+                        <li>
+                            <i className="icon-chevron-right"></i>
+                        </li>
+                        <li>
+                            <Link to="/products">
+                                <div className="text-tiny">{t("all_products")}</div>
+                            </Link>
+                        </li>
+                        <li>
+                            <i className="icon-chevron-right"></i>
+                        </li>
+                        <li>
+                            <div className="text-tiny">{t("add_new_product")}</div>
+                        </li>
+                    </ul>
               </div>
-              
-            { loading && <Loader /> }
+
+                { loading && <Loader /> }
 
                 <form 
                 className="tf-section-2 form-add-product" 
@@ -161,21 +166,9 @@ const CreateProduct = () => {
                             <div className="text-tiny">{t("product_name_limit")}</div>
                         </fieldset>
 
-                        {/* <fieldset className="name">
-                            <div className="body-title mb-10">Slug <span className="tf-color-1">*</span></div>
-                            <input 
-                            className="mb-10" 
-                            type="text" 
-                            placeholder="Enter product slug"
-                            name="slug" 
-                            />
-                            <div className="text-tiny">Do not exceed 100 characters when entering the
-                                product name.</div>
-                        </fieldset> */}
-
                         <div className="gap22 cols">
                             <fieldset className="category">
-                                <div className="body-title mb-10">Category <span className="tf-color-1">*</span>
+                                <div className="body-title mb-10">{t("category")} <span className="tf-color-1">*</span>
                                 </div>
                                 <div className="select">
                                     <select name="cat_id">
@@ -189,7 +182,7 @@ const CreateProduct = () => {
                                 </div>
                             </fieldset>
                             <fieldset className="brand">
-                                <div className="body-title mb-10">Brand <span className="tf-color-1">*</span>
+                                <div className="body-title mb-10">{t("brand")} <span className="tf-color-1">*</span>
                                 </div>
                                 <div className="select">
                                     <select name="brand_id">
@@ -209,8 +202,8 @@ const CreateProduct = () => {
 
                             <Editor 
                             name="short_desc"
-                            value={text} 
-                            onTextChange={(e) => setText(e.htmlValue)} 
+                            value={setShortDesc} 
+                            onTextChange={(e) => setShortDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
                             />
 
@@ -227,8 +220,8 @@ const CreateProduct = () => {
 
                             <Editor 
                             name="long_desc"
-                            value={text} 
-                            onTextChange={(e) => setText(e.htmlValue)} 
+                            value={setLongDesc} 
+                            onTextChange={(e) => setLongDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
                             />
 
@@ -290,8 +283,7 @@ const CreateProduct = () => {
                                         <span className="icon">
                                             <i className="icon-upload-cloud"></i>
                                         </span>
-                                        <span className="text-tiny">{t("drop_images")} <span
-                                                className="tf-color">{t("click_to_browse")}</span></span>
+                                        <span className="text-tiny">{t("drop_images")} <span className="tf-color">{t("click_to_browse")}</span></span>
                                         <input 
                                         type="file" 
                                         id="gFile" 
