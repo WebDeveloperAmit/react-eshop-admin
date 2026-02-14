@@ -165,5 +165,7 @@
   "sub_category_slug": "সাবক্যাটেগরির স্লাগ",
   "sub_category_image": "সাবক্যাটেগরির ছবি",
   "edit_subcategory": "সাবক্যাটেগরি সম্পাদনা করুন",
-  "old_site_logo": "পুরানো সাইট লোগো"
+  "old_site_logo": "পুরানো সাইট লোগো",
+  "no_products_found": "কোনো পণ্য পাওয়া যায়নি",
+  "invalid_product_id": "অবৈধ পণ্য আইডি"
 }

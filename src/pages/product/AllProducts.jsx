@@ -1,101 +1,260 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RiDeleteBack2Fill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import Loader from "../../components/loader/Loader";
+import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
+import { deleteProductService, getAllProductsService, searchProductService } from "../../services/productService";
 
 const AllProducts = () => {
 
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+  const loader = useSelector((loader) => loader.loader.loading );
+  const [displayProducts, setDisplayProducts] = useState([]);
+  const [originalProducts, setOriginalProducts] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const fetchedAllProducts = async () => {
+      try {
+          dispatch(showLoader());
+          const response = await getAllProductsService();
+          // console.log(response);
+          if (response?.status === "success") {
+            setTimeout(() => {
+              setDisplayProducts(response?.data);
+              setOriginalProducts(response?.data);
+              dispatch(hideLoader());
+            }, 500)
+          } else {
+            toast.error(response?.message);
+            dispatch(hideLoader());
+          }
+      } catch (error) {
+          toast.error(error?.response?.message);
+          dispatch(hideLoader());
+      }
+    }
+    fetchedAllProducts();
+  }, []);
+
+  const handleProductDelete = async (productId) => {
+    try {
+      if (!productId) {
+        toast.error(t("invalid_product_id"));
+        return;
+      }
+
+      const result = await Swal.fire({
+          title: t("are_you_sure"),
+          text: t("product_will_be_deleted"),
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: t("yes_delete"),
+          cancelButtonText: t("cancel")
+      });
+
+      if (!result.isConfirmed) return;
+
+      const response = await deleteProductService(productId);
+      if (response?.status === "success") {
+        toast.success(response?.message);
+        setDisplayProducts((prev) => {
+          return prev.filter((pro) => pro._id !== productId);
+        });
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      console.error("An error while deleting product:", error);
+      toast.error(error.response?.data?.message);
+    }
+  }
+
+  const handleSearchTerm = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handleProductSearch = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      if (!search.trim()) {
+        toast.warning(t("please_enter_search_term"));
+        return;
+      }
+
+      dispatch(showLoader());
+
+      const response  = await searchProductService(search);
+
+      if (response?.status === "success") {
+        setTimeout(() => {
+          setDisplayProducts(response?.data);
+          dispatch(hideLoader());
+        }, 300);
+
+      } else {
+        toast.error(response?.message);
+        dispatch(hideLoader());
+      }
+
+    } catch (error) {
+      console.error("An error while searching product:", error);
+      dispatch(hideLoader());
+    }
+  }
 
   return (
     <div className="main-content-inner">
       <div className="main-content-wrap">
         <div className="flex items-center flex-wrap justify-between gap20 mb-27">
           <h3>{t("all_products_list")}</h3>
-          <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
-            <li>
-              <Link to="/">
-                <div className="text-tiny">{t("dashboard")}</div>
-              </Link>
-            </li>
-            <li>
-              <i className="icon-chevron-right" />
-            </li>
-            <li>
-              <div className="text-tiny">{t("all_products")}</div>
-            </li>
-          </ul>
+            <ul className="breadcrumbs flex items-center flex-wrap justify-start gap10">
+              <li>
+                <Link to="/">
+                  <div className="text-tiny">{t("dashboard")}</div>
+                </Link>
+              </li>
+              <li>
+                <i className="icon-chevron-right" />
+              </li>
+              <li>
+                <div className="text-tiny">{t("all_products")}</div>
+              </li>
+            </ul>
         </div>
         <div className="wg-box">
           <div className="flex items-center justify-between gap10 flex-wrap">
             <div className="wg-filter flex-grow">
-              <form className="form-search">
+              <form className="form-search" onSubmit={handleProductSearch}>
                 <fieldset className="name">
                   <input 
                   type="text" 
                   placeholder={t("search_here")}
-                  className="" 
                   name="search" 
+                  value={search}
+                  onChange={handleSearchTerm}
                   />
                 </fieldset>
                 <div className="button-submit">
-                  <button className type="submit"><i className="icon-search" /></button>
+                  <button 
+                  type="submit">
+                    <i className="icon-search" />
+                  </button>
                 </div>
               </form>
+              {
+                search && (
+                    <span className="delIcon" onClick={() => {
+                    setSearch(""); 
+                    setDisplayProducts(originalProducts);
+                    }}>
+                    <RiDeleteBack2Fill size={26} />
+                    </span>
+                )
+              }
             </div>
             <Link 
             className="tf-button style-1 w208" 
             to="/product/create"><i className="icon-plus" />{t("add_new_product")}</Link>
           </div>
+          {
+            loader && <Loader />
+          }
           <div className="table-responsive">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th>{t("sl_no")}</th>
                   <th>{t("name")}</th>
-                  <th>{t("regular_price")}</th>
                   <th>{t("sale_price")}</th>
                   <th>{t("sku")}</th>
                   <th>{t("quantity")}</th>
-                  <th>{t("thumbnail_image")}</th>
                   <th>{t("actions")}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>6</td>
-                  <td>
-                    <div className="image">
-                      <img src="" alt="" className="image" />
-                    </div>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <div className="list-icon-function">
-
-                      <Link to="#" target="_blank">
-                        <div className="item eye">
-                          <i className="icon-eye" />
+              {
+                displayProducts && displayProducts.length > 0 ? (
+                  displayProducts.map((product, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <div className="image">
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}${product.thumbnail_image_url}`} alt={product.product_name} className="image" />
                         </div>
-                      </Link>
+                        <Link to={`/`}>
+                          {product.product_name}
+                        </Link>
+                      </td>
+                      <td>
+                        {product.sale_price ? (
+                          <>
+                            <span className="text-danger fw-bold">
+                              {process.env.REACT_APP_CURRENCY_SYMBOL}
+                              {Number(product.sale_price).toFixed(2)}
+                            </span>
 
-                      <Link to="#">
-                        <div className="item edit">
-                          <i className="icon-edit-3" />
-                        </div>
-                      </Link>
+                            <del className="ms-2 text-muted">
+                              {process.env.REACT_APP_CURRENCY_SYMBOL}
+                              {Number(product.regular_price).toFixed(2)}
+                            </del>
+                          </>
+                        ) : (
+                          <>
+                            {process.env.REACT_APP_CURRENCY_SYMBOL}
+                            {Number(product.regular_price).toFixed(2)}
+                          </>
+                        )}
+                      </td>
+                      <td>{product.sku}</td>
+                      <td>{product.qty}</td>
+                      <td>
+                        <div className="list-icon-function">
 
-                      <form action="#" method="POST">
-                        <div className="item text-danger delete">
-                          <i className="icon-trash-2" />
+                          {/* <Link to="#" target="_blank">
+                            <div className="item eye">
+                              <i className="icon-eye" />
+                            </div>
+                          </Link> */}
+
+                          <Link to="#">
+                            <div className="item edit">
+                              <i className="icon-edit-3" />
+                            </div>
+                          </Link>
+
+                          <div 
+                          className="item text-danger delete"
+                          onClick={() => handleProductDelete(product._id)}
+                          >
+                            <i className="icon-trash-2" />
+                          </div>
+                          
                         </div>
-                      </form>
-                      
-                    </div>
-                  </td>
-                </tr>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                    <tr>
+                      <td colSpan="6">
+                        <div className="d-flex justify-content-center align-items-center py-2">
+                          <p className="mb-0 fw-semibold text-muted">
+                            {t("no_products_found")}
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                )
+              }
               </tbody>
             </table>
           </div>
@@ -105,7 +264,6 @@ const AllProducts = () => {
         </div>
       </div>
     </div>
-
   )
 }
 

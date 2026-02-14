@@ -140,7 +140,9 @@ const CreateProduct = () => {
                       </li>
                   </ul>
               </div>
+              
             { loading && <Loader /> }
+
                 <form 
                 className="tf-section-2 form-add-product" 
                 ref={formRef}
@@ -252,7 +254,7 @@ const CreateProduct = () => {
                                 )}
 
                                 <div id="upload-file" className="item up-load">
-                                    <label className="uploadfile" for="myFile">
+                                    <label className="uploadfile" htmlFor="myFile">
                                         <span className="icon">
                                             <i className="icon-upload-cloud"></i>
                                         </span>
@@ -284,7 +286,7 @@ const CreateProduct = () => {
                                 )}
 
                                 <div id="galUpload" className="item up-load">
-                                    <label className="uploadfile" for="gFile">
+                                    <label className="uploadfile" htmlFor="gFile">
                                         <span className="icon">
                                             <i className="icon-upload-cloud"></i>
                                         </span>

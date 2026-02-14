@@ -82,7 +82,7 @@ const AllCategories = () => {
     e.preventDefault();
     // console.log(search);
     if (!search.trim()) {
-      toast.warning("Please enter a search term");
+      toast.warning(t("please_enter_search_term"));
       return;
     }
 

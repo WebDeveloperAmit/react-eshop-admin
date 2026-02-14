@@ -74,7 +74,10 @@ export const deleteProductService = async (productId) => {
 
 export const searchProductService = async (searchProduct) => {
     try {
-        
+        const response  = await axiosInstance.get(
+            `/products?searchTerm=${searchProduct}`
+        );
+        return response?.data;
     } catch (error) {
         console.error("Error search product:", error);
         return { 
