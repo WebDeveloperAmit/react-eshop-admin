@@ -17,6 +17,9 @@ const AllProducts = () => {
   const [displayProducts, setDisplayProducts] = useState([]);
   const [originalProducts, setOriginalProducts] = useState([]);
   const [search, setSearch] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
 
   useEffect(() => {
     const fetchedAllProducts = async () => {
@@ -112,6 +115,12 @@ const AllProducts = () => {
     }
   }
 
+  const handleViewProduct = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
+
+
   return (
     <div className="main-content-inner">
       <div className="main-content-wrap">
@@ -191,9 +200,13 @@ const AllProducts = () => {
                         <div className="image">
                           <img src={`${process.env.REACT_APP_BACKEND_URL}${product.thumbnail_image_url}`} alt={product.product_name} className="image" />
                         </div>
-                        <Link to={`/`}>
+
+                        <span 
+                          style={{ cursor: "pointer", color: "#007bff" }}
+                          onClick={() => handleViewProduct(product)}
+                        >
                           {product.product_name}
-                        </Link>
+                        </span>
                       </td>
                       <td>
                         {product.sale_price ? (
@@ -257,6 +270,84 @@ const AllProducts = () => {
               }
               </tbody>
             </table>
+
+            {showModal && selectedProduct && (
+              <div className="pro-modal-overlay" onClick={() => setShowModal(false)}>
+                
+                <div 
+                  className="pro-modal"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  
+                  <div className="pro-modal-header">
+                    <h4>{selectedProduct.product_name}</h4>
+                    <button 
+                      className="close-btn"
+                      onClick={() => setShowModal(false)}
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="pro-modal-body">
+
+                    {/* LEFT SIDE IMAGE */}
+                    <div className="pro-image-section">
+                      <img 
+                        src={`${process.env.REACT_APP_BACKEND_URL}${selectedProduct.thumbnail_image_url}`}
+                        alt={selectedProduct.product_name}
+                      />
+
+                      {selectedProduct.sale_price && (
+                        <span className="sale-badge">SALE</span>
+                      )}
+                    </div>
+
+                    {/* RIGHT SIDE DETAILS */}
+                    <div className="pro-details-section">
+
+                      <div className="price-section">
+                        {selectedProduct.sale_price ? (
+                          <>
+                            <span className="sale-price">
+                              {process.env.REACT_APP_CURRENCY_SYMBOL}
+                              {selectedProduct.sale_price}
+                            </span>
+                            <span className="regular-price">
+                              {process.env.REACT_APP_CURRENCY_SYMBOL}
+                              {selectedProduct.regular_price}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="normal-price">
+                            {process.env.REACT_APP_CURRENCY_SYMBOL}
+                            {selectedProduct.regular_price}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="meta">
+                        <p><strong>SKU:</strong> {selectedProduct.sku}</p>
+                        <p><strong>Stock:</strong> {selectedProduct.stock_status}</p>
+                        <p><strong>Qty:</strong> {selectedProduct.qty}</p>
+                      </div>
+
+                      <div className="description-box">
+                        <div 
+                          dangerouslySetInnerHTML={{ 
+                            __html: selectedProduct.short_desc 
+                          }} 
+                        />
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            )}
+
           </div>
           <div className="divider" />
           <div className="flex items-center justify-between flex-wrap gap10 wgp-pagination">
