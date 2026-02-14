@@ -1,9 +1,11 @@
 import { Editor } from "primereact/editor";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
 import { getAllBrandsService } from "../../services/brandService";
@@ -24,9 +26,12 @@ const EditProduct = () => {
     const [galleryPreviews, setGalleryPreviews] = useState([]);
     const [shortDesc, setShortDesc] = useState("");
     const [longDesc, setLongDesc] = useState("");
+    const [oldGalleryImages, setOldGalleryImages] = useState([]);
     const [product, setProduct] = useState({
       stock_status: "",
-      is_featured: false
+      is_featured: false,
+      cat_id: "",
+      brand_id: ""
     });
 
     const handleUpdateFormData = async (event) => {
@@ -129,6 +134,9 @@ const EditProduct = () => {
           if (response?.status === "success") {
             setTimeout(() => {
               setProduct(response?.data);
+              setShortDesc(response?.data?.short_desc);
+              setLongDesc(response?.data?.long_desc);
+              setOldGalleryImages(response?.gallery_images);
               dispatch(hideLoader());
             }, 300);
           } else {
@@ -145,7 +153,34 @@ const EditProduct = () => {
       fetchBrands();
       fetchProductDetails();
 
-    }, []);
+    }, [dispatch]);
+
+    const handleRemoveOldImage = async (removeId) => {
+        try {
+
+            if (!removeId) {
+                toast.error(t("invalid_product_id"));
+                return;
+            }
+
+            const result = await Swal.fire({
+                title: t("are_you_sure"),
+                text: t("gallery_image_will_be_deleted"),
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: t("yes_delete"),
+                cancelButtonText: t("cancel")
+            });
+    
+            if (!result.isConfirmed) return;
+
+        } catch (error) {
+            // console.error();
+            // toast.error();
+        }
+    }
 
   return (
       <div className="main-content-inner">
@@ -201,8 +236,17 @@ const EditProduct = () => {
                                 <div className="body-title mb-10">{t("category")} <span className="tf-color-1">*</span>
                                 </div>
                                 <div className="select">
-                                    <select name="cat_id">
-                                        <option>{t("select_a_category")}</option>
+                                    <select 
+                                    name="cat_id" 
+                                    value={product.cat_id}
+                                    onChange={(e) => 
+                                        setProduct((prev) => ({
+                                            ...prev,
+                                            cat_id: e.target.value
+                                        }))
+                                    }
+                                    >
+                                        <option disabled selected>{t("select_a_category")}</option>
                                         {categories && categories.length > 0 && categories.map((category) => (
                                             <option key={category._id} value={category._id}>
                                                 {category.category_name}
@@ -215,8 +259,17 @@ const EditProduct = () => {
                                 <div className="body-title mb-10">{t("brand")} <span className="tf-color-1">*</span>
                                 </div>
                                 <div className="select">
-                                    <select name="brand_id">
-                                        <option>{t("select_a_brand")}</option>
+                                    <select 
+                                    name="brand_id" 
+                                    value={product.brand_id}
+                                    onChange={(e) => 
+                                        setProduct((prev) => ({
+                                            ...prev,
+                                            brand_id: e.target.value
+                                        }))
+                                    }
+                                    >
+                                        <option disabled selected>{t("select_a_brand")}</option>
                                         {brands && brands.length > 0 && brands.map((brand) => (
                                             <option key={brand._id} value={brand._id}>
                                                 {brand.brand_name}
@@ -232,7 +285,7 @@ const EditProduct = () => {
 
                             <Editor 
                             name="short_desc"
-                            value={setShortDesc} 
+                            value={shortDesc} 
                             onTextChange={(e) => setShortDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
                             />
@@ -250,7 +303,7 @@ const EditProduct = () => {
 
                             <Editor 
                             name="long_desc"
-                            value={setLongDesc} 
+                            value={longDesc} 
                             onTextChange={(e) => setLongDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
                             />
@@ -265,12 +318,25 @@ const EditProduct = () => {
                     </div>
 
                     <div className="wg-box">
+
+                        <fieldset>
+                            <div className="body-title mb-10">{t('old_thumbnail_image')}
+                            </div>
+                            <div className="upload-image flex-grow">
+                                { product?.thumbnail_image_url && (
+                                    <div className="item" id="imgpreview">
+                                    <img src={`${process.env.REACT_APP_BACKEND_URL}${product?.thumbnail_image_url}`} className="effect8" alt="Preview" />
+                                    </div>
+                                )}
+                            </div>
+                        </fieldset>
+
                         <fieldset>
                             <div className="body-title mb-10">{t("upload_thumbnail_image")} <span className="tf-color-1">*</span>
                             </div>
                             <div className="upload-image flex-grow">
 
-                                {thumbnailPreview && (
+                                { thumbnailPreview && (
                                     <div className="item" id="imgpreview">
                                         <img src={thumbnailPreview} className="effect8" alt="ThumbnailPreview" />
                                     </div>
@@ -295,6 +361,31 @@ const EditProduct = () => {
                                 </div>
                             </div>
                         </fieldset>
+
+                        <fieldset>
+                            <div className="body-title mb-10">
+                                {t("old_gallery_images")}
+                            </div>
+
+                            <div className="old-gallery-images flex-grow">
+                                {oldGalleryImages.length > 0 &&
+                                    oldGalleryImages.map((img, index) => (
+                                    <div className="item" key={index}>
+                                    <img
+                                        src={`${process.env.REACT_APP_BACKEND_URL}${img.image_url}`}
+                                        className="effect8"
+                                        alt={`OldGallery-${index}`}
+                                    />
+                                    <FaTrash 
+                                    size={20} 
+                                    onClick={() => handleRemoveOldImage(img._id)}
+                                    style={{ cursor: "pointer" }}
+                                    />
+                                    </div>
+                                ))}
+                            </div>
+                        </fieldset>
+
 
                         <fieldset>
                             <div className="body-title mb-10">{t("upload_product_images")}</div>

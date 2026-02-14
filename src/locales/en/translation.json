@@ -167,5 +167,8 @@
   "invalid_product_id": "Invalid product ID",
   "brand": "Brand",
   "edit_product": "Edit Product",
-  "update": "Update"
+  "update": "Update",
+  "old_thumbnail_image": "Old thumbnail image",
+  "old_gallery_images": "Old gallery images",
+  "gallery_image_will_be_deleted": "This gallery image will be deleted permanently"
 }

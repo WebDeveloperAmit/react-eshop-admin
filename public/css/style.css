@@ -1786,6 +1786,12 @@ a:focus {
 .upload-image .item img {
   height: 206px;
 }
+.old-gallery-images .item img {
+  height: 100px;
+}
+.old-gallery-images {
+  display: flex;
+}
 .upload-image .item.up-load {
   min-height: 208px;
   border: 1px dashed var(--Main);

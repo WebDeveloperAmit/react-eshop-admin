@@ -170,5 +170,8 @@
   "invalid_product_id": "অবৈধ পণ্য আইডি",
   "brand": "ব্র্যান্ড",
   "edit_product": "পণ্য সম্পাদনা",
-  "update": "আপডেট"
+  "update": "আপডেট",
+  "old_thumbnail_image": "পুরাতন থাম্বনেইল ছবি",
+  "old_gallery_images": "পুরাতন গ্যালারি ছবি",
+  "gallery_image_will_be_deleted": "এই গ্যালারি ছবিটি স্থায়ীভাবে মুছে ফেলা হবে"
 }
