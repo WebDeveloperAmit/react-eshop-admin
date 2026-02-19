@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Badge } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
@@ -280,7 +281,12 @@ const AllProducts = () => {
                 >
                   
                   <div className="pro-modal-header">
-                    <h4>{selectedProduct.product_name}</h4>
+                    <h4>
+                      {selectedProduct.product_name} {" "}
+                        <Badge bg={selectedProduct.is_featured === true ? "success" : "secondary"}>
+                          {selectedProduct.is_featured === true ? "Featured" : ""}
+                        </Badge>
+                    </h4>
                     <button 
                       className="close-btn"
                       onClick={() => setShowModal(false)}
@@ -291,17 +297,34 @@ const AllProducts = () => {
 
                   <div className="pro-modal-body">
 
-                    {/* LEFT SIDE IMAGE */}
-                    <div className="pro-image-section">
-                      <img 
-                        src={`${process.env.REACT_APP_BACKEND_URL}${selectedProduct.thumbnail_image_url}`}
-                        alt={selectedProduct.product_name}
-                      />
+                    <div className="pro-left-section">
 
-                      {selectedProduct.sale_price && (
-                        <span className="sale-badge">SALE</span>
-                      )}
-                    </div>
+                      <div className="pro-image-section">
+                        <img 
+                          src={`${process.env.REACT_APP_BACKEND_URL}${selectedProduct.thumbnail_image_url}`}
+                          alt={selectedProduct.product_name}
+                        />
+
+                        {selectedProduct.sale_price && (
+                          <span className="sale-badge">SALE</span>
+                        )}
+                      </div>
+
+                      <div className="pro-gallery-image-section">
+                        {selectedProduct.galleries && selectedProduct.galleries.length > 0 && (
+                          <div className="gallery-wrapper">
+                            {selectedProduct.galleries.map((img, index) => (
+                              <img
+                                key={index}
+                                src={`${process.env.REACT_APP_BACKEND_URL}${img.image_url}`}
+                                alt="gallery"
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                  </div>
 
                     {/* RIGHT SIDE DETAILS */}
                     <div className="pro-details-section">
@@ -330,12 +353,34 @@ const AllProducts = () => {
                         <p><strong>SKU:</strong> {selectedProduct.sku}</p>
                         <p><strong>Stock:</strong> {selectedProduct.stock_status}</p>
                         <p><strong>Qty:</strong> {selectedProduct.qty}</p>
+                        <p>
+                          <strong>Stock:</strong>{" "}
+                          <Badge bg={selectedProduct.stock_status === "in_stock" ? "success" : "secondary"}>
+                            {selectedProduct.stock_status}
+                          </Badge>
+                        </p>
+                        <p>
+                          <strong>Category:</strong> {" "}
+                            { selectedProduct.category_name ?? "N/A" }
+                        </p>
+                        <p>
+                          <strong>Brand:</strong> {" "}
+                            { selectedProduct.brand_name ?? "N/A" }
+                        </p>
                       </div>
 
                       <div className="description-box">
-                        <div 
-                          dangerouslySetInnerHTML={{ 
+                        <p className="short_desc">Short Description:</p>
+                        <div dangerouslySetInnerHTML={{ 
                             __html: selectedProduct.short_desc 
+                          }} 
+                        />
+                      </div>
+
+                      <div className="description-box">
+                        <p className="long_desc">Long Description:</p>
+                        <div dangerouslySetInnerHTML={{ 
+                            __html: selectedProduct.long_desc 
                           }} 
                         />
                       </div>

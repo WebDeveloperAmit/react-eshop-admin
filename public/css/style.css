@@ -4469,8 +4469,7 @@ select.h40 {
   background-color: var(--White);
   border: 0;
   padding: 0;
-  box-shadow:
-    0px 1px 2px 0px rgba(255, 255, 255, 0.1) inset,
+  box-shadow: 0px 1px 2px 0px rgba(255, 255, 255, 0.1) inset,
     0px 8px 22px 0px rgba(4, 8, 16, 0.3);
 }
 .dropdown.default > .dropdown-menu a {
@@ -7150,7 +7149,161 @@ select.h40 {
 
 /*# sourceMappingURL=style.css.map */
 
+/* Overlay */
 .pro-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Make modal wider */
+.pro-modal {
+  /* width: 1050px; */
+  width: 70%;
+  max-width: 95%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.pro-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pro-modal-header h4 {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.pro-modal-header .close-btn {
+  font-size: 22px;
+  color: #ffffff;
+  background: red;
+  border-radius: 9px;
+  padding: 10px;
+}
+
+/* Body layout */
+.pro-modal-body {
+  display: flex;
+  gap: 40px;
+}
+
+/* LEFT SIDE */
+.pro-left-section {
+  width: 40%;
+}
+
+.pro-image-section {
+  position: relative;
+}
+
+.pro-image-section img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Sale badge */
+.sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #dc3545;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 20px;
+}
+
+/* Gallery below thumbnail */
+.gallery-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.gallery-wrapper img {
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+.gallery-wrapper img:hover {
+  transform: scale(1.05);
+  border-color: #000;
+}
+
+/* RIGHT SIDE */
+.pro-details-section {
+  width: 60%;
+}
+.pro-details-section .price-section .regular-price {
+  font-size: 18px;
+}
+
+/* Price */
+.price-section {
+  margin-bottom: 15px;
+}
+
+.sale-price {
+  font-size: 24px;
+  font-weight: 600;
+  color: #dc3545;
+  margin-right: 10px;
+}
+
+.regular-price {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Meta */
+.meta p {
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* Description */
+.description-box {
+  margin-top: 20px;
+}
+
+.description-box p {
+  /* font-weight: 600; */
+  margin-bottom: 6px;
+}
+
+.description-box .short_desc,
+.long_desc {
+  font-size: 17px;
+  font-weight: bolder;
+  margin-bottom: 5px;
+}
+
+/* Make long description scroll */
+.description-box:last-child div {
+  max-height: 160px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* .pro-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
@@ -7275,4 +7428,4 @@ select.h40 {
     transform: scale(1);
     opacity: 1;
   }
-}
+} */

@@ -45,7 +45,7 @@ const SiteSetting = () => {
                 dispatch(showLoader());
                 const response = await getSettings();
                 if (response?.status === "success") {
-                    const data = response?.data[0];
+                    const data = response?.data?.[0] || {};
                     setSiteSettings(data);
                     setSiteInfoContent(data.site_info || "");
                     setGetInTouchContent(data.get_in_touch_content || "");
