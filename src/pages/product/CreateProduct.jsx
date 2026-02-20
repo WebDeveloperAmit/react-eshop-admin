@@ -68,6 +68,8 @@ const CreateProduct = () => {
                     formRef.current.reset();
                     setThumbnailPreview(null);
                     setGalleryPreviews([]);
+                    setShortDesc("");
+                    setLongDesc("");
                     dispatch(hideLoader());
                 }, 300);
 
@@ -85,37 +87,37 @@ const CreateProduct = () => {
     }
 
     useEffect(() => {
-    const fetchCategories = async () => {
-        try {
-        const response = await getAllCategoriesService('/categories');
-        if (response.status === 'success') {
-            setCategories(response?.data);
-        } else {
-            toast.error(`❌ ${response?.message}`);
-            console.error('Failed to fetch categories:', response?.message);
-        }
-        } catch (error) {
-        toast.error("❌ An error occurred while fetching categories");
-        console.error('Error fetching categories:', error);
-        }
-    }
-
-    const fetchBrands = async () => {
-        try {
-            const response =  await getAllBrandsService();
-            if (response?.status === "success") {
-                setBrands(response?.brand);
+        const fetchCategories = async () => {
+            try {
+            const response = await getAllCategoriesService('/categories');
+            if (response.status === 'success') {
+                setCategories(response?.data);
             } else {
                 toast.error(`❌ ${response?.message}`);
+                console.error('Failed to fetch categories:', response?.message);
             }
-        } catch (error) {
-            console.error("Error fetching brands:", error);
-            toast.error("❌ An error occurred while fetching brands");
+            } catch (error) {
+            toast.error("❌ An error occurred while fetching categories");
+            console.error('Error fetching categories:', error);
+            }
         }
-    }
 
-    fetchCategories();
-    fetchBrands();
+        const fetchBrands = async () => {
+            try {
+                const response =  await getAllBrandsService();
+                if (response?.status === "success") {
+                    setBrands(response?.brand);
+                } else {
+                    toast.error(`❌ ${response?.message}`);
+                }
+            } catch (error) {
+                console.error("Error fetching brands:", error);
+                toast.error("❌ An error occurred while fetching brands");
+            }
+        }
+
+        fetchCategories();
+        fetchBrands();
     }, []);
 
   return (
@@ -202,7 +204,7 @@ const CreateProduct = () => {
 
                             <Editor 
                             name="short_desc"
-                            value={setShortDesc} 
+                            value={shortDesc} 
                             onTextChange={(e) => setShortDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
                             />
@@ -220,7 +222,7 @@ const CreateProduct = () => {
 
                             <Editor 
                             name="long_desc"
-                            value={setLongDesc} 
+                            value={longDesc} 
                             onTextChange={(e) => setLongDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
                             />

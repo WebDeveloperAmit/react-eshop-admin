@@ -53,7 +53,14 @@ export const editProductService = async (productId) => {
 
 export const updateProductService = async (productData, productId) => {
     try {
-        
+        const response = await axiosInstance.put(
+            `/product/update/${productId}`,
+            productData,
+            {
+                headers: { "Content-Type" : "multipart/form-data" }
+            }
+        );
+        return response.data;
     } catch (error) {
         console.error("Error updating product:", error);
         return { 
@@ -65,7 +72,10 @@ export const updateProductService = async (productData, productId) => {
 
 export const deleteProductService = async (productId) => {
     try {
-        
+        const response = await axiosInstance.delete(
+            `/product/delete/${productId}`
+        );
+        return response.data;
     } catch (error) {
         console.error("Error deleting product:", error);
         return { 

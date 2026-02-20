@@ -3,20 +3,21 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
 import { getAllBrandsService } from "../../services/brandService";
 import { getAllCategoriesService } from "../../services/categoryService";
-import { createProductService, editProductService } from "../../services/productService";
+import { editProductService, updateProductService } from "../../services/productService";
 
 const EditProduct = () => {
 
     const { id: proId } = useParams();
 
     const {t} = useTranslation();
+    const navigate = useNavigate();
     const formRef = useRef(null);
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
@@ -73,7 +74,7 @@ const EditProduct = () => {
 
         try {
             dispatch(showLoader());
-            const response = await createProductService(formData);
+            const response = await updateProductService(formData, proId);
             if (response?.status === "success") {
                 setTimeout(() => {
                     toast.success(`${response?.message}`);
@@ -81,6 +82,7 @@ const EditProduct = () => {
                     setThumbnailPreview(null);
                     setGalleryPreviews([]);
                     dispatch(hideLoader());
+                    navigate('/products');
                 }, 300);
 
             } else {
@@ -227,6 +229,12 @@ const EditProduct = () => {
                             placeholder={t("enter_product_name")}
                             name="product_name" 
                             value={product.product_name}
+                            onChange={(e) => 
+                                setProduct((prev) => ({
+                                    ...prev,
+                                    product_name: e.target.value
+                                }))
+                            }
                             />
                             <div className="text-tiny">{t("product_name_limit")}</div>
                         </fieldset>
@@ -246,7 +254,7 @@ const EditProduct = () => {
                                         }))
                                     }
                                     >
-                                        <option disabled selected>{t("select_a_category")}</option>
+                                        <option value="" disabled>{t("select_a_category")}</option>
                                         {categories && categories.length > 0 && categories.map((category) => (
                                             <option key={category._id} value={category._id}>
                                                 {category.category_name}
@@ -269,7 +277,7 @@ const EditProduct = () => {
                                         }))
                                     }
                                     >
-                                        <option disabled selected>{t("select_a_brand")}</option>
+                                        <option value="" disabled>{t("select_a_brand")}</option>
                                         {brands && brands.length > 0 && brands.map((brand) => (
                                             <option key={brand._id} value={brand._id}>
                                                 {brand.brand_name}
@@ -432,6 +440,12 @@ const EditProduct = () => {
                                 placeholder={t("enter_regular_price")}
                                 name="regular_price" 
                                 value={product.regular_price}
+                                onChange={(e) => 
+                                    setProduct((prev) => ({
+                                        ...prev,
+                                        regular_price: e.target.value
+                                    }))
+                                }
                                 />
                             </fieldset>
                             <fieldset className="name">
@@ -442,6 +456,12 @@ const EditProduct = () => {
                                 placeholder={t("enter_sale_price")}
                                 name="sale_price" 
                                 value={product.sale_price}
+                                onChange={(e) => 
+                                    setProduct((prev) => ({
+                                        ...prev,
+                                        sale_price: e.target.value
+                                    }))
+                                }
                                 />
                             </fieldset>
                         </div>
@@ -457,6 +477,12 @@ const EditProduct = () => {
                                 placeholder={t("enter_sku")} 
                                 name="sku"
                                 value={product.sku}
+                                onChange={(e) => 
+                                    setProduct((prev) => ({
+                                        ...prev,
+                                        sku: e.target.value
+                                    }))
+                                }
                                 />
                             </fieldset>
                             <fieldset className="name">
@@ -468,6 +494,12 @@ const EditProduct = () => {
                                 placeholder={t("enter_quantity")}
                                 name="qty" 
                                 value={product.qty}
+                                onChange={(e) => 
+                                    setProduct((prev) => ({
+                                        ...prev,
+                                        qty: e.target.value
+                                    }))
+                                }
                                 />
                             </fieldset>
                         </div>
@@ -486,7 +518,7 @@ const EditProduct = () => {
                                       }))
                                     }}
                                     >
-                                        <option disabled selected>{t("select")}</option>
+                                        <option value="" disabled>{t("select")}</option>
                                         <option value="in-stock">{t("in_stock")}</option>
                                         <option value="out-of-stock">{t("out_of_stock")}</option>
                                     </select>
@@ -505,7 +537,7 @@ const EditProduct = () => {
                                       }))
                                     }
                                     >
-                                        <option disabled selected>{t("select")}</option>
+                                        <option value="" disabled>{t("select")}</option>
                                         <option value="false">{t("no")}</option>
                                         <option value="true">{t("yes")}</option>
                                     </select>
