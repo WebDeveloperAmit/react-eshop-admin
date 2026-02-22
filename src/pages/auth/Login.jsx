@@ -18,30 +18,31 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!email || !password) {
-      toast.error("All fields are required.");
-      return;
-    }
-
+    
     try {
       dispatch(showLoader());
       const credential = { email, password }; 
       const response = await loginService(credential);
-      if (response.status === "success") {
+      if (response?.status === "success") {
         setTimeout(() => {
-          toast.success(response.message);
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));
+          toast.success(response?.message);
+          localStorage.setItem('token', response?.token);
+          localStorage.setItem('user', JSON.stringify(response?.user));
           navigate("/");
           dispatch(hideLoader());
         }, 300);
       } else {
-        toast.error(response.message);
-        dispatch(hideLoader());
+        setTimeout(() => {
+          toast.error(response?.message);
+          dispatch(hideLoader());
+        }, 300);
       }
     } catch (error) {
-      toast.error(error?.message || 'Login failed. Please try again.');
+      console.error("An error occured while login:", error);
+      toast.error(
+        error?.response?.data?.message || 
+        'Login failed. Please try again.'
+      );
       dispatch(hideLoader());
     }
 
