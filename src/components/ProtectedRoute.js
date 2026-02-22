@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!token || !user || !user.role) {
     // Not logged in
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   if (user.role !== 'admin') {

@@ -29,17 +29,19 @@ const Login = () => {
       const credential = { email, password }; 
       const response = await loginService(credential);
       if (response.status === "success") {
-        // console.log(response.user);
-        toast.success(response.message);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        navigate("/");
+        setTimeout(() => {
+          toast.success(response.message);
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          navigate("/");
+          dispatch(hideLoader());
+        }, 300);
       } else {
         toast.error(response.message);
+        dispatch(hideLoader());
       }
     } catch (error) {
       toast.error(error?.message || 'Login failed. Please try again.');
-    } finally {
       dispatch(hideLoader());
     }
 

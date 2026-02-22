@@ -42,7 +42,7 @@ function App() {
         <Routes>
 
           {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/admin/login" element={<Login />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           <Route path='/' element={
@@ -54,7 +54,7 @@ function App() {
             <Route index element={<Dashboard />} />
 
              {/* catch all unmatched routes */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to="/admin/login" replace />} />
             
             {/* Brand */}
             <Route path='brand/create' element={<CreateBrand />} />

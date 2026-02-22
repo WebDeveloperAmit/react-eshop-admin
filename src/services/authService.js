@@ -2,7 +2,7 @@ import axiosInstance from "../config/axios.create";
 
 export const loginService =  async (credentials) => {
     try {
-        const response = await axiosInstance.post('/login', credentials);
+        const response = await axiosInstance.post('/admin/login', credentials);
         return response.data;
     } catch (error) {
         console.error("Error during login:", error);
