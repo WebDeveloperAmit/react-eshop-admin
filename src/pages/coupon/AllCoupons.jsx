@@ -7,18 +7,21 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
-import { deleteCoupon, getAllCouponsService, searchCouponsService } from "../../services/couponService";
+import { deleteCoupon, getAllCouponsService } from "../../services/couponService";
 
 const AllCoupons = () => {
 
     const { t } = useTranslation();
     const dispatch = useDispatch();
+
     const loading = useSelector((state) => state.loader.loading);
+
     const [coupons, setCoupons] = useState([]);
     const [originalCoupons, setOriginalCoupons] = useState([]);
-    const [search, setSearch] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
+
         const fetchCoupons = async () => {
             try {
                 dispatch(showLoader());
@@ -39,7 +42,9 @@ const AllCoupons = () => {
                 dispatch(hideLoader());
             }
         }
+
         fetchCoupons();
+
     }, [dispatch]);
 
     const handleDeleteCoupon = async (couponId) => {
@@ -83,12 +88,15 @@ const AllCoupons = () => {
             const response = await deleteCoupon(couponId);
             if (response?.status === "success") {
                 toast.success(response?.message);
+
                 setCoupons((prev) => {
                     return prev.filter(coupon => coupon._id !== couponId)
                 });
+
                 setOriginalCoupons((prev) => {
                     return prev.filter(coupon => coupon._id !== couponId)
                 });
+
             } else {
                 toast.error(response?.message);
             }
@@ -98,31 +106,42 @@ const AllCoupons = () => {
         }
     }
 
-    const handleSearch = async (e) => {
-        e.preventDefault();
+    const handleSearch = async (event) => {
+        event.preventDefault();
 
-        if (!search.trim()) {
-            toast.warning(t("please_enter_search_term"));
+        // if (!search.trim()) {
+        //     toast.warning(t("please_enter_search_term"));
+        //     return;
+        // }
+
+        // try {
+        //     dispatch(showLoader());
+        //      const response = await searchCouponsService(search);
+        //     if (response.status === "success") {
+        //         setTimeout(() => {
+        //             setCoupons(response?.coupon);
+        //             dispatch(hideLoader());
+        //         }, 500);
+        //     } else {
+        //         toast.error(response?.message);
+        //         dispatch(hideLoader());
+        //     }
+        // } catch (error) {
+        //     console.error("Error searching coupons:", error);
+        //     toast.error("An error occurred while searching coupons.");
+        //     dispatch(hideLoader());
+        // }
+
+        if (!searchTerm.trim()) {
+            setCoupons(originalCoupons);
             return;
         }
 
-        try {
-            dispatch(showLoader());
-             const response = await searchCouponsService(search);
-            if (response.status === "success") {
-                setTimeout(() => {
-                    setCoupons(response?.coupon);
-                    dispatch(hideLoader());
-                }, 500);
-            } else {
-                toast.error(response?.message);
-                dispatch(hideLoader());
-            }
-        } catch (error) {
-            console.error("Error searching coupons:", error);
-            toast.error("❌ An error occurred while searching coupons.");
-            dispatch(hideLoader());
-        }
+        const filteredCoupons = originalCoupons.filter((coupon) =>
+            coupon.code.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setCoupons(filteredCoupons);
+
     }
 
   return (
@@ -152,9 +171,9 @@ const AllCoupons = () => {
                             <input 
                             type="text" 
                             placeholder={t("search_here")} 
-                            value={search}
+                            value={searchTerm}
                             name="search" 
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </fieldset>
                         <div className="button-submit">
@@ -164,16 +183,18 @@ const AllCoupons = () => {
                             </button>
                         </div>
                     </form>
+
                     {
-                        search && (
+                        searchTerm && (
                             <span className="delIcon" onClick={() => {
-                            setSearch(""); 
+                            setSearchTerm(""); 
                             setCoupons(originalCoupons); // Reset to all coupons when search is cleared
                             }}>
                             <RiDeleteBack2Fill size={26} />
                             </span>
                         )
                     }
+
                 </div>
                 <Link className="tf-button style-1 w208" to="/coupon/create"><i className="icon-plus" />{t("add_new_coupon")}</Link>
             </div>
