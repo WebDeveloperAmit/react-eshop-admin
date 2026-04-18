@@ -227,7 +227,7 @@ const EditProduct = () => {
                 onSubmit={handleUpdateFormData}
                 >
                     <div className="wg-box">
-                        
+
                         <fieldset className="name">
                             <div className="body-title mb-10">{t("product_name")} <span className="tf-color-1">*</span>
                             </div>
@@ -263,7 +263,22 @@ const EditProduct = () => {
                                         }))
                                     }
                                     >
-                                        <option value="" disabled>{t("select_a_category")}</option>
+                                        <option value="" disabled>{t("select_category")}</option>
+                                        {categories && categories.length > 0 && categories.map((category) => (
+                                            <option key={category._id} value={category._id}>
+                                                {category.category_name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </fieldset>
+
+                            <fieldset className="category">
+                                <div className="body-title mb-10">{t("sub_category")} <span className="tf-color-1">*</span>
+                                </div>
+                                <div className="select">
+                                    <select name="sub_cat_id">
+                                        <option>{t("select_sub_category")}</option>
                                         {categories && categories.length > 0 && categories.map((category) => (
                                             <option key={category._id} value={category._id}>
                                                 {category.category_name}
@@ -287,7 +302,7 @@ const EditProduct = () => {
                                         }))
                                     }
                                     >
-                                        <option value="" disabled>{t("select_a_brand")}</option>
+                                        <option value="" disabled>{t("select_brand")}</option>
                                         {brands && brands.length > 0 && brands.map((brand) => (
                                             <option key={brand._id} value={brand._id}>
                                                 {brand.brand_name}

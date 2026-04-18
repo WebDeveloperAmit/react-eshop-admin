@@ -65,7 +65,6 @@
   "old_uploaded_slider_image": "পুরানো আপলোড করা স্লাইডার ছবি",
   "upload_new_slider_image": "নতুন স্লাইডার ছবি আপলোড করুন",
   "no_sliders_found": "কোন স্লাইডার পাওয়া যায়নি।",
-  "select_a_category": "একটি বিভাগ নির্বাচন করুন",
   "account_setting": "অ্যাকাউন্ট সেটিংস",
   "category": "বিভাগ",
   "name": "নাম",
@@ -129,7 +128,6 @@
   "out_of_stock": "স্টকে নেই",
   "enter_quantity": "পরিমাণ লিখুন",
   "enter_sku": "SKU লিখুন",
-  "select_a_brand": "একটি ব্র্যান্ড নির্বাচন করুন",
   "all_products_list": "সমস্ত পণ্যের তালিকা",
   "thumbnail_image": "থাম্বনেইল ছবি",
   "view_all": "সব দেখুন",
@@ -177,5 +175,7 @@
   "just_arrived": "নতুন এসেছে",
   "is_top_selling": "সবচেয়ে বেশি বিক্রিত",
   "is_featured_product": "বিশেষভাবে প্রদর্শিত পণ্য",
-  "is_trendy_product": "ট্রেন্ডিং পণ্য"
+  "is_trendy_product": "ট্রেন্ডিং পণ্য",
+  "sub_category": "সাবক্যাটেগরি",
+  "select_sub_category": "সাবক্যাটেগরি নির্বাচন করুন"
 }

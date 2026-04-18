@@ -61,7 +61,6 @@
   "slider_image": "Slider Image",
   "slider_sub_heading": "Slider Sub Heading",
   "upload_slider_images": "Upload Slider Images",
-  "select_a_category": "Select a category",
   "account_setting": "Account Settings",
   "no_sliders_found": "No sliders found.",
   "category": "Category",
@@ -126,7 +125,6 @@
   "out_of_stock": "Out of Stock",
   "enter_quantity": "Enter quantity",
   "enter_sku": "Enter SKU",
-  "select_a_brand": "Select a brand",
   "all_products_list": "All Products List",
   "thumbnail_image": "Thumbnail Image",
   "view_all": "View all",
@@ -174,5 +172,7 @@
   "just_arrived": "Just Arrived",
   "is_top_selling": "Is Top Selling",
   "is_featured_product": "Is Featured Product",
-  "is_trendy_product": "Is Trendy Product"
+  "is_trendy_product": "Is Trendy Product",
+  "sub_category": "Sub Category",
+  "select_sub_category": "Select Sub Category"
 }

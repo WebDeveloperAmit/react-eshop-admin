@@ -13,7 +13,7 @@ import { createProductService } from "../../services/productService";
 const CreateProduct = () => {
 
     const {t} = useTranslation();
-    
+
     const formRef = useRef(null);
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
@@ -165,6 +165,7 @@ const CreateProduct = () => {
                 onSubmit={handleFormSubmit}
                 >
                     <div className="wg-box">
+
                         <fieldset className="name">
                             <div className="body-title mb-10">{t("product_name")} <span className="tf-color-1">*</span>
                             </div>
@@ -178,12 +179,13 @@ const CreateProduct = () => {
                         </fieldset>
 
                         <div className="gap22 cols">
+
                             <fieldset className="category">
                                 <div className="body-title mb-10">{t("category")} <span className="tf-color-1">*</span>
                                 </div>
                                 <div className="select">
                                     <select name="cat_id">
-                                        <option>{t("select_a_category")}</option>
+                                        <option>{t("select_category")}</option>
                                         {categories && categories.length > 0 && categories.map((category) => (
                                             <option key={category._id} value={category._id}>
                                                 {category.category_name}
@@ -192,12 +194,28 @@ const CreateProduct = () => {
                                     </select>
                                 </div>
                             </fieldset>
+
+                            <fieldset className="category">
+                                <div className="body-title mb-10">{t("sub_category")} <span className="tf-color-1">*</span>
+                                </div>
+                                <div className="select">
+                                    <select name="sub_cat_id">
+                                        <option>{t("select_sub_category")}</option>
+                                        {categories && categories.length > 0 && categories.map((category) => (
+                                            <option key={category._id} value={category._id}>
+                                                {category.category_name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </fieldset>
+
                             <fieldset className="brand">
                                 <div className="body-title mb-10">{t("brand")} <span className="tf-color-1">*</span>
                                 </div>
                                 <div className="select">
                                     <select name="brand_id">
-                                        <option>{t("select_a_brand")}</option>
+                                        <option>{t("select_brand")}</option>
                                         {brands && brands.length > 0 && brands.map((brand) => (
                                             <option key={brand._id} value={brand._id}>
                                                 {brand.brand_name}
@@ -206,6 +224,7 @@ const CreateProduct = () => {
                                     </select>
                                 </div>
                             </fieldset>
+
                         </div>
 
                         <fieldset className="shortdescription">
