@@ -2,7 +2,7 @@ import axiosInstance from "../config/axios.create";
 
 export const getAllProductsService = async () => {
     try {
-        const response = await axiosInstance.get("/products");
+        const response = await axiosInstance.get("/admin/products");
         return response.data;
     } catch (error) {
         console.error("Error fetching products:", error);
@@ -22,7 +22,7 @@ export const createProductService = async (data) => {
         // }
 
         const response = await axiosInstance.post(
-            "/product/create", 
+            "/admin/product/create", 
             data, 
             {
                 headers: { "Content-Type" : "multipart/form-data" }
@@ -39,7 +39,7 @@ export const createProductService = async (data) => {
 export const editProductService = async (productId) => {
     try {
         const response = await axiosInstance.get(
-            `/product/edit/${productId}`
+            `/admin/product/edit/${productId}`
         );
         return response?.data;
     } catch (error) {
@@ -54,7 +54,7 @@ export const editProductService = async (productId) => {
 export const updateProductService = async (productData, productId) => {
     try {
         const response = await axiosInstance.put(
-            `/product/update/${productId}`,
+            `/admin/product/update/${productId}`,
             productData,
             {
                 headers: { "Content-Type" : "multipart/form-data" }
@@ -73,7 +73,7 @@ export const updateProductService = async (productData, productId) => {
 export const deleteProductService = async (productId) => {
     try {
         const response = await axiosInstance.delete(
-            `/product/delete/${productId}`
+            `/admin/product/delete/${productId}`
         );
         return response.data;
     } catch (error) {
@@ -88,7 +88,7 @@ export const deleteProductService = async (productId) => {
 export const searchProductService = async (searchProduct) => {
     try {
         const response  = await axiosInstance.get(
-            `/products?searchTerm=${searchProduct}`
+            `/admin/products?searchTerm=${searchProduct}`
         );
         return response?.data;
     } catch (error) {
