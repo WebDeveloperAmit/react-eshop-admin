@@ -177,5 +177,6 @@
   "is_featured_product": "বিশেষভাবে প্রদর্শিত পণ্য",
   "is_trendy_product": "ট্রেন্ডিং পণ্য",
   "sub_category": "সাবক্যাটেগরি",
-  "select_sub_category": "সাবক্যাটেগরি নির্বাচন করুন"
+  "select_sub_category": "সাবক্যাটেগরি নির্বাচন করুন",
+  "stock_quantity": "স্টক পরিমাণ"
 }

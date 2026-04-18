@@ -23,6 +23,7 @@ const AllProducts = () => {
 
 
   useEffect(() => {
+
     const fetchedAllProducts = async () => {
       try {
           dispatch(showLoader());
@@ -43,11 +44,14 @@ const AllProducts = () => {
           dispatch(hideLoader());
       }
     }
+
     fetchedAllProducts();
+
   }, [dispatch]);
 
   const handleProductDelete = async (productId) => {
     try {
+
       if (!productId) {
         toast.error(t("invalid_product_id"));
         return;
@@ -67,6 +71,7 @@ const AllProducts = () => {
       if (!result.isConfirmed) return;
 
       const response = await deleteProductService(productId);
+
       if (response?.status === "success") {
         toast.success(response?.message);
         setDisplayProducts((prev) => {
@@ -75,10 +80,12 @@ const AllProducts = () => {
       } else {
         toast.error(response?.message);
       }
+
     } catch (error) {
       console.error("An error while deleting product:", error);
       toast.error(error.response?.data?.message);
     }
+
   }
 
   const handleSearchTerm = (event) => {
@@ -114,6 +121,7 @@ const AllProducts = () => {
       console.error("An error while searching product:", error);
       dispatch(hideLoader());
     }
+
   }
 
   const handleViewProduct = (product) => {
@@ -179,15 +187,18 @@ const AllProducts = () => {
           {
             loader && <Loader />
           }
-          <div className="table-responsive">
-            <table className="table table-striped table-bordered">
+          <div className="table-responsive all_product_table">
+            <table className="table table-bordered">
               <thead>
                 <tr>
-                  <th>{t("sl_no")}</th>
+                  <th># {t("sl_no")}</th>
+                  <th>{t("thumbnail_image")}</th>
                   <th>{t("name")}</th>
                   <th>{t("sale_price")}</th>
                   <th>{t("sku")}</th>
                   <th>{t("quantity")}</th>
+                  <th>{t("stock_status")}</th>
+                  <th>{t("stock_quantity")}</th>
                   <th>{t("actions")}</th>
                 </tr>
               </thead>
@@ -195,20 +206,25 @@ const AllProducts = () => {
               {
                 displayProducts && displayProducts.length > 0 ? (
                   displayProducts.map((product, index) => (
+
                     <tr key={index}>
+
                       <td>{index + 1}</td>
+
                       <td>
                         <div className="image">
                           <img src={`${process.env.REACT_APP_BACKEND_URL}${product.thumbnail_image_url}`} alt={product.product_name} className="image" />
                         </div>
+                      </td>
 
-                        <span 
-                          style={{ cursor: "pointer", color: "#007bff" }}
+                      <td>
+                        <span className="product_name"
                           onClick={() => handleViewProduct(product)}
                         >
                           {product.product_name}
                         </span>
                       </td>
+
                       <td>
                         {product.sale_price ? (
                           <>
@@ -229,16 +245,23 @@ const AllProducts = () => {
                           </>
                         )}
                       </td>
+
                       <td>{product.sku}</td>
+
                       <td>{product.qty}</td>
+
+                      <td>
+                        {product.stock_status === "in-stock" ? (
+                          <span className="badge bg-success">In Stock</span>
+                        ) : (
+                          <span className="badge bg-danger">Out of Stock</span>
+                        )}
+                      </td>
+
+                      <td></td>
+
                       <td>
                         <div className="list-icon-function">
-
-                          {/* <Link to="#" target="_blank">
-                            <div className="item eye">
-                              <i className="icon-eye" />
-                            </div>
-                          </Link> */}
 
                           <Link to={`/product/edit/${product._id}`}>
                             <div className="item edit">
@@ -255,6 +278,7 @@ const AllProducts = () => {
                           
                         </div>
                       </td>
+
                     </tr>
                   ))
                 ) : (

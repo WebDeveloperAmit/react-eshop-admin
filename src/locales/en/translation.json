@@ -174,5 +174,6 @@
   "is_featured_product": "Is Featured Product",
   "is_trendy_product": "Is Trendy Product",
   "sub_category": "Sub Category",
-  "select_sub_category": "Select Sub Category"
+  "select_sub_category": "Select Sub Category",
+  "stock_quantity": "Stock Quantity"
 }
