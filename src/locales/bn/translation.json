@@ -186,5 +186,6 @@
   "usage_limit_required": "ব্যবহারের সীমা প্রয়োজন",
   "expiry_date_required": "মেয়াদউত্তরণের তারিখ প্রয়োজন",
   "no_data_found": "কোন তথ্য পাওয়া যায়নি",
-  "contact_will_be_deleted": "এই যোগাযোগকারী স্থায়ীভাবে মুছে ফেলা হবে!"
+  "contact_will_be_deleted": "এই যোগাযোগকারী স্থায়ীভাবে মুছে ফেলা হবে!",
+  "newsletter_will_be_deleted": "এই যোগাযোগকারী স্থায়ীভাবে মুছে ফেলা হবে!"
 }

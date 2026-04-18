@@ -183,5 +183,6 @@
   "usage_limit_required": "Usage limit is required",
   "expiry_date_required": "Expiry date is required",
   "no_data_found": "No data found",
-  "contact_will_be_deleted": "This contact will be permanently deleted!"
+  "contact_will_be_deleted": "This contact will be permanently deleted!",
+  "newsletter_will_be_deleted": "This subscribe data will be permanently deleted!"
 }

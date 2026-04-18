@@ -30,7 +30,7 @@ const ContactCustomers = () => {
                         setAllContactCustomers(response?.data || []);
                         setOriginalContactCustomers(response?.data || []);
                         dispatch(hideLoader());
-                    }, 2000);
+                    }, 1000);
                 } else {
                     toast.error(response?.message);
                     dispatch(hideLoader());
