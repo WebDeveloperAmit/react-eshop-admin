@@ -49,6 +49,7 @@ const Sliders = () => {
         console.error("Error fetching sliders:", error);
       }
     }
+    
     fetchSliders();
 
   }, [dispatch]);
@@ -219,7 +220,7 @@ const Sliders = () => {
                     <td>
                       <div className="list-icon-function">
 
-                        <Link to="#">
+                        <Link to={`/slider/edit/${slider._id}`}>
                           <div className="item edit">
                             <i className="icon-edit-3" />
                           </div>

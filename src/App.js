@@ -8,6 +8,7 @@ import Newslatters from './features/Newsletter/Newslatters';
 import Settings from './features/Settings';
 import SiteSetting from './features/SiteSetting';
 import AddSlider from './features/Slider/AddSlider';
+import EditSlider from './features/Slider/EditSlider';
 import Sliders from './features/Slider/Sliders';
 import Dashboard from './pages/Dashboard';
 import Unauthorized from './pages/Unauthorized';
@@ -76,7 +77,9 @@ function App() {
             <Route path='subcategory/:id/edit' element={<EditSubCategory />} />
 
             <Route path='orders' element={<Orders />} />
+
             <Route path='slider/create' element={<AddSlider />} />
+            <Route path='slider/edit/:id' element={<EditSlider />} />
             <Route path='sliders' element={<Sliders />} />
 
             {/* Coupon */}

@@ -177,12 +177,12 @@ const CreateProduct = () => {
             if (response.status === 'success') {
                 setCategories(response?.data);
             } else {
-                toast.error(`❌ ${response?.message}`);
+                toast.error(response?.message);
                 console.error('Failed to fetch categories:', response?.message);
             }
             } catch (error) {
-            toast.error("❌ An error occurred while fetching categories");
-            console.error('Error fetching categories:', error);
+                toast.error(error.response?.data?.message);
+                console.error('Error fetching categories:', error);
             }
         }
 
