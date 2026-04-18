@@ -13,42 +13,68 @@ const AddSlider = () => {
   const { t } = useTranslation();
   const formRef = useRef(null);
   const dispatch = useDispatch();
+
   const loading = useSelector((state) => state.loader.loading);
+
   const [categories, setCategories] = useState([]);
   const [preview, setPreview] = useState(null);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    const form = event.target;
+
+    const slider_title = form.slider_title.value.trim();
+    const slider_heading = form.slider_heading.value.trim();
+    const slider_sub_heading = form.slider_sub_heading.value.trim();
+    const slider_image = form.slider_image.files[0];
+    const cat_slug = form.cat_slug.value;
+
+    if (!slider_title) return toast.error("Slider title is required");
+    if (!slider_heading) return toast.error("Slider heading is required");
+    if (!slider_sub_heading) return toast.error("Slider sub heading is required");
+    if (!slider_image) return toast.error("Slider image is required");
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    
+    if (!allowedTypes.includes(slider_image.type)) {
+      return toast.error("Slider image must be JPG, PNG, or WEBP");
+    }
+
+    if (!cat_slug) return toast.error("Category is required");
+
     const formData = new FormData();
 
-    formData.append('slider_title', event.target.slider_title.value);
-    formData.append('slider_heading', event.target.slider_heading.value);
-    formData.append('slider_sub_heading', event.target.slider_sub_heading.value);
-    formData.append('slider_image', event.target.slider_image.files[0]);
-    formData.append('cat_slug', event.target.cat_slug.value);
+    formData.append('slider_title', slider_title);
+    formData.append('slider_heading', slider_heading);
+    formData.append('slider_sub_heading', slider_sub_heading);
+    formData.append('slider_image', slider_image);
+    formData.append('cat_slug', cat_slug);
 
     try {
         dispatch(showLoader());
         const response = await createSliderService(formData);
         if (response?.status === 'success') {
-          toast.success(`✅ ${response?.message}`);
+          toast.success(response?.message);
           formRef.current.reset();
           setPreview(null);
         } else {
-          toast.error(`❌ ${response?.message}`);
+          toast.error(response?.message);
+          dispatch(hideLoader());
         }
+
     } catch (error) {
         console.error('Error creating slider:', error);
-        toast.error('❌ An error occurred while creating the slider');
-    } finally {
-      dispatch(hideLoader());
+        toast.error(error.response?.data?.message);
+        dispatch(hideLoader());
     }
     
   } 
 
   useEffect(() => {
+
     const fetchCategories = async () => {
+
       try {
         const response = await getAllCategoriesService('/categories');
         if (response.status === 'success') {
@@ -59,8 +85,11 @@ const AddSlider = () => {
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
+
     }
+
     fetchCategories();
+
   }, [dispatch]);
 
   return (
@@ -91,9 +120,16 @@ const AddSlider = () => {
             </ul>
           </div>
           {/* new-category */}
+
           {loading && <Loader />}
+
           <div className="wg-box">
-            <form className="form-new-product form-style-1" onSubmit={handleFormSubmit} ref={formRef}>
+
+            <form 
+            className="form-new-product form-style-1" 
+            onSubmit={handleFormSubmit} 
+            ref={formRef}
+            >
               <fieldset className="name">
                 <div className="body-title">{t("slider_title")} <span className="tf-color-1">*</span></div>
                 <input className="flex-grow" type="text" placeholder={t("slider_title")} name="slider_title" />
@@ -133,10 +169,10 @@ const AddSlider = () => {
               </fieldset>
 
               <fieldset className="category">
-                <div className="body-title">{t("select_a_category")}</div>
+                <div className="body-title">{t("select_category")}</div>
                 <div className="select flex-grow">
                   <select name="cat_slug" id="cat_slug">
-                    <option value="" disabled>{t("select_a_category")}</option>
+                    <option value="">{t("select_category")}</option>
                     {categories && categories.map((category) => (
                       <option key={category._id} value={category.category_slug}>{category.category_name}</option>
                     ))}
@@ -154,7 +190,9 @@ const AddSlider = () => {
                   {loading ? t("saving") : t("save")}
                 </button>
               </div>
+
             </form>
+
           </div>
           {/* /new-category */}
         </div>
