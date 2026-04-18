@@ -13,6 +13,7 @@ import { createProductService } from "../../services/productService";
 const CreateProduct = () => {
 
     const {t} = useTranslation();
+    
     const formRef = useRef(null);
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loader.loading);
@@ -24,8 +25,11 @@ const CreateProduct = () => {
     const [longDesc, setLongDesc] = useState("");
 
     const handleFormSubmit = async (event) => {
+
         event.preventDefault();
+
         const formData = new FormData();
+
         formData.append("product_name", event.target.product_name.value);
         formData.append("cat_id", event.target.cat_id.value);
         formData.append("brand_id", event.target.brand_id.value);
@@ -37,6 +41,9 @@ const CreateProduct = () => {
         formData.append("qty", event.target.qty.value);
         formData.append("stock_status", event.target.stock_status.value);
         formData.append("is_featured", event.target.is_featured.value);
+        formData.append("is_trendy", event.target.is_trendy_product.value);
+        formData.append("just_arrived", event.target.just_arrived.value);
+        formData.append("is_top_selling", event.target.is_top_selling.value);
 
         // formData.append("thumbnail_image", event.target.thumbnail_image.files[0]);
         if (event.target.thumbnail_image.files[0]) {
@@ -87,6 +94,7 @@ const CreateProduct = () => {
     }
 
     useEffect(() => {
+
         const fetchCategories = async () => {
             try {
             const response = await getAllCategoriesService('/categories');
@@ -118,6 +126,7 @@ const CreateProduct = () => {
 
         fetchCategories();
         fetchBrands();
+
     }, [dispatch]);
 
   return (
@@ -361,7 +370,7 @@ const CreateProduct = () => {
                                 </div>
                             </fieldset>
                             <fieldset className="name">
-                                <div className="body-title mb-10">{t("featured")}</div>
+                                <div className="body-title mb-10">{t("is_featured_product")}</div>
                                 <div className="select mb-10">
                                     <select name="is_featured">
                                         <option value="false">{t("no")}</option>
@@ -370,6 +379,37 @@ const CreateProduct = () => {
                                 </div>
                             </fieldset>
                         </div>
+
+                        <div className="cols gap22">
+                            <fieldset className="name">
+                                <div className="body-title mb-10">{t("is_trendy_product")}</div>
+                                <div className="select mb-10">
+                                    <select name="is_trendy_product">
+                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="no">{t("No")}</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                            <fieldset className="name">
+                                <div className="body-title mb-10">{t("just_arrived")}</div>
+                                <div className="select mb-10">
+                                    <select name="just_arrived">
+                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="no">{t("No")}</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                            <fieldset className="name">
+                                <div className="body-title mb-10">{t("is_top_selling")}</div>
+                                <div className="select mb-10">
+                                    <select name="is_top_selling">
+                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="no">{t("No")}</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                        </div>
+
                         <div className="cols gap10">
                             <button className="tf-button w-full" type="submit">{t("add_product")}</button>
                         </div>

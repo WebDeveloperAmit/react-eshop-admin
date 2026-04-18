@@ -173,5 +173,9 @@
   "update": "আপডেট",
   "old_thumbnail_image": "পুরাতন থাম্বনেইল ছবি",
   "old_gallery_images": "পুরাতন গ্যালারি ছবি",
-  "gallery_image_will_be_deleted": "এই গ্যালারি ছবিটি স্থায়ীভাবে মুছে ফেলা হবে"
+  "gallery_image_will_be_deleted": "এই গ্যালারি ছবিটি স্থায়ীভাবে মুছে ফেলা হবে",
+  "just_arrived": "নতুন এসেছে",
+  "is_top_selling": "সবচেয়ে বেশি বিক্রিত",
+  "is_featured_product": "বিশেষভাবে প্রদর্শিত পণ্য",
+  "is_trendy_product": "ট্রেন্ডিং পণ্য"
 }

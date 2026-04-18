@@ -28,6 +28,7 @@ const EditProduct = () => {
     const [shortDesc, setShortDesc] = useState("");
     const [longDesc, setLongDesc] = useState("");
     const [oldGalleryImages, setOldGalleryImages] = useState([]);
+
     const [product, setProduct] = useState({
       stock_status: "",
       is_featured: false,
@@ -36,9 +37,11 @@ const EditProduct = () => {
     });
 
     const handleUpdateFormData = async (event) => {
+
         event.preventDefault();
 
         const formData = new FormData();
+
         formData.append("product_name", event.target.product_name.value);
         formData.append("cat_id", event.target.cat_id.value);
         formData.append("brand_id", event.target.brand_id.value);
@@ -50,6 +53,9 @@ const EditProduct = () => {
         formData.append("qty", event.target.qty.value);
         formData.append("stock_status", event.target.stock_status.value);
         formData.append("is_featured", event.target.is_featured.value);
+        formData.append("is_trendy", event.target.is_trendy_product.value);
+        formData.append("just_arrived", event.target.just_arrived.value);
+        formData.append("is_top_selling", event.target.is_top_selling.value);
 
         // formData.append("thumbnail_image", event.target.thumbnail_image.files[0]);
         if (event.target.thumbnail_image.files[0]) {
@@ -157,6 +163,7 @@ const EditProduct = () => {
 
     }, [dispatch, proId]);
 
+
     const handleRemoveOldImage = async (removeId) => {
         try {
 
@@ -220,6 +227,7 @@ const EditProduct = () => {
                 onSubmit={handleUpdateFormData}
                 >
                     <div className="wg-box">
+                        
                         <fieldset className="name">
                             <div className="body-title mb-10">{t("product_name")} <span className="tf-color-1">*</span>
                             </div>
@@ -240,6 +248,7 @@ const EditProduct = () => {
                         </fieldset>
 
                         <div className="gap22 cols">
+
                             <fieldset className="category">
                                 <div className="body-title mb-10">{t("category")} <span className="tf-color-1">*</span>
                                 </div>
@@ -263,6 +272,7 @@ const EditProduct = () => {
                                     </select>
                                 </div>
                             </fieldset>
+
                             <fieldset className="brand">
                                 <div className="body-title mb-10">{t("brand")} <span className="tf-color-1">*</span>
                                 </div>
@@ -286,6 +296,7 @@ const EditProduct = () => {
                                     </select>
                                 </div>
                             </fieldset>
+
                         </div>
 
                         <fieldset className="shortdescription">
@@ -432,6 +443,7 @@ const EditProduct = () => {
                         </fieldset>
 
                         <div className="cols gap22">
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("regular_price")} <span className="tf-color-1">*</span></div>
                                 <input 
@@ -448,6 +460,7 @@ const EditProduct = () => {
                                 }
                                 />
                             </fieldset>
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("sale_price")} <span className="tf-color-1">*</span></div>
                                 <input 
@@ -464,10 +477,12 @@ const EditProduct = () => {
                                 }
                                 />
                             </fieldset>
+
                         </div>
 
 
                         <div className="cols gap22">
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("sku")} <span className="tf-color-1">*</span>
                                 </div>
@@ -485,6 +500,7 @@ const EditProduct = () => {
                                 }
                                 />
                             </fieldset>
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("quantity")} <span className="tf-color-1">*</span>
                                 </div>
@@ -502,9 +518,11 @@ const EditProduct = () => {
                                 }
                                 />
                             </fieldset>
+
                         </div>
 
                         <div className="cols gap22">
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("stock_status")}</div>
                                 <div className="select mb-10">
@@ -524,6 +542,7 @@ const EditProduct = () => {
                                     </select>
                                 </div>
                             </fieldset>
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("featured")}</div>
                                 <div className="select mb-10">
@@ -543,7 +562,40 @@ const EditProduct = () => {
                                     </select>
                                 </div>
                             </fieldset>
+
                         </div>
+
+                        <div className="cols gap22">
+                            <fieldset className="name">
+                                <div className="body-title mb-10">{t("is_trendy_product")}</div>
+                                <div className="select mb-10">
+                                    <select name="is_trendy_product">
+                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="no">{t("No")}</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                            <fieldset className="name">
+                                <div className="body-title mb-10">{t("just_arrived")}</div>
+                                <div className="select mb-10">
+                                    <select name="just_arrived">
+                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="no">{t("No")}</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                            <fieldset className="name">
+                                <div className="body-title mb-10">{t("is_top_selling")}</div>
+                                <div className="select mb-10">
+                                    <select name="is_top_selling">
+                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="no">{t("No")}</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                        </div>
+
+
                         <div className="cols gap10">
                             <button 
                             className="tf-button w-full" 

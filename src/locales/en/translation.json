@@ -170,5 +170,9 @@
   "update": "Update",
   "old_thumbnail_image": "Old thumbnail image",
   "old_gallery_images": "Old gallery images",
-  "gallery_image_will_be_deleted": "This gallery image will be deleted permanently"
+  "gallery_image_will_be_deleted": "This gallery image will be deleted permanently",
+  "just_arrived": "Just Arrived",
+  "is_top_selling": "Is Top Selling",
+  "is_featured_product": "Is Featured Product",
+  "is_trendy_product": "Is Trendy Product"
 }
