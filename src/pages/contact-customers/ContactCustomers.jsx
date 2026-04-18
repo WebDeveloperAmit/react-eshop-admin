@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
@@ -15,6 +16,8 @@ const ContactCustomers = () => {
 
     const loading = useSelector((state) => state.loader.loading);
     const [allContactCustomers, setAllContactCustomers] = useState([]);
+    const [originalContactCustomers, setOriginalContactCustomers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
 
@@ -25,6 +28,7 @@ const ContactCustomers = () => {
                 if (response?.status === "success") {
                     setTimeout(() => {
                         setAllContactCustomers(response?.data || []);
+                        setOriginalContactCustomers(response?.data || []);
                         dispatch(hideLoader());
                     }, 2000);
                 } else {
@@ -67,7 +71,15 @@ const ContactCustomers = () => {
             if (response?.status === "success") {
                 setTimeout(() => {
                     toast.success(response?.message);
-                    setAllContactCustomers((prev) => prev.filter((contact) => contact._id !== contactId));
+
+                    setAllContactCustomers((prev) => 
+                        prev.filter((contact) => contact._id !== contactId)
+                    );
+
+                    setOriginalContactCustomers((prev) => 
+                        prev.filter((contact) => contact._id !== contactId)
+                    );
+
                     dispatch(hideLoader());
                 }, 3000);
 
@@ -82,6 +94,22 @@ const ContactCustomers = () => {
         }
 
     }
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+
+        if (!searchTerm.trim()) {
+            setAllContactCustomers(originalContactCustomers);
+            return;
+        }
+
+        const filteredContacts = originalContactCustomers.filter((contact) =>
+            contact.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            contact.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setAllContactCustomers(filteredContacts);
+    };
+
 
   return (
     <div className="main-content-inner">
@@ -107,22 +135,35 @@ const ContactCustomers = () => {
             <div className="wg-box">
                 <div className="flex items-center justify-between gap10 flex-wrap">
                     <div className="wg-filter flex-grow">
-                        <form className="form-search">
+
+                        <form className="form-search" onSubmit={handleSearch}>
                             <fieldset className="name">
-                            <input 
-                            type="text" 
-                            placeholder={t("search_here")} 
-                            className="form-input" 
-                            name="name" 
-                            required 
-                            />
+                                <input 
+                                type="text" 
+                                placeholder={t("search_here")} 
+                                className="form-input" 
+                                name="name" 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                required 
+                                />
                             </fieldset>
                             <div className="button-submit">
-                                <button 
-                                type="submit"><i className="icon-search" />
-                                </button>
+                                <button type="submit"><i className="icon-search" /></button>
                             </div>
                         </form>
+
+                        {
+                            searchTerm && (
+                                <span className="delIcon" onClick={() => {
+                                setSearchTerm(""); 
+                                setAllContactCustomers(originalContactCustomers);
+                                }}>
+                                <RiDeleteBack2Fill size={26} />
+                                </span>
+                            )
+                        }
+
                     </div>
                 </div>
 
@@ -166,7 +207,7 @@ const ContactCustomers = () => {
 
                             ) : (
                                 <tr>
-                                    <td colSpan="6" className="text-center">
+                                    <td colSpan="5" className="text-center">
                                         {t("no_data_found")}
                                     </td>
                                 </tr>
