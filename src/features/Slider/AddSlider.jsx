@@ -55,18 +55,21 @@ const AddSlider = () => {
         dispatch(showLoader());
         const response = await createSliderService(formData);
         if (response?.status === 'success') {
-          toast.success(response?.message);
-          formRef.current.reset();
-          setPreview(null);
+          setTimeout(() => {
+            dispatch(hideLoader());
+            toast.success(response?.message);
+            formRef.current.reset();
+            setPreview(null);
+          }, 1000);
         } else {
-          toast.error(response?.message);
           dispatch(hideLoader());
+          toast.error(response?.message);
         }
 
     } catch (error) {
+        dispatch(hideLoader());
         console.error('Error creating slider:', error);
         toast.error(error.response?.data?.message);
-        dispatch(hideLoader());
     }
     
   } 
