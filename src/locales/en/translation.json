@@ -184,5 +184,6 @@
   "expiry_date_required": "Expiry date is required",
   "no_data_found": "No data found",
   "contact_will_be_deleted": "This contact will be permanently deleted!",
-  "newsletter_will_be_deleted": "This subscribe data will be permanently deleted!"
+  "newsletter_will_be_deleted": "This subscribe data will be permanently deleted!",
+  "slider_will_be_deleted": "This slider will be permanently deleted!"
 }

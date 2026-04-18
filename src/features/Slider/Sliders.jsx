@@ -4,9 +4,10 @@ import { RiDeleteBack2Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
-import { getAllSlidersService } from "../../services/sliderService";
+import { deleteSliderService, getAllSlidersService } from "../../services/sliderService";
 
 const Sliders = () => {
 
@@ -66,6 +67,56 @@ const Sliders = () => {
       );
       setSliders(filteredSliders);
   };
+
+  const handleDeleteSlider = async (sliderId) => {
+
+      const result = await Swal.fire({
+          title: t("are_you_sure"),
+          text: t("slider_will_be_deleted"),
+          icon: "warning",
+          customClass: {
+              popup: "swal-large",
+              title: "swal-title",
+              htmlContainer: "swal-text",
+              confirmButton: "swal-btn",
+              cancelButton: "swal-btn"
+          },
+          showCancelButton: true,
+          confirmButtonText: t("yes_delete"),
+          cancelButtonText: t("cancel")
+      });
+
+      if (!result.isConfirmed) return;
+
+      try {
+        dispatch(showLoader());
+        const response = await deleteSliderService(sliderId);
+        if (response?.status === "success") {
+
+          setTimeout(() => {
+            dispatch(hideLoader());
+            toast.success(response?.message);
+
+            setSliders((prev) => 
+              prev.filter((slider) => slider._id !== sliderId)
+            );
+
+            setOriginalSliders((prev) => 
+              prev.filter((slider) => slider._id !== sliderId)
+            );
+
+          }, 2000);
+
+        } else {
+          dispatch(hideLoader());
+          toast.success(response?.message);
+        }
+
+      } catch (error) {
+        dispatch(hideLoader());
+        toast.error(error.response?.data?.message);
+      }
+  }
 
   return (
     <div className="main-content-inner">
@@ -174,7 +225,7 @@ const Sliders = () => {
                           </div>
                         </Link>
 
-                        <Link to="#">
+                        <Link to="#" onClick={() => handleDeleteSlider(slider._id)}>
                           <div className="item text-danger delete">
                             <i className="icon-trash-2" />
                           </div>
