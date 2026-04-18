@@ -122,7 +122,7 @@ const Sliders = () => {
 
           {loading && <Loader />}
 
-          <div className="table-responsive">
+          <div className="table-responsive slider_sec">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -144,7 +144,7 @@ const Sliders = () => {
                     <td>{index + 1}</td>
 
                     <td>
-                      <div className="image">
+                      <div className="slider_image">
                         <img src={`${process.env.REACT_APP_BACKEND_URL}/${slider.slider_image_url}`} alt={slider.slider_title} className="image" />
                       </div>
                     </td>
