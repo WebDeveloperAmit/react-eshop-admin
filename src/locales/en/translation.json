@@ -181,5 +181,7 @@
   "discount_amount_required": "Discount amount is required",
   "minimum_purchase_required": "Minimum purchase is required",
   "usage_limit_required": "Usage limit is required",
-  "expiry_date_required": "Expiry date is required"
+  "expiry_date_required": "Expiry date is required",
+  "no_data_found": "No data found",
+  "contact_will_be_deleted": "This contact will be permanently deleted!"
 }

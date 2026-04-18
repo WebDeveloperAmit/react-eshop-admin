@@ -2,7 +2,7 @@ import axiosInstance from "../config/axios.create";
 
 export const getAllContactCustomersService = async (contactData) => {
     try {
-        const response = await axiosInstance.post();
+        const response = await axiosInstance.get('/admin/contacts');
         return response.data;
     } catch (error) {
         console.error("Error contacting customer:", error);
@@ -13,7 +13,7 @@ export const getAllContactCustomersService = async (contactData) => {
 
 export const deleteContactCustomerService = async (contactId) => {
     try {
-        const response = await axiosInstance.delete(`/contact-customer/delete/${contactId}`);
+        const response = await axiosInstance.delete(`/admin/contact/${contactId}`);
         return response.data;
     } catch (error) {
         console.error("Error deleting contact customer:", error);

@@ -184,5 +184,7 @@
   "discount_amount_required": "ডিসকাউন্ট পরিমাণ প্রয়োজন",
   "minimum_purchase_required": "ন্যূনতম কেনা পরিমাণ প্রয়োজন",
   "usage_limit_required": "ব্যবহারের সীমা প্রয়োজন",
-  "expiry_date_required": "মেয়াদউত্তরণের তারিখ প্রয়োজন"
+  "expiry_date_required": "মেয়াদউত্তরণের তারিখ প্রয়োজন",
+  "no_data_found": "কোন তথ্য পাওয়া যায়নি",
+  "contact_will_be_deleted": "এই যোগাযোগকারী স্থায়ীভাবে মুছে ফেলা হবে!"
 }
