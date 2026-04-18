@@ -178,5 +178,11 @@
   "is_trendy_product": "ট্রেন্ডিং পণ্য",
   "sub_category": "সাবক্যাটেগরি",
   "select_sub_category": "সাবক্যাটেগরি নির্বাচন করুন",
-  "stock_quantity": "স্টক পরিমাণ"
+  "stock_quantity": "স্টক পরিমাণ",
+  "coupon_code_required": "কুপন কোড প্রয়োজন",
+  "coupon_type_required": "কুপন টাইপ প্রয়োজন",
+  "discount_amount_required": "ডিসকাউন্ট পরিমাণ প্রয়োজন",
+  "minimum_purchase_required": "ন্যূনতম কেনা পরিমাণ প্রয়োজন",
+  "usage_limit_required": "ব্যবহারের সীমা প্রয়োজন",
+  "expiry_date_required": "মেয়াদউত্তরণের তারিখ প্রয়োজন"
 }

@@ -175,5 +175,11 @@
   "is_trendy_product": "Is Trendy Product",
   "sub_category": "Sub Category",
   "select_sub_category": "Select Sub Category",
-  "stock_quantity": "Stock Quantity"
+  "stock_quantity": "Stock Quantity",
+  "coupon_code_required": "Coupon code is required",
+  "coupon_type_required": "Coupon type is required",
+  "discount_amount_required": "Discount amount is required",
+  "minimum_purchase_required": "Minimum purchase is required",
+  "usage_limit_required": "Usage limit is required",
+  "expiry_date_required": "Expiry date is required"
 }

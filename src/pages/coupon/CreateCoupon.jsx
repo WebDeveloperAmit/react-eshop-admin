@@ -26,6 +26,13 @@ const CreateCoupon = () => {
         const usageLimit = form.usage_limit.value;
         const expiryDate = form.expiry_date.value;
 
+        if (!code) return toast.error(t("coupon_code_required"));
+        if (!type) return toast.error(t("coupon_type_required"));
+        if (!discount) return toast.error(t("discount_amount_required"));
+        if (!minPurchase) return toast.error(t("minimum_purchase_required"));
+        if (!usageLimit) return toast.error(t("usage_limit_required"));
+        if (!expiryDate) return toast.error(t("expiry_date_required"));
+
         const couponData = {
             code,
             type,
@@ -44,10 +51,10 @@ const CreateCoupon = () => {
                 toast.success(response?.message);
                 formRef.current.reset();
             } else {
-                toast.error(`❌ ${response.message}`);
+                toast.error(`${response.message}`);
             }
         } catch (error) {
-            toast.error("❌ An error occurred while creating the coupon");
+            toast.error("An error occurred while creating the coupon");
             console.error("Error creating coupon:", error);
         } finally {
             dispatch(hideLoader());
@@ -96,7 +103,7 @@ const CreateCoupon = () => {
                     <div className="body-title">{t("coupon_type")}</div>
                     <div className="select flex-grow">
                         <select name="type">
-                        <option value>{t("select")}</option>
+                        <option value="">{t("select")}</option>
                         <option value="fixed">{t("fixed")}</option>
                         <option value="percentage">{t("percentage")}</option>
                         </select>

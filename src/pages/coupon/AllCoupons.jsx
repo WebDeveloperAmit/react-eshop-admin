@@ -49,13 +49,30 @@ const AllCoupons = () => {
             return;
         }
 
+        // const result = await Swal.fire({
+        //     title: t("are_you_sure"),
+        //     text: t("coupon_will_be_deleted"),
+        //     icon: "warning",
+        //      width: "500px",
+        //     showCancelButton: true,
+        //     confirmButtonColor: "#d33",
+        //     cancelButtonColor: "#3085d6",
+        //     confirmButtonText: t("yes_delete"),
+        //     cancelButtonText: t("cancel")
+        // });
+
         const result = await Swal.fire({
             title: t("are_you_sure"),
             text: t("coupon_will_be_deleted"),
             icon: "warning",
+            customClass: {
+                popup: "swal-large",
+                title: "swal-title",
+                htmlContainer: "swal-text",
+                confirmButton: "swal-btn",
+                cancelButton: "swal-btn"
+            },
             showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
             confirmButtonText: t("yes_delete"),
             cancelButtonText: t("cancel")
         });

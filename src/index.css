@@ -80,3 +80,22 @@
   text-decoration: none;
   color: rgb(51, 51, 51);
 }
+
+.swal-large {
+  width: 500px !important;
+  font-size: 18px;
+}
+
+.swal-title {
+  font-size: 24px !important;
+}
+
+.swal-text {
+  font-size: 18px !important;
+  text-align: center;
+}
+
+.swal-btn {
+  font-size: 16px !important;
+  padding: 10px 20px !important;
+}
