@@ -118,7 +118,7 @@ const CreateProduct = () => {
 
         fetchCategories();
         fetchBrands();
-    }, []);
+    }, [dispatch]);
 
   return (
       <div className="main-content-inner">

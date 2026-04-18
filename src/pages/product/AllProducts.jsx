@@ -44,7 +44,7 @@ const AllProducts = () => {
       }
     }
     fetchedAllProducts();
-  }, []);
+  }, [dispatch]);
 
   const handleProductDelete = async (productId) => {
     try {

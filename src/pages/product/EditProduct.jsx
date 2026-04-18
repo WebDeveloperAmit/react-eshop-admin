@@ -155,7 +155,7 @@ const EditProduct = () => {
       fetchBrands();
       fetchProductDetails();
 
-    }, [dispatch]);
+    }, [dispatch, proId]);
 
     const handleRemoveOldImage = async (removeId) => {
         try {

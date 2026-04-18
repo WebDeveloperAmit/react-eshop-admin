@@ -23,6 +23,8 @@ const Login = () => {
       dispatch(showLoader());
       const credential = { email, password }; 
       const response = await loginService(credential);
+      console.log("Login response:", response);
+      console.log(response?.token);
       if (response?.status === "success") {
         setTimeout(() => {
           toast.success(response?.message);
