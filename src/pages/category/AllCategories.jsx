@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
-import { deleteCategoryService, getAllCategoriesService, searchCategoryService } from "../../services/categoryService";
+import { deleteCategoryService, getAllCategoriesService } from "../../services/categoryService";
 
 const AllCategories = () => {
 
@@ -108,25 +108,32 @@ const AllCategories = () => {
     }
   }
 
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    // console.log(search);
+    
     if (!search.trim()) {
       toast.warning(t("please_enter_search_term"));
       return;
     }
 
-    try {
-      const response = await searchCategoryService(search);
-      if (response?.status === "success") {
-        setCategories(response?.data);
-      } else {
-        toast.error(response?.message || "Search failed");
-      }
-    } catch (error) {
-      console.error("An error while searching category:", error);
-      toast.error("Something went wrong");
-    }
+
+    const filteredCategories = originalCategories.filter((category) => {
+      return category.category_name.toLowerCase().includes(search.toLowerCase())
+    });
+
+    setCategories(filteredCategories);
+
+    // try {
+    //   const response = await searchCategoryService(search);
+    //   if (response?.status === "success") {
+    //     setCategories(response?.data);
+    //   } else {
+    //     toast.error(response?.message || "Search failed");
+    //   }
+    // } catch (error) {
+    //   console.error("An error while searching category:", error);
+    //   toast.error("Something went wrong");
+    // }
   }
 
   return (
@@ -166,7 +173,7 @@ const AllCategories = () => {
                   onChange={(e) => setSearch(e.target.value)}
                   />
                 </fieldset>
-                
+
                 <div className="button-submit">
                   <button type="submit">
                     <i className="icon-search" />
