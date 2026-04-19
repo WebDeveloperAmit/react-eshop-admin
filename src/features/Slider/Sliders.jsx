@@ -185,6 +185,7 @@ const Sliders = () => {
                   <th>{t("slider_sub_heading")}</th>
                   <th>{t("category")}</th>
                   <th>{t("created_at")}</th>
+                  <th>{t("updated_at")}</th>
                   <th>{t("actions")}</th>
                 </tr>
               </thead>
@@ -205,8 +206,10 @@ const Sliders = () => {
                     <td>{slider.slider_heading}</td>
                     <td>{slider.slider_sub_heading}</td>
                     <td>{slider.cat_slug}</td>
+
                     <td>
-                      {new Date(slider.createdAt).toLocaleString("en-IN", {
+                      {slider.createdAt 
+                      ? new Date(slider.createdAt).toLocaleString("en-IN", {
                           year: "numeric",
                           month: "long",
                           day: "numeric",
@@ -214,7 +217,22 @@ const Sliders = () => {
                           minute: "2-digit",
                           second: "2-digit",
                           hour12: true
-                      })}
+                      }) 
+                      : "N/A"}
+                    </td>
+
+                    <td>
+                      {slider.updatedAt 
+                       ? new Date(slider.updatedAt).toLocaleString("en-IN", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          second: "2-digit",
+                          hour12: true
+                      })
+                      : "N/A"}
                     </td>
 
                     <td>
@@ -239,7 +257,7 @@ const Sliders = () => {
                 )) 
               ) : (
                   <tr>
-                    <td colSpan="8" className="text-center">{t("no_sliders_found")}</td>
+                    <td colSpan="9" className="text-center">{t("no_sliders_found")}</td>
                   </tr>
               )}
               </tbody>
