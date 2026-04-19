@@ -1,4 +1,3 @@
-import { Editor } from "primereact/editor";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -306,17 +305,21 @@ const CreateProduct = () => {
                         <fieldset className="shortdescription">
                             <div className="body-title mb-10">{t("short_description")} <span className="tf-color-1">*</span></div>
 
-                            <Editor 
+                            {/* <Editor 
                             name="short_desc"
                             value={shortDesc} 
                             onTextChange={(e) => setShortDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
-                            />
+                            /> */}
 
-                            {/* <textarea 
+                            <textarea 
                             className="mb-10 ht-150" 
                             name="short_desc"
-                            placeholder={t("short_description")}></textarea> */}
+                            placeholder={ t("write_text") }
+                            onChange={(e) => setShortDesc(e.target.value)}
+                            >
+                                {shortDesc}
+                            </textarea>
 
                         </fieldset>
 
@@ -324,23 +327,24 @@ const CreateProduct = () => {
                             <div className="body-title mb-10">{t("long_description")} <span className="tf-color-1">*</span>
                             </div>
 
-                            <Editor 
+                            {/* <Editor 
                             name="long_desc"
                             value={longDesc} 
                             onTextChange={(e) => setLongDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
-                            />
+                            /> */}
 
-                            {/* <textarea 
+                            <textarea 
                             className="mb-10" 
                             name="long_desc" 
-                            placeholder={t("description")}></textarea> */}
+                            placeholder={ t("write_text") }
+                            onChange={(e) => setLongDesc(e.target.value)}
+                            >
+                                {longDesc}
+                            </textarea>
 
                         </fieldset>
 
-                    </div>
-
-                    <div className="wg-box">
                         <fieldset>
                             <div className="body-title mb-10">{t("upload_thumbnail_image")} <span className="tf-color-1">*</span>
                             </div>
@@ -371,6 +375,10 @@ const CreateProduct = () => {
                                 </div>
                             </div>
                         </fieldset>
+
+                    </div>
+
+                    <div className="wg-box">
 
                         <fieldset>
                             <div className="body-title mb-10">{t("upload_product_images")}</div>
@@ -480,8 +488,8 @@ const CreateProduct = () => {
                                 <div className="body-title mb-10">{t("is_trendy_product")}</div>
                                 <div className="select mb-10">
                                     <select name="is_trendy_product">
-                                        <option value="yes">{t("Yes")}</option>
                                         <option value="no">{t("No")}</option>
+                                        <option value="yes">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
@@ -489,8 +497,8 @@ const CreateProduct = () => {
                                 <div className="body-title mb-10">{t("just_arrived")}</div>
                                 <div className="select mb-10">
                                     <select name="just_arrived">
-                                        <option value="yes">{t("Yes")}</option>
                                         <option value="no">{t("No")}</option>
+                                        <option value="yes">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
@@ -498,8 +506,8 @@ const CreateProduct = () => {
                                 <div className="body-title mb-10">{t("is_top_selling")}</div>
                                 <div className="select mb-10">
                                     <select name="is_top_selling">
-                                        <option value="yes">{t("Yes")}</option>
                                         <option value="no">{t("No")}</option>
+                                        <option value="yes">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>

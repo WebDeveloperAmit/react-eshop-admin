@@ -1,4 +1,3 @@
-import { Editor } from "primereact/editor";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaTrash } from "react-icons/fa";
@@ -274,7 +273,7 @@ const EditProduct = () => {
                             </fieldset>
 
                             <fieldset className="category">
-                                <div className="body-title mb-10">{t("sub_category")} <span className="tf-color-1">*</span>
+                                <div className="body-title mb-10">{t("sub_category")}
                                 </div>
                                 <div className="select">
                                     <select name="sub_cat_id">
@@ -315,19 +314,23 @@ const EditProduct = () => {
                         </div>
 
                         <fieldset className="shortdescription">
-                            <div className="body-title mb-10">{t("short_description")} <span className="tf-color-1">*</span></div>
+                            <div className="body-title mb-10">{ t("short_description") } <span className="tf-color-1">*</span></div>
 
-                            <Editor 
+                            {/* <Editor 
                             name="short_desc"
                             value={shortDesc} 
                             onTextChange={(e) => setShortDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
-                            />
+                            /> */}
 
-                            {/* <textarea 
+                            <textarea 
                             className="mb-10 ht-150" 
                             name="short_desc"
-                            placeholder={t("short_description")}></textarea> */}
+                            placeholder={ t("write_text") }
+                            value={shortDesc}
+                            onChange={(e) => setShortDesc(e.target.value)}
+                            >
+                            </textarea>
 
                         </fieldset>
 
@@ -335,23 +338,23 @@ const EditProduct = () => {
                             <div className="body-title mb-10">{t("long_description")} <span className="tf-color-1">*</span>
                             </div>
 
-                            <Editor 
+                            {/* <Editor 
                             name="long_desc"
                             value={longDesc} 
                             onTextChange={(e) => setLongDesc(e.htmlValue)} 
                             style={{ height: '200px' }} 
-                            />
+                            /> */}
 
-                            {/* <textarea 
+                            <textarea 
                             className="mb-10" 
                             name="long_desc" 
-                            placeholder={t("description")}></textarea> */}
+                            placeholder={ t("write_text") }
+                            value={longDesc}
+                            onChange={(e) => setLongDesc(e.target.value)}
+                            >
+                            </textarea>
 
                         </fieldset>
-
-                    </div>
-
-                    <div className="wg-box">
 
                         <fieldset>
                             <div className="body-title mb-10">{t('old_thumbnail_image')}
@@ -396,6 +399,10 @@ const EditProduct = () => {
                             </div>
                         </fieldset>
 
+                    </div>
+
+                    <div className="wg-box">
+
                         <fieldset>
                             <div className="body-title mb-10">
                                 {t("old_gallery_images")}
@@ -419,7 +426,6 @@ const EditProduct = () => {
                                 ))}
                             </div>
                         </fieldset>
-
 
                         <fieldset>
                             <div className="body-title mb-10">{t("upload_product_images")}</div>
@@ -559,7 +565,7 @@ const EditProduct = () => {
                             </fieldset>
 
                             <fieldset className="name">
-                                <div className="body-title mb-10">{t("featured")}</div>
+                                <div className="body-title mb-10">{t("is_featured_product")}</div>
                                 <div className="select mb-10">
                                     <select 
                                     name="is_featured" 
@@ -571,7 +577,6 @@ const EditProduct = () => {
                                       }))
                                     }
                                     >
-                                        <option value="" disabled>{t("select")}</option>
                                         <option value="false">{t("no")}</option>
                                         <option value="true">{t("yes")}</option>
                                     </select>
@@ -581,33 +586,37 @@ const EditProduct = () => {
                         </div>
 
                         <div className="cols gap22">
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("is_trendy_product")}</div>
                                 <div className="select mb-10">
                                     <select name="is_trendy_product">
-                                        <option value="yes">{t("Yes")}</option>
-                                        <option value="no">{t("No")}</option>
+                                        <option value="false">{t("No")}</option>
+                                        <option value="true">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("just_arrived")}</div>
                                 <div className="select mb-10">
                                     <select name="just_arrived">
-                                        <option value="yes">{t("Yes")}</option>
-                                        <option value="no">{t("No")}</option>
+                                        <option value="false">{t("No")}</option>
+                                        <option value="true">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("is_top_selling")}</div>
                                 <div className="select mb-10">
                                     <select name="is_top_selling">
-                                        <option value="yes">{t("Yes")}</option>
-                                        <option value="no">{t("No")}</option>
+                                        <option value="false">{t("No")}</option>
+                                        <option value="true">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
+
                         </div>
 
 

@@ -1787,7 +1787,8 @@ a:focus {
   height: 206px;
 }
 .old-gallery-images .item img {
-  height: 100px;
+  /* height: 100px; */
+  height: 150px;
 }
 .old-gallery-images {
   display: flex;
@@ -4469,7 +4470,8 @@ select.h40 {
   background-color: var(--White);
   border: 0;
   padding: 0;
-  box-shadow: 0px 1px 2px 0px rgba(255, 255, 255, 0.1) inset,
+  box-shadow:
+    0px 1px 2px 0px rgba(255, 255, 255, 0.1) inset,
     0px 8px 22px 0px rgba(4, 8, 16, 0.3);
 }
 .dropdown.default > .dropdown-menu a {

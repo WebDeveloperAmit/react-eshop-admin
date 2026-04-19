@@ -187,5 +187,6 @@
   "expiry_date_required": "মেয়াদউত্তরণের তারিখ প্রয়োজন",
   "no_data_found": "কোন তথ্য পাওয়া যায়নি",
   "contact_will_be_deleted": "এই যোগাযোগকারী স্থায়ীভাবে মুছে ফেলা হবে!",
-  "newsletter_will_be_deleted": "এই সাবস্ক্রাইবারটি স্থায়ীভাবে মুছে ফেলা হবে!"
+  "newsletter_will_be_deleted": "এই সাবস্ক্রাইবারটি স্থায়ীভাবে মুছে ফেলা হবে!",
+  "write_text": "লিখুন..."
 }

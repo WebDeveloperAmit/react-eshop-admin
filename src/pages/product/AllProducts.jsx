@@ -61,14 +61,20 @@ const AllProducts = () => {
           title: t("are_you_sure"),
           text: t("product_will_be_deleted"),
           icon: "warning",
+          customClass: {
+              popup: "swal-large",
+              title: "swal-title",
+              htmlContainer: "swal-text",
+              confirmButton: "swal-btn",
+              cancelButton: "swal-btn"
+          },
           showCancelButton: true,
-          confirmButtonColor: "#d33",
-          cancelButtonColor: "#3085d6",
           confirmButtonText: t("yes_delete"),
           cancelButtonText: t("cancel")
       });
 
       if (!result.isConfirmed) return;
+
 
       const response = await deleteProductService(productId);
 
@@ -152,7 +158,9 @@ const AllProducts = () => {
         <div className="wg-box">
           <div className="flex items-center justify-between gap10 flex-wrap">
             <div className="wg-filter flex-grow">
+
               <form className="form-search" onSubmit={handleProductSearch}>
+
                 <fieldset className="name">
                   <input 
                   type="text" 
@@ -162,13 +170,16 @@ const AllProducts = () => {
                   onChange={handleSearchTerm}
                   />
                 </fieldset>
+
                 <div className="button-submit">
                   <button 
                   type="submit">
                     <i className="icon-search" />
                   </button>
                 </div>
+
               </form>
+
               {
                 search && (
                     <span className="delIcon" onClick={() => {
@@ -179,6 +190,7 @@ const AllProducts = () => {
                     </span>
                 )
               }
+
             </div>
             <Link 
             className="tf-button style-1 w208" 
@@ -283,7 +295,7 @@ const AllProducts = () => {
                   ))
                 ) : (
                     <tr>
-                      <td colSpan="6">
+                      <td colSpan="9">
                         <div className="d-flex justify-content-center align-items-center py-2">
                           <p className="mb-0 fw-semibold text-muted">
                             {t("no_products_found")}
@@ -297,6 +309,7 @@ const AllProducts = () => {
             </table>
 
             {showModal && selectedProduct && (
+
               <div className="pro-modal-overlay" onClick={() => setShowModal(false)}>
                 
                 <div 
