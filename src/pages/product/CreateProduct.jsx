@@ -15,7 +15,9 @@ const CreateProduct = () => {
 
     const formRef = useRef(null);
     const dispatch = useDispatch();
+    
     const loading = useSelector((state) => state.loader.loading);
+
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const[thumbnailPreview, setThumbnailPreview] = useState(null);
@@ -484,39 +486,47 @@ const CreateProduct = () => {
                         </div>
 
                         <div className="cols gap22">
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("is_trendy_product")}</div>
                                 <div className="select mb-10">
                                     <select name="is_trendy_product">
-                                        <option value="no">{t("No")}</option>
-                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="false">{t("No")}</option>
+                                        <option value="true">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("just_arrived")}</div>
                                 <div className="select mb-10">
                                     <select name="just_arrived">
-                                        <option value="no">{t("No")}</option>
-                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="false">{t("No")}</option>
+                                        <option value="true">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
+
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("is_top_selling")}</div>
                                 <div className="select mb-10">
                                     <select name="is_top_selling">
-                                        <option value="no">{t("No")}</option>
-                                        <option value="yes">{t("Yes")}</option>
+                                        <option value="false">{t("No")}</option>
+                                        <option value="true">{t("Yes")}</option>
                                     </select>
                                 </div>
                             </fieldset>
+
                         </div>
 
                         <div className="cols gap10">
                             <button 
                             className="tf-button w-full" 
-                            type="submit">{t("add_product")}</button>
+                            type="submit"
+                            disabled={loading}
+                            >
+                                {loading ? t("saving..") : t("add_product")}
+                            </button>
                         </div>
                     </div>
 

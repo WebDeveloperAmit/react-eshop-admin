@@ -19,7 +19,9 @@ const EditProduct = () => {
     const navigate = useNavigate();
     const formRef = useRef(null);
     const dispatch = useDispatch();
+    
     const loading = useSelector((state) => state.loader.loading);
+
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
