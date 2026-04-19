@@ -104,3 +104,9 @@
   width: 100%;
   height: auto;
 }
+
+/* all categories */
+.category_sec .table .cat_image img {
+  width: 40%;
+  height: auto;
+}

@@ -12,19 +12,26 @@ const EditCategory = () => {
   const { id: catId } = useParams();
 
   const { t } = useTranslation();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const loading = useSelector((state) => state.loader.loading);
+
   const [preview, setPreview] = useState(false);
+
   const [category, setCategory] = useState({
     category_name: "",
     category_image: ""
   });
 
   useEffect(() => {
+
     const fetchCategoryData = async () => {
+
       try {
         dispatch(showLoader());
+
         const response = await editCategoryService(catId);
         if (response?.status === "success") {
           setTimeout(() => {
@@ -35,13 +42,16 @@ const EditCategory = () => {
           toast.error(response?.message);
           dispatch(hideLoader());
         }
+
       } catch (error) {
         console.error("Error fetching category:", error);
         toast.error(error.message);
         dispatch(hideLoader());
       }
     }
+
     fetchCategoryData();
+
   }, [dispatch, catId]);
 
 
@@ -57,20 +67,32 @@ const EditCategory = () => {
   const handleFormDataUpdate = async (e) => {
     e.preventDefault();
 
+    const form = e.target;
+
+    const category_name = form.category_name.value.trim();
+    const category_image = form.category_image.files[0];
+
+    if (!category_name) return toast.error("Category name is required");
+
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    if (category_image && !allowedTypes.includes(category_image.type)) {
+      return toast.error("Category image must be JPG, JPEG, PNG, or WEBP");
+    }
+
     const formData = new FormData();
 
-    const category_name = e.target.category_name.value;
-    const category_image = e.target.category_image.files[0];
+    formData.append('category_name', category_name);
 
     if (category_image) {
       formData.append("category_image", category_image);
     }
 
-    formData.append('category_name', category_name);
-
     try {
+
       dispatch(showLoader());
+
       const response = await updateCategoryService(formData, catId);
+
       if (response?.status === "success") {
         setTimeout(() => {
           navigate('/categories');
@@ -80,12 +102,16 @@ const EditCategory = () => {
         toast.error(response?.message);
         dispatch(hideLoader());
       }
+
     } catch (error) {
+
       console.error("Update category failed:", error);
+
       toast.error(
         error.response?.data?.message ||
         "Failed to update category. Please try again."
       );
+
       dispatch(hideLoader());
     }
 
@@ -125,6 +151,7 @@ const EditCategory = () => {
 
         {/* new-category */}
         <div className="wg-box">
+          
           <form 
           className="form-new-product form-style-1" 
           onSubmit={handleFormDataUpdate}
@@ -146,11 +173,18 @@ const EditCategory = () => {
                 <div className="body-title">{t('old_uploaded_image')}
                 </div>
                 <div className="upload-image flex-grow">
+
                   {category?.category_image_url && (
+
                     <div className="item" id="imgpreview">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${category.category_image_url}`} className="effect8" alt="Preview" />
+                      <img 
+                      src={`${process.env.REACT_APP_BACKEND_URL}/${category.category_image_url}`} className="effect8" 
+                      alt="Preview" 
+                      />
                     </div>
+
                   )}
+
                 </div>
             </fieldset>
 
@@ -164,6 +198,7 @@ const EditCategory = () => {
                     <img src={preview} className="effect8" alt="Preview" />
                   </div>
                 )}
+
                 <div id="upload-file" className="item up-load">
                   <label className="uploadfile" htmlFor="myFile">
                     <span className="icon">
@@ -189,7 +224,7 @@ const EditCategory = () => {
               type="submit"
               disabled={loading}
               >
-                {loading ? t('updating') : t('save')}
+                {loading ? t('updating..') : t('update')}
               </button>
             </div>
           </form>

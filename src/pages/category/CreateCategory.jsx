@@ -10,18 +10,31 @@ import { createCategoryService } from "../../services/categoryService";
 const CreateCategory = () => {
 
   const { t } = useTranslation();
+
   const formRef = useRef(null);
   const dispatch = useDispatch();
+
   const loading = useSelector((state) => state.loader.loading);
+
   const [preview, setPreview] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    const form = event.target;
+
+    const category_name = form.category_name.value.trim();
+    const category_image = form.category_image.files[0];
+
+    if (!category_name) return toast.error("Category name is required");
+    if (!category_image) return toast.error("Category image is required");
+
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(category_image.type)) {
+      return toast.error("Category image must be JPG, JPEG, PNG, or WEBP");
+    }
     
     const formData = new FormData();
-
-    const category_name = event.target.category_name.value;
-    const category_image = event.target.category_image.files[0];
 
     formData.append('category_name', category_name);
 
@@ -30,8 +43,11 @@ const CreateCategory = () => {
     }
 
     try {
+
       dispatch(showLoader());
+
       const response = await createCategoryService(formData);
+
       setTimeout(() => {
         if (response?.status === "success") {
           toast.success(response?.message);
@@ -47,10 +63,12 @@ const CreateCategory = () => {
       console.error("Error creating category:", error);
 
       setTimeout(() => {
-        toast.error("❌ An error occurred while creating the category.");
+        toast.error(error.response?.data?.message);
         dispatch(hideLoader());
       }, 500);
+
     }
+
   }
 
   return (
@@ -85,6 +103,7 @@ const CreateCategory = () => {
 
         {/* new-category */}
         <div className="wg-box">
+
           <form 
           className="form-new-product form-style-1" 
           onSubmit={handleFormSubmit}
@@ -135,10 +154,12 @@ const CreateCategory = () => {
               type="submit"
               disabled={loading}
               >
-                {loading ? t("saving") : t("save")}
+                {loading ? t("saving..") : t("save")}
               </button>
             </div>
+
           </form>
+
         </div>
       </div>
     </div>

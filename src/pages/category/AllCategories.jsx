@@ -13,35 +13,47 @@ const AllCategories = () => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const loading = useSelector((state) => state.loader.loading);
+
   const [categories, setCategories] = useState([]);
   const [originalCategories, setOriginalCategories] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+
     const fetchCategories = async () => {
+
       try {
         dispatch(showLoader());
+
         const fetchCategories = await getAllCategoriesService();
+
         if (fetchCategories?.status === "success") {
           setTimeout(() => {
+            dispatch(hideLoader());
             setCategories(fetchCategories?.data);
             setOriginalCategories(fetchCategories?.data);
-            dispatch(hideLoader());
           }, 500);
         } else {
-          toast.error(fetchCategories?.message);
           dispatch(hideLoader());
+          toast.error(fetchCategories?.message);
         }
+
       } catch (error) {
-        toast.error("❌ An error occurred while fetching categories.");
+        dispatch(hideLoader());
+        toast.error(error.message);
       }
     }
+
     fetchCategories();
+
   }, [dispatch]);
+
 
   const handleDeleteCategory = async (catId) => {
     try {
+
       if (!catId) {
         toast.error(t("invalid_category_id"));
         return;
@@ -51,30 +63,48 @@ const AllCategories = () => {
           title: t("are_you_sure"),
           text: t("category_will_be_deleted"),
           icon: "warning",
+          customClass: {
+              popup: "swal-large",
+              title: "swal-title",
+              htmlContainer: "swal-text",
+              confirmButton: "swal-btn",
+              cancelButton: "swal-btn"
+          },
           showCancelButton: true,
-          confirmButtonColor: "#d33",
-          cancelButtonColor: "#3085d6",
           confirmButtonText: t("yes_delete"),
           cancelButtonText: t("cancel")
       });
 
       if (!result.isConfirmed) return;
 
+      dispatch(showLoader());
+
       const response = await deleteCategoryService(catId);
-      if (response.status === "success") {
-        toast.success(response.message);
-        setCategories((prev) => {
-          return prev.filter((category) => category._id !== catId);
-        });
-        setOriginalCategories((prev) => {
-          return prev.filter((category) => category._id !== catId);
-        });
+
+      if (response?.status === "success") {
+
+        setTimeout(() => {
+          dispatch(hideLoader());
+
+          toast.success(response.message);
+
+          setCategories((prev) => {
+            return prev.filter((category) => category._id !== catId);
+          });
+
+          setOriginalCategories((prev) => {
+            return prev.filter((category) => category._id !== catId);
+          });
+        }, 1000);
+
       } else {
-        toast.error(response.message);
+        dispatch(hideLoader());
+        toast.error(response?.message);
       }
     } catch (error) {
+      dispatch(hideLoader());
       console.error("An error occurred while deleting category:", error);
-      toast.error("Something went wrong:", error);
+      toast.error(error.message);
     }
   }
 
@@ -124,7 +154,9 @@ const AllCategories = () => {
           
           <div className="flex items-center justify-between gap10 flex-wrap">
             <div className="wg-filter flex-grow">
+
               <form className="form-search" onSubmit={handleSearch}>
+
                 <fieldset className="name">
                   <input 
                   type="text" 
@@ -134,55 +166,89 @@ const AllCategories = () => {
                   onChange={(e) => setSearch(e.target.value)}
                   />
                 </fieldset>
+                
                 <div className="button-submit">
                   <button type="submit">
                     <i className="icon-search" />
                   </button>
                 </div>
+
               </form>
+
               {
                   search && (
                       <span className="delIcon" onClick={() => {
                       setSearch(""); 
-                      setCategories(originalCategories); // Reset to all categories when search is cleared
+                      setCategories(originalCategories);
                       }}>
                       <RiDeleteBack2Fill size={26} />
                       </span>
                   )
               }
+
             </div>
             <Link className="tf-button style-1 w208" to="/category/create"><i className="icon-plus" />{t("add_new_category")}</Link>
           </div>
           { loading && <Loader /> }
 
           {/* <div className="wg-table table-all-user"> */}
-          <div className="table-responsive">
+          <div className="table-responsive category_sec">
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th>{t("sl_no")}</th>
+                  <th># {t("sl_no")}</th>
+                  <th>{t("category_image")}</th>
                   <th>{t("category_name")}</th>
                   <th>{t("category_slug")}</th>
-                  <th>{t("category_image")}</th>
                   <th>{t("created_at")}</th>
+                  <th>{t("updated_at")}</th>
                   <th>{t("actions")}</th>
                 </tr>
               </thead>
               <tbody>
 
               {categories && categories.length > 0 ? (
+
                 categories.map((category, index) => (
 
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{category.category_name}</td>
-                  <td>{category.category_slug}</td>
-                  <td className="pname">
-                    <div className="image">
+                  <td>
+                    <div className="cat_image">
                       <img src={`${process.env.REACT_APP_BACKEND_URL}/${category.category_image_url}`} alt={category.category_name} className="image" />
                     </div>
                   </td>
-                  <td>{new Date(category.createdAt).toLocaleString()}</td>
+                  <td>{category.category_name}</td>
+                  <td>{category.category_slug}</td>
+
+                  <td>
+                      {category.createdAt 
+                       ? new Date(category.createdAt).toLocaleString("en-IN", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          second: "2-digit",
+                          hour12: true
+                      })
+                      : "N/A"}
+                  </td>
+
+                  <td>
+                      {category.updatedAt 
+                       ? new Date(category.updatedAt).toLocaleString("en-IN", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          second: "2-digit",
+                          hour12: true
+                      })
+                      : "N/A"}
+                  </td>
+
                   <td>
                     <div className="list-icon-function">
 
@@ -205,7 +271,7 @@ const AllCategories = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center">{t("no_categories_found")}</td>
+                  <td colSpan="7" className="text-center">{t("no_categories_found")}</td>
                 </tr>
               )}
 
