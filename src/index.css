@@ -110,3 +110,9 @@
   width: 40%;
   height: auto;
 }
+
+/* all Brands */
+.brand_sec .table .brand_image img {
+  width: 40%;
+  height: auto;
+}

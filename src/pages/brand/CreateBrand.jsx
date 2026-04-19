@@ -11,17 +11,29 @@ const CreateBrand = () => {
 
     const { t } = useTranslation() // Initialize the translation function
     const dispatch = useDispatch();
+
     const loading = useSelector((state) => state.loader.loading);
+
     const formRef = useRef(null); // Ref for the form element
     const [preview, setPreview] = useState(false);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
-        const formData = new FormData();
+        const form = event.target;
 
-        const brandName = event.target.brand_name.value;
-        const brandImage = event.target.brand_image.files[0];
+        const brandName = form.brand_name.value;
+        const brandImage = form.brand_image.files[0];
+
+        if (!brandName) return toast.error("Brand name is required");
+        if (!brandImage) return toast.error("Brand image is required");
+
+        const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+        if (!allowedTypes.includes(brandImage.type)) {
+            return toast.error("Brand image must be JPG, JPEG, PNG, or WEBP");
+        }
+
+        const formData = new FormData();
 
         formData.append('brand_name', brandName);
 
@@ -31,7 +43,9 @@ const CreateBrand = () => {
         
         try {
             dispatch(showLoader());
+
             const response = await createBrandService(formData);
+
             setTimeout(() => {
                 if (response?.status === "success") {
                     toast.success(response?.message);
@@ -45,8 +59,9 @@ const CreateBrand = () => {
 
         } catch (error) {
             console.error("Error creating brand:", error);
+
             setTimeout(() => {
-                toast.error("❌ An error occurred while creating the brand.");
+                toast.error(error.message);
                 dispatch(hideLoader());
             }, 500);
         }
@@ -81,10 +96,12 @@ const CreateBrand = () => {
                       </li>
                   </ul>
               </div>
-              {/* new-category */}
-              <div className="wg-box">
-                {/* Show loader when loading */}
+
                 {loading && <Loader />}
+
+                {/* new-category */}
+                <div className="wg-box">
+  
                     <form 
                         className="form-new-product form-style-1" 
                         ref={formRef} 
@@ -106,10 +123,13 @@ const CreateBrand = () => {
                           <div className="body-title">{t("upload_images")} <span className="tf-color-1">*</span>
                           </div>
                           <div className="upload-image flex-grow">
+
                             { preview && (
+
                                 <div className="item" id="imgpreview">
                                   <img src={preview} className="effect8"  alt="preview" />
                               </div>
+
                             )}
 
                               <div id="upload-file" className="item up-load">
@@ -141,12 +161,15 @@ const CreateBrand = () => {
                           type="submit"
                           disabled={loading}
                           >
-                            {loading ? t("saving") : t("save")}
+                            {loading ? t("saving..") : t("save")}
                           </button>
                       </div>
+
                   </form>
-              </div>
-          </div>
+
+                </div>
+
+            </div>
       </div>
     </>
   );

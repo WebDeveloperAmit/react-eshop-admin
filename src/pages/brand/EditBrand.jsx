@@ -9,59 +9,83 @@ import { editBrandService, updateBrandService } from '../../services/brandServic
 
 const EditBrand = () => {
 
-    const { id: brandId } = useParams(); // Get the brand ID from the URL parameters    
+    const { id: brandId } = useParams(); // Get the brand ID from the URL parameters
+
     const { t } = useTranslation(); // Initialize the translation function
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const loading = useSelector((state) => state.loader.loading);
+
     const [preview, setPreview] = useState(false);
+
     const [brand, setBrand] = useState({
         brand_name: "", // Initialize brand_name to an empty string
         brand_image: ""
     });
 
     useEffect(() => {
+
         const fetchBrandData = async () => {
+
             try {
                 dispatch(showLoader());
+
                 const response = await editBrandService(brandId);
+
                 if (response?.status === "success") {
                     setTimeout(() => {
-                        setBrand(response?.data);
                         dispatch(hideLoader());
+                        setBrand(response?.data);
                     }, 300);
 
                 } else {
-                    toast.error(response?.message);
                     dispatch(hideLoader());
+                    toast.error(response?.message);
                 }
             } catch (error) {
-                console.error("Error fetching brand data:", error);
-                toast.error("❌ An error occurred while fetching brand data.");
                 dispatch(hideLoader());
+                console.error("Error fetching brand data:", error);
+                toast.error(error.message);
+                
             }
         }
+
         fetchBrandData();
+
     }, [dispatch, brandId]);
 
 
     const handleChange = (event) => {
+
         const { name, value } = event.target;
+
         setBrand((preBrand) => {
             return {
                 ...preBrand,
                 [name]: value
             }
         });
+
     }
 
     const handleUpdateForm = async (event) => {
         event.preventDefault();
 
-        const formData = new FormData(); // Create a FormData object to hold the form data
+        const form = event.target;
 
-        const brandName = event.target.brand_name.value;
-        const brandImage = event.target.brand_image.files[0];
+        const brandName = form.brand_name.value;
+        const brandImage = form.brand_image.files[0];
+
+        if (!brandName) return toast.error("Brand name is required");
+
+        const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+        if (brandImage && !allowedTypes.includes(brandImage.type)) {
+            return toast.error("Brand image must be JPG, JPEG, PNG, or WEBP");
+        }
+
+        const formData = new FormData(); // Create a FormData object to hold the form data
 
         formData.append('brand_name', brandName);
 
@@ -71,20 +95,23 @@ const EditBrand = () => {
         
         try {
             dispatch(showLoader());
+
             const response = await updateBrandService(formData, brandId);
+
             if (response?.status === "success") {
                 setTimeout(() => {
+                    dispatch(hideLoader());
                     navigate("/brands");
                     toast.success(response?.message);
                 }, 300);
             } else {
-                toast.error(response?.message);
                 dispatch(hideLoader());
+                toast.error(response?.message);
             }
         } catch (error) {
-            console.error("Error updating brand:", error);
-            toast.error("❌ An error occurred while updating the brand.");
             dispatch(hideLoader());
+            console.error("Error updating brand:", error);
+            toast.error(error.message);
         }
 
     }
@@ -117,10 +144,12 @@ const EditBrand = () => {
                       </li>
                   </ul>
               </div>
+
+              {loading && <Loader />}
+
               {/* new-category */}
               <div className="wg-box">
-                {/* Show loader when loading */}
-                {loading && <Loader />}
+
                     <form 
                         className="form-new-product form-style-1" 
                         onSubmit={handleUpdateForm}
@@ -190,7 +219,7 @@ const EditBrand = () => {
                           type="submit"
                           disabled={loading}
                           >
-                            {loading ? t('updating') : t('save')}
+                            {loading ? t('updating..') : t('update')}
                           </button>
                       </div>
                   </form>
