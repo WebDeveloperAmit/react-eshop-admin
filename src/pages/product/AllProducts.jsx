@@ -8,15 +8,18 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../components/loader/Loader";
 import { hideLoader, showLoader } from "../../redux/slices/loaderSlice";
-import { deleteProductService, getAllProductsService, searchProductService } from "../../services/productService";
+import { deleteProductService, getAllProductsService } from "../../services/productService";
 
 const AllProducts = () => {
 
   const {t} = useTranslation();
   const dispatch = useDispatch();
+
   const loader = useSelector((loader) => loader.loader.loading );
+
   const [displayProducts, setDisplayProducts] = useState([]);
   const [originalProducts, setOriginalProducts] = useState([]);
+
   const [search, setSearch] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -26,22 +29,26 @@ const AllProducts = () => {
 
     const fetchedAllProducts = async () => {
       try {
+
           dispatch(showLoader());
+
           const response = await getAllProductsService();
-          // console.log(response);
+
           if (response?.status === "success") {
             setTimeout(() => {
+              dispatch(hideLoader());
+
               setDisplayProducts(response?.data);
               setOriginalProducts(response?.data);
-              dispatch(hideLoader());
+
             }, 500)
           } else {
-            toast.error(response?.message);
             dispatch(hideLoader());
+            toast.error(response?.message);
           }
       } catch (error) {
-          toast.error(error?.response?.message);
           dispatch(hideLoader());
+          toast.error(error?.response?.message);
       }
     }
 
@@ -76,18 +83,33 @@ const AllProducts = () => {
       if (!result.isConfirmed) return;
 
 
+      dispatch(showLoader());
       const response = await deleteProductService(productId);
 
       if (response?.status === "success") {
-        toast.success(response?.message);
-        setDisplayProducts((prev) => {
-          return prev.filter((pro) => pro._id !== productId);
-        });
+
+        setTimeout(() => {
+
+          dispatch(hideLoader());
+          toast.success(response?.message);
+
+          setDisplayProducts((prev) => {
+            return prev.filter((pro) => pro._id !== productId);
+          });
+
+          setOriginalProducts((prev) => {
+            return prev.filter((pro) => pro._id !== productId);
+          });
+
+        }, 1000);
+
       } else {
+        dispatch(hideLoader());
         toast.error(response?.message);
       }
 
     } catch (error) {
+      dispatch(hideLoader());
       console.error("An error while deleting product:", error);
       toast.error(error.response?.data?.message);
     }
@@ -98,35 +120,40 @@ const AllProducts = () => {
     setSearch(event.target.value);
   };
 
-  const handleProductSearch = async (e) => {
+  const handleProductSearch = (e) => {
     e.preventDefault();
 
-    try {
-
-      if (!search.trim()) {
-        toast.warning(t("please_enter_search_term"));
-        return;
-      }
-
-      dispatch(showLoader());
-
-      const response  = await searchProductService(search);
-
-      if (response?.status === "success") {
-        setTimeout(() => {
-          setDisplayProducts(response?.data);
-          dispatch(hideLoader());
-        }, 300);
-
-      } else {
-        toast.error(response?.message);
-        dispatch(hideLoader());
-      }
-
-    } catch (error) {
-      console.error("An error while searching product:", error);
-      dispatch(hideLoader());
+    if (!search.trim()) {
+      toast.warning(t("please_enter_search_term"));
+      return;
     }
+
+    const filteredProducts = originalProducts.filter((pro) => 
+      pro.product_name.toLowerCase().includes(search.toLowerCase()) || 
+      pro.sku.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setDisplayProducts(filteredProducts);
+
+    //   dispatch(showLoader());
+
+    //   const response  = await searchProductService(search);
+
+    //   if (response?.status === "success") {
+    //     setTimeout(() => {
+    //       setDisplayProducts(response?.data);
+    //       dispatch(hideLoader());
+    //     }, 300);
+
+    //   } else {
+    //     toast.error(response?.message);
+    //     dispatch(hideLoader());
+    //   }
+
+    // } catch (error) {
+    //   console.error("An error while searching product:", error);
+    //   dispatch(hideLoader());
+    // }
 
   }
 

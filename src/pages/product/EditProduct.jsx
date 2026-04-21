@@ -567,7 +567,7 @@ const EditProduct = () => {
                             </fieldset>
 
                             <fieldset className="name">
-                                <div className="body-title mb-10">{t("is_featured_product")}</div>
+                                <div className="body-title mb-10">{t("featured_product")}</div>
                                 <div className="select mb-10">
                                     <select 
                                     name="is_featured" 
@@ -590,7 +590,7 @@ const EditProduct = () => {
                         <div className="cols gap22">
 
                             <fieldset className="name">
-                                <div className="body-title mb-10">{t("is_trendy_product")}</div>
+                                <div className="body-title mb-10">{t("trendy_product")}</div>
                                 <div className="select mb-10">
                                     <select name="is_trendy_product">
                                         <option value="false">{t("No")}</option>
@@ -600,7 +600,7 @@ const EditProduct = () => {
                             </fieldset>
 
                             <fieldset className="name">
-                                <div className="body-title mb-10">{t("just_arrived")}</div>
+                                <div className="body-title mb-10">{t("new_arrival")}</div>
                                 <div className="select mb-10">
                                     <select name="just_arrived">
                                         <option value="false">{t("No")}</option>
@@ -610,7 +610,7 @@ const EditProduct = () => {
                             </fieldset>
 
                             <fieldset className="name">
-                                <div className="body-title mb-10">{t("is_top_selling")}</div>
+                                <div className="body-title mb-10">{t("top_selling")}</div>
                                 <div className="select mb-10">
                                     <select name="is_top_selling">
                                         <option value="false">{t("No")}</option>
