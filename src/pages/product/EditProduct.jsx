@@ -24,8 +24,10 @@ const EditProduct = () => {
 
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
+
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
     const [galleryPreviews, setGalleryPreviews] = useState([]);
+
     const [shortDesc, setShortDesc] = useState("");
     const [longDesc, setLongDesc] = useState("");
     const [oldGalleryImages, setOldGalleryImages] = useState([]);
@@ -41,35 +43,96 @@ const EditProduct = () => {
 
         event.preventDefault();
 
+        const form = event.target;
+
+        const product_name   = form.product_name.value.trim();
+        const cat_id         = form.cat_id.value;
+        const brand_id       = form.brand_id.value;
+        const shortDesc      = form.short_desc.value;
+        const longDesc       = form.long_desc.value;
+        const regular_price  = form.regular_price.value;
+        const sale_price     = form.sale_price.value;
+        const sku            = form.sku.value.trim();
+        const qty            = form.qty.value;
+        const stock_status   = form.stock_status.value;
+        const is_featured    = form.is_featured.value;
+        const is_trendy      = form.is_trendy_product.value;
+        const just_arrived   = form.just_arrived.value;
+        const is_top_selling = form.is_top_selling.value;
+        const thumbnail      = form.thumbnail_image.files[0];
+        const gallery        = form.galleryImages.files;
+
+        if (!product_name) return toast.error("Product name is required");
+
+        if (!cat_id) return toast.error("Category is required");
+
+        if (!brand_id) return toast.error("Brand is required");
+
+        if (!shortDesc) return toast.error("Short description is required");
+
+        if (!longDesc) return toast.error("Long description is required");
+
+        if (!thumbnail) return toast.error("Thumbnail image is required");
+
+        if (!gallery || gallery.length === 0) {
+            return toast.error("At least one gallery image is required");
+        }
+
+        // image type validation
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+        if (!allowedTypes.includes(thumbnail.type)) {
+            return toast.error("Thumbnail must be JPG, PNG, or WEBP");
+        }
+
+        for (let i = 0; i < gallery.length; i++) {
+            if (!allowedTypes.includes(gallery[i].type)) {
+                return toast.error("Gallery images must be JPG, PNG, or WEBP");
+            }
+        }
+
+        if (!regular_price || isNaN(regular_price) || Number(regular_price) <= 0) {
+            return toast.error("Valid regular price is required");
+        }
+
+        if (sale_price && Number(sale_price) > Number(regular_price)) {
+            return toast.error("Sale price cannot be greater than regular price");
+        }
+
+        if (!sku) return toast.error("SKU is required");
+
+        if (!qty || isNaN(qty) || Number(qty) < 0) {
+            return toast.error("Valid quantity is required");
+        }
+
         const formData = new FormData();
 
-        formData.append("product_name", event.target.product_name.value);
-        formData.append("cat_id", event.target.cat_id.value);
-        formData.append("brand_id", event.target.brand_id.value);
+        formData.append("product_name", product_name);
+        formData.append("cat_id", cat_id);
+        formData.append("brand_id", brand_id);
         formData.append("short_desc", shortDesc);
         formData.append("long_desc", longDesc);
-        formData.append("regular_price", event.target.regular_price.value);
-        formData.append("sale_price", event.target.sale_price.value);
-        formData.append("sku", event.target.sku.value);
-        formData.append("qty", event.target.qty.value);
-        formData.append("stock_status", event.target.stock_status.value);
-        formData.append("is_featured", event.target.is_featured.value);
-        formData.append("is_trendy", event.target.is_trendy_product.value);
-        formData.append("just_arrived", event.target.just_arrived.value);
-        formData.append("is_top_selling", event.target.is_top_selling.value);
+        formData.append("regular_price", regular_price);
+        formData.append("sale_price", sale_price);
+        formData.append("sku", sku);
+        formData.append("qty", qty);
+        formData.append("stock_status", stock_status);
+        formData.append("is_featured", is_featured);
+        formData.append("is_trendy", is_trendy);
+        formData.append("just_arrived", just_arrived);
+        formData.append("is_top_selling", is_top_selling);
 
-        // formData.append("thumbnail_image", event.target.thumbnail_image.files[0]);
-        if (event.target.thumbnail_image.files[0]) {
-            formData.append("thumbnail_image", event.target.thumbnail_image.files[0]);
+        if (thumbnail) {
+            formData.append("thumbnail_image", thumbnail);
         }
 
         // for (let i = 0; i < event.target.galleryImages.files.length; i++) {
         //     formData.append("galleryImages", event.target.galleryImages.files[i]);
         // }
 
-        if (event.target.galleryImages.files.length > 0) {
-            for (let i = 0; i < event.target.galleryImages.files.length; i++) {
-                formData.append("galleryImages", event.target.galleryImages.files[i]);
+        if (gallery.length > 0) {
+            for (let i = 0; i < gallery.length; i++) {
+                formData.append("galleryImages", form.galleryImages.files[i]);
             }
         }
 
@@ -80,28 +143,36 @@ const EditProduct = () => {
         // }
 
         try {
+
             dispatch(showLoader());
+
             const response = await updateProductService(formData, proId);
+
             if (response?.status === "success") {
                 setTimeout(() => {
+
+                    dispatch(hideLoader());
                     toast.success(`${response?.message}`);
+
                     formRef.current.reset();
+
                     setThumbnailPreview(null);
                     setGalleryPreviews([]);
-                    dispatch(hideLoader());
+
                     navigate('/products');
+
                 }, 300);
 
             } else {
                 setTimeout(() => {
-                    toast.error(`${response?.message}`);
                     dispatch(hideLoader());
+                    toast.error(response?.message);
                 }, 300)
             }
         } catch (error) {
-            console.error("Error creating the product:", error);
-            toast.error("An error occurred while creating the product");
             dispatch(hideLoader());
+            console.error("Error creating the product:", error);
+            toast.error(error.message);
         }
     }
 
@@ -169,7 +240,7 @@ const EditProduct = () => {
         try {
 
             if (!removeId) {
-                toast.error(t("invalid_product_id"));
+                toast.error( t("invalid_product_id") );
                 return;
             }
 
@@ -177,18 +248,23 @@ const EditProduct = () => {
                 title: t("are_you_sure"),
                 text: t("gallery_image_will_be_deleted"),
                 icon: "warning",
+                customClass: {
+                    popup: "swal-large",
+                    title: "swal-title",
+                    htmlContainer: "swal-text",
+                    confirmButton: "swal-btn",
+                    cancelButton: "swal-btn"
+                },
                 showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
                 confirmButtonText: t("yes_delete"),
                 cancelButtonText: t("cancel")
             });
-    
+
             if (!result.isConfirmed) return;
 
         } catch (error) {
-            // console.error();
-            // toast.error();
+            console.error("An error deleting gallery images:", error);
+            toast.error(error.message);
         }
     }
 

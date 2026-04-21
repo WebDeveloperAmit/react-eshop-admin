@@ -34,6 +34,8 @@ const CreateProduct = () => {
         const product_name   = form.product_name.value.trim();
         const cat_id         = form.cat_id.value;
         const brand_id       = form.brand_id.value;
+        const shortDesc      = form.short_desc.value;
+        const longDesc       = form.long_desc.value;
         const regular_price  = form.regular_price.value;
         const sale_price     = form.sale_price.value;
         const sku            = form.sku.value.trim();
@@ -144,29 +146,36 @@ const CreateProduct = () => {
         // }
 
         try {
+            
             dispatch(showLoader());
+
             const response = await createProductService(formData);
+
             if (response?.status === "success") {
                 setTimeout(() => {
-                    toast.success(`${response?.message}`);
+
+                    dispatch(hideLoader());
+                    toast.success(response?.message);
+
                     formRef.current.reset();
                     setThumbnailPreview(null);
                     setGalleryPreviews([]);
                     setShortDesc("");
                     setLongDesc("");
-                    dispatch(hideLoader());
+
                 }, 300);
 
             } else {
                 setTimeout(() => {
-                    toast.error(`${response?.message}`);
                     dispatch(hideLoader());
+                    toast.error(response?.message);
                 }, 300)
             }
+
         } catch (error) {
-            console.error("Error creating the product:", error);
-            toast.error("An error occurred while creating the product");
             dispatch(hideLoader());
+            console.error("Error creating the product:", error);
+            toast.error(error.message);
         }
     }
 
