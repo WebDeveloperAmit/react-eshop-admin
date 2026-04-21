@@ -72,21 +72,15 @@ const EditProduct = () => {
 
         if (!longDesc) return toast.error("Long description is required");
 
-        if (!thumbnail) return toast.error("Thumbnail image is required");
-
-        if (!gallery || gallery.length === 0) {
-            return toast.error("At least one gallery image is required");
-        }
-
         // image type validation
         const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
 
-        if (!allowedTypes.includes(thumbnail.type)) {
+        if (thumbnail && !allowedTypes.includes(thumbnail.type)) {
             return toast.error("Thumbnail must be JPG, PNG, or WEBP");
         }
 
         for (let i = 0; i < gallery.length; i++) {
-            if (!allowedTypes.includes(gallery[i].type)) {
+            if (gallery && !allowedTypes.includes(gallery[i].type)) {
                 return toast.error("Gallery images must be JPG, PNG, or WEBP");
             }
         }
@@ -668,7 +662,16 @@ const EditProduct = () => {
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("trendy_product")}</div>
                                 <div className="select mb-10">
-                                    <select name="is_trendy_product">
+                                    <select 
+                                    name="is_trendy_product" 
+                                    value={product.is_trendy}
+                                    onChange={(e) => 
+                                        setProduct((prev) => ({
+                                            ...prev,
+                                            is_trendy_product: e.target.value
+                                        }))
+                                    }
+                                    >
                                         <option value="false">{t("No")}</option>
                                         <option value="true">{t("Yes")}</option>
                                     </select>
@@ -678,7 +681,16 @@ const EditProduct = () => {
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("new_arrival")}</div>
                                 <div className="select mb-10">
-                                    <select name="just_arrived">
+                                    <select 
+                                    name="just_arrived" 
+                                    value={product.just_arrived}
+                                    onChange={(e) => 
+                                        setProduct((prev) => ({
+                                            ...prev,
+                                            just_arrived: e.target.value
+                                        }))
+                                    }
+                                    >
                                         <option value="false">{t("No")}</option>
                                         <option value="true">{t("Yes")}</option>
                                     </select>
@@ -688,7 +700,16 @@ const EditProduct = () => {
                             <fieldset className="name">
                                 <div className="body-title mb-10">{t("top_selling")}</div>
                                 <div className="select mb-10">
-                                    <select name="is_top_selling">
+                                    <select 
+                                    name="is_top_selling" 
+                                    value={product.is_top_selling}
+                                    onChange={(e) => 
+                                        setProduct((prev) => ({
+                                            ...prev,
+                                            is_top_selling: e.target.value
+                                        }))
+                                    }
+                                    >
                                         <option value="false">{t("No")}</option>
                                         <option value="true">{t("Yes")}</option>
                                     </select>
